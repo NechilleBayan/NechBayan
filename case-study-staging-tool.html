@@ -111,7 +111,7 @@
     .eyebrow.light { color: var(--border-medium); }
     .arrow { transition: transform 220ms var(--ease); }
 
-    /* Buttons — one language site-wide: black + blue glow.
+    /* Buttons: One language site-wide, black + blue glow.
        .glow-rest carries rest-state glow (budgeted: featured CTAs + connect CTA only). */
     .btn {
       display: inline-flex;
@@ -157,7 +157,7 @@
     .btn-white.glow-rest { box-shadow: var(--glow-rest); }
     .btn-white.glow-rest:hover { box-shadow: var(--glow-hover); }
 
-    /* Navigation — black bar */
+    /* Navigation: Black bar */
     .site-nav {
       position: sticky;
       top: 0;
@@ -258,7 +258,7 @@
     .nav-links a:hover::before, .nav-links a.active::before { transform: translateX(-50%) scale(1); }
     .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
     .nav-cta { justify-self: end; min-height: 40px; padding: 0 16px; font-size: .76rem; border-radius: 999px; }
-    /* v4 — envelope icon in the nav CTA (static, no hover nudge) */
+    /* v4: Envelope icon in the nav CTA (static, no hover nudge) */
     .nav-cta-mail {
       width: 15px;
       height: 15px;
@@ -270,7 +270,7 @@
       stroke-linejoin: round;
     }
 
-    /* v4.1 — index labels as tag pills (cards + modals), replacing the eyebrow-text treatment */
+    /* v4.1: Index labels as tag pills (cards + modals), replacing the eyebrow-text treatment */
     .fw-index {
       display: inline-flex;
       align-items: center;
@@ -293,7 +293,7 @@
       font-weight: 500;
     }
 
-    /* Footer — continuous with connect block */
+    /* Footer: Continuous with connect block */
     footer {
       color: var(--text-on-dark);
       background: var(--surface-black);
@@ -373,7 +373,7 @@
       border: 0;
     }
 
-    /* Reading column — every article block sits inside this measure */
+    /* Reading column: Every article block sits inside this measure */
     .cs-col { max-width: 800px; }
 
     /* Page header */
@@ -410,7 +410,7 @@
     .cs-updated { margin-top: 18px; color: var(--text-disabled); font-size: .74rem; line-height: 1.6; }
     .cs-updated strong { color: var(--text-muted); font-weight: 600; }
 
-    /* Snapshot table — clean bordered table */
+    /* Snapshot table: Clean bordered table */
     .cs-snapshot {
       width: 100%;
       margin-top: 34px;
@@ -443,7 +443,10 @@
     /* Sections and prose */
     .cs-section { padding-top: clamp(44px, 6vw, 68px); }
     .cs-section h2 {
-      margin-top: 12px;
+      display: flex;
+      align-items: flex-start;
+      gap: .46em;
+      margin-top: 0;
       color: var(--text-heading);
       font-family: var(--font-serif);
       font-size: clamp(1.65rem, 3vw, 2.25rem);
@@ -451,6 +454,27 @@
       letter-spacing: -.02em;
       line-height: 1.12;
     }
+    /* v1.2 - section glyphs: One line icon per section, drawn in the accent at the
+       heading's cap height. Stroke-only and palette-bound on purpose; nothing on
+       these pages should read as a colored emoji. */
+    .cs-sec-icon {
+      flex: none;
+      width: .62em;
+      height: .62em;
+      margin-top: .22em;
+      color: var(--accent);
+      opacity: .8;
+    }
+    .cs-sec-icon svg,
+    .cs-label-icon {
+      display: block;
+      fill: none;
+      stroke: currentColor;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .cs-sec-icon svg { width: 100%; height: 100%; stroke-width: 1.6; }
+    .cs-label-icon { flex: none; width: 13px; height: 13px; stroke-width: 1.7; }
     .cs-section h3 {
       margin-top: 26px;
       color: var(--text-heading);
@@ -468,11 +492,15 @@
       transition: border-color 180ms ease;
     }
     .cs-prose a:hover { border-color: var(--accent); }
-    .cs-prose ul { margin-top: 16px; }
+    /* v1.2 - list marker: A 7px accent square carrying the site's clipped corner,
+       set on the first line's cap height. The old 8x2 rule read as a hyphen, which
+       made every list look like plain-text notes. Items sit further apart so a list
+       scans as a stack of decisions rather than a paragraph in disguise. */
+    .cs-prose ul { margin-top: 14px; }
     .cs-prose li {
       position: relative;
-      margin-top: 10px;
-      padding-left: 22px;
+      margin-top: 16px;
+      padding-left: 26px;
       color: var(--text-primary);
       font-size: .95rem;
     }
@@ -480,14 +508,93 @@
       content: "";
       position: absolute;
       left: 2px;
-      top: .62em;
-      width: 8px;
-      height: 2px;
+      top: .56em;
+      width: 7px;
+      height: 7px;
       background: var(--accent);
+      clip-path: polygon(0 0, 100% 0, 100% 58%, 58% 100%, 0 100%);
     }
     .cs-fineprint { margin-top: 14px; color: var(--text-muted); font-size: .8rem; line-height: 1.6; }
 
-    /* Figures — hand-built diagrams, light surfaces only */
+    /* Decision block: One named decision, its reasoning, and its consequence */
+    .cs-decision {
+      margin-top: 22px;
+      padding: 18px 20px 20px;
+      background: var(--bg-clean);
+      border: 1px solid var(--border-medium);
+      border-left: 3px solid var(--accent);
+    }
+    .cs-decision h3 { margin-top: 0; }
+    .cs-decision ul { margin-top: 12px; }
+    .cs-prose .cs-decision p { margin-top: 12px; }
+    .cs-prose .cs-decision .cs-outcome {
+      margin-top: 16px;
+      padding-top: 12px;
+      color: var(--text-secondary);
+      border-top: 1px solid var(--border-light);
+      font-size: .88rem;
+    }
+    .cs-outcome-label {
+      display: block;
+      color: var(--accent);
+      font-size: .62rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      line-height: 1.5;
+      text-transform: uppercase;
+    }
+
+    /* Compact callout: One labeled fact or a short attributed note */
+    .cs-note {
+      margin-top: 20px;
+      padding: 14px 16px;
+      background: var(--bg-section);
+      border: 1px solid var(--border-light);
+      border-left: 3px solid var(--accent);
+    }
+    .cs-note-label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--accent);
+      font-size: .62rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      line-height: 1.5;
+      text-transform: uppercase;
+    }
+    .cs-prose .cs-note p { margin-top: 6px; font-size: .88rem; }
+
+    /* Paired comparison: Two parallel sets, one column each */
+    .cs-compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 22px;
+    }
+    .cs-compare-col {
+      padding: 16px 16px 18px;
+      background: var(--bg-clean);
+      border: 1px solid var(--border-medium);
+    }
+    .cs-prose .cs-compare-col .cs-compare-head {
+      margin-top: 0;
+      color: var(--text-heading);
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      line-height: 1.45;
+      text-transform: uppercase;
+    }
+    .cs-prose .cs-compare-col ul { margin-top: 10px; }
+    .cs-prose .cs-compare-col li { margin-top: 13px; padding-left: 22px; font-size: .88rem; }
+    .cs-prose .cs-compare-col li::before { top: .52em; width: 6px; height: 6px; }
+    .cs-prose .cs-compare-col p { margin-top: 12px; color: var(--text-secondary); font-size: .84rem; }
+
+    /* Labeled bullets: A short bold lead, then one clause */
+    .cs-prose li strong { color: var(--text-heading); font-weight: 600; }
+
+    /* Figures: Hand-built diagrams, light surfaces only */
     .cs-figure { margin-top: 28px; }
     .cs-diagram {
       position: relative;
@@ -698,7 +805,7 @@
     .cs-details-body { padding: 0 16px 16px; }
     .cs-details-body p { margin-top: 12px; color: var(--text-primary); font-size: .88rem; }
 
-    /* Code blocks — horizontal scroll, never wrapped */
+    /* Code blocks: Horizontal scroll, never wrapped */
     .cs-code {
       margin-top: 12px;
       padding: 14px;
@@ -748,22 +855,24 @@
     }
     .cs-table td { color: var(--text-primary); }
 
-    /* NEEDS INPUT callout */
-    .cs-needs-input {
+    /* Upcoming documentation callout */
+    .cs-upcoming {
       margin-top: 24px;
       padding: 16px 18px;
       background: var(--bg-clean);
       border: 1.5px dashed var(--border-dark);
     }
-    .cs-needs-input-label {
-      display: block;
+    .cs-upcoming-label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
       color: var(--accent);
       font-size: .64rem;
       font-weight: 600;
       letter-spacing: .12em;
       text-transform: uppercase;
     }
-    .cs-needs-input p { margin-top: 6px; color: var(--text-secondary); font-size: .84rem; }
+    .cs-upcoming p { margin-top: 6px; color: var(--text-secondary); font-size: .84rem; }
 
     /* Prev/next pager */
     .cs-pager {
@@ -789,7 +898,107 @@
     }
     .cs-pager-all:hover { border-color: var(--accent); }
 
-    /* Responsive — case pages */
+    /* Reading companion: In-page section rail that tracks the reader's position.
+       Narrow screens get a sticky strip under the header; from 1280px up it moves
+       into the left gutter as a fixed rail with a marker that glides between items. */
+    .cs-section { scroll-margin-top: calc(var(--nav-h, 74px) + 18px); }
+    .cs-toc {
+      position: sticky;
+      top: var(--nav-h, 74px);
+      z-index: 40;
+      background: var(--bg-soft);
+      border-bottom: 1px solid var(--border-light);
+    }
+    .cs-toc-inner { width: min(1180px, calc(100% - 48px)); margin-inline: auto; }
+    .cs-toc-title { display: none; }
+    .cs-toc-track { overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+    .cs-toc-track::-webkit-scrollbar { display: none; }
+    .cs-toc ul { display: flex; gap: 6px; padding: 9px 0; list-style: none; }
+    .cs-toc li { margin: 0; padding: 0; list-style: none; }
+    .cs-toc li::before { content: none; }
+    .cs-toc a {
+      display: block;
+      padding: 6px 12px;
+      border-radius: 999px;
+      color: var(--text-muted);
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      line-height: 1.2;
+      text-transform: uppercase;
+      white-space: nowrap;
+      transition: color 180ms ease, background 180ms ease;
+    }
+    .cs-toc a:hover { color: var(--text-heading); }
+    .cs-toc a[aria-current="true"] { color: var(--accent); background: var(--accent-soft); }
+    .cs-toc-marker { display: none; }
+
+    @media (min-width: 1280px) {
+      .cs-toc {
+        position: fixed;
+        top: 50%;
+        left: max(20px, calc(50% - 596px));
+        width: 168px;
+        max-height: 74vh;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        background: none;
+        border-bottom: 0;
+        transform: translateY(-50%);
+        transition: opacity 300ms ease;
+      }
+      .cs-toc::-webkit-scrollbar { display: none; }
+      .cs-toc.is-dimmed { opacity: 0; pointer-events: none; }
+      .cs-toc-inner { width: auto; margin-inline: 0; }
+      .cs-toc-title {
+        display: block;
+        color: var(--text-muted);
+        font-size: .66rem;
+        font-weight: 600;
+        letter-spacing: .13em;
+        line-height: 1.2;
+        text-transform: uppercase;
+      }
+      .cs-toc-track { position: relative; margin-top: 13px; padding-left: 15px; overflow: visible; }
+      .cs-toc-track::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 3px;
+        bottom: 3px;
+        width: 1px;
+        background: var(--border-light);
+      }
+      .cs-toc-marker {
+        display: block;
+        position: absolute;
+        left: -1px;
+        top: 0;
+        width: 3px;
+        height: 0;
+        background: var(--accent);
+        transition: transform 340ms cubic-bezier(.4, 0, .2, 1), height 340ms cubic-bezier(.4, 0, .2, 1);
+      }
+      .cs-toc ul { display: block; padding: 0; }
+      .cs-toc a {
+        padding: 5px 0;
+        border-radius: 0;
+        background: none;
+        font-size: .74rem;
+        font-weight: 500;
+        letter-spacing: 0;
+        line-height: 1.35;
+        text-transform: none;
+        white-space: normal;
+      }
+      .cs-toc a[aria-current="true"] { color: var(--accent); background: none; font-weight: 600; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cs-toc-marker { transition: none; }
+    }
+
+    /* Responsive: Case pages */
     @media (max-width: 920px) {
       .footer-main { grid-template-columns: 1fr auto; }
       .footer-nav { grid-column: 1 / -1; grid-row: 2; justify-content: flex-start; }
@@ -813,6 +1022,7 @@
         transform: translate(-50%, 50%) rotate(90deg);
       }
       .cs-tracks { grid-template-columns: 1fr; }
+      .cs-compare { grid-template-columns: 1fr; }
       .gov-branch { grid-template-columns: 1fr; }
       .gov-terminals { grid-template-columns: 1fr; }
       .cs-table-scroll { margin-inline: 0; }
@@ -845,6 +1055,29 @@
   </header>
 
   <main id="main">
+    <nav class="cs-toc" aria-label="On this page">
+      <div class="cs-toc-inner">
+        <p class="cs-toc-title">On this page</p>
+        <div class="cs-toc-track">
+          <span class="cs-toc-marker" aria-hidden="true"></span>
+          <ul>
+            <li><a href="#sec-flow">Where it sits</a></li>
+            <li><a href="#sec-problem">The problem</a></li>
+            <li><a href="#sec-constraints">Constraints</a></li>
+            <li><a href="#sec-approach">The approach</a></li>
+            <li><a href="#sec-system">System in action</a></li>
+            <li><a href="#sec-decisions">Key decisions</a></li>
+            <li><a href="#sec-results">Results</a></li>
+            <li><a href="#sec-limitations">Known limitations</a></li>
+            <li><a href="#sec-maintenance">Maintenance</a></li>
+            <li><a href="#sec-testing">After testing</a></li>
+            <li><a href="#sec-reflection">Reflection</a></li>
+            <li><a href="#sec-next">Next step</a></li>
+            <li><a href="#sec-artifacts">Supporting artifacts</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
     <article>
       <div class="wrap cs-col">
 
@@ -854,7 +1087,8 @@
             <span class="star" aria-hidden="true"></span>
           </div>
           <h1>Knowledge Article Staging Tool</h1>
-          <p class="cs-dek">Approved Word drafts needed manual HTML cleanup before staging in Salesforce Knowledge — a content system edited through raw source code, not a WYSIWYG editor. This single-file browser tool converts approved Word content into Salesforce-ready HTML with a live preview and validation panel. A typical article’s staging pass dropped from 30–60 minutes to about 15, and what remains is verification, not formatting.</p>
+          <p class="cs-dek">Approved Word drafts needed manual HTML cleanup before staging in Salesforce Knowledge, a content system edited through raw source code, not a WYSIWYG editor.</p>
+          <p class="cs-dek">This single-file browser tool converts approved Word content into Salesforce-ready HTML with a live preview and validation panel. A typical article’s staging pass dropped from 30–60 minutes to about 15, and what remains is verification, not formatting.</p>
           <div class="cs-hero-links">
             <a href="https://nechi-nechi.github.io/km-html-converter/" target="_blank" rel="noopener">Try it live ↗</a>
             <a href="https://github.com/Nechi-nechi/km-html-converter" target="_blank" rel="noopener">View source ↗</a>
@@ -868,17 +1102,17 @@
               <tr><th scope="row">Scope</th><td>SME-approved Word document → Salesforce Knowledge-ready HTML</td></tr>
               <tr><th scope="row">Adoption</th><td>All 9 team members use it; a 5-person testing group supplies the reported numbers (4 pilot-era writers + one mid-July 2026 hire)</td></tr>
               <tr><th scope="row">Timeline</th><td>Built as a one-day pilot, June 5, 2026; refined through ongoing use</td></tr>
-              <tr><th scope="row">Tools</th><td>Single-file, dependency-free browser tool — no framework, no libraries, no install</td></tr>
+              <tr><th scope="row">Tools</th><td>Single-file, dependency-free browser tool (no framework, no libraries, no install)</td></tr>
               <tr><th scope="row">Deliverables</th><td>HTML converter with live preview + pre-publication validation panel</td></tr>
               <tr><th scope="row">Status</th><td>In active use, documented step in the staging workflow</td></tr>
             </tbody>
           </table>
         </header>
 
-        <section class="cs-section cs-prose" aria-labelledby="flow-title">
-          <span class="eyebrow">01 — The flow</span>
-          <h2 id="flow-title">Where it sits in the flow</h2>
-          <p>Originally built for the Copilot workflow; architecturally compatible with either pipeline’s approved output, though team use to date has been through Copilot. The tool only ever intakes content that’s already SME-approved. The team owns staging — preparing articles for publication — not publishing itself.</p>
+        <section class="cs-section cs-prose" id="sec-flow" aria-labelledby="flow-title">
+          <h2 id="flow-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12h18"/><rect x="8" y="8" width="8" height="8"/></svg></span>Where it sits in the flow</h2>
+          <p>Originally built for the Copilot workflow; architecturally compatible with either pipeline’s approved output, though team use to date has been through Copilot.</p>
+          <p>The tool only ever intakes content that’s already SME-approved. The team owns staging (preparing articles for publication), not publishing itself.</p>
           <div class="cs-figure reveal">
             <div class="cs-diagram" role="img" aria-label="An approved article moves from source material through the KM Drafter and KM Format Editor agents and SME review to an approved Word document, then through the Knowledge Article Staging Tool into Salesforce Knowledge.">
               <span class="cs-figure-caption" aria-hidden="true">Position in the flow</span>
@@ -898,29 +1132,41 @@
           </div>
         </section>
 
-        <section class="cs-section cs-prose" aria-labelledby="problem-title">
-          <span class="eyebrow">02 — The problem</span>
-          <h2 id="problem-title">The problem</h2>
-          <p>Pasting Word content directly into the CCMS carries its formatting with it, and none of it matches the destination. Writers stripped Word markup, rebuilt lists and tables, reapplied styles, redid the horizontal dividers between sections, and cross-checked editor, source, and preview views by hand. Each fix is minuscule alone; together they consumed the time meant for quality. The team had already tried the obvious alternative — the generic Word2HTML web converter — and it still required hand-editing the output to reach the team’s CCMS conventions.</p>
-          <p>The manual pass typically took 30–60 minutes per article, and up to 3 hours on complex documents with nested lists, tables, code snippets, and callouts (team-reported; no time logs). That burden fell hardest on teammates without HTML fluency, and the layout itself was never negotiable: How a guide looks is part of the reader’s experience — it determines whether a user spots a warning before acting.</p>
+        <section class="cs-section cs-prose" id="sec-problem" aria-labelledby="problem-title">
+          <h2 id="problem-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4.3 20.8 19.6H3.2z"/><path d="M12 10v4.3M12 17.1h.01"/></svg></span>The problem</h2>
+          <h3>What writers did by hand</h3>
+          <p>Pasting Word content directly into the CCMS carries its formatting with it, and none of it matches the destination.</p>
+          <ul>
+            <li>Stripped Word markup.</li>
+            <li>Rebuilt lists and tables.</li>
+            <li>Reapplied styles.</li>
+            <li>Redid the horizontal dividers between sections.</li>
+            <li>Cross-checked editor, source, and preview views by hand.</li>
+          </ul>
+          <p>Each fix is minuscule alone; together they consumed the time meant for quality.</p>
+          <p>The team had already tried the obvious alternative, the generic Word2HTML web converter. It still required hand-editing the output to reach the team’s CCMS conventions.</p>
+          <h3>What the manual pass cost</h3>
+          <ul>
+            <li><strong>Time per article.</strong> The manual pass typically took 30–60 minutes per article, and up to 3 hours on complex documents with nested lists, tables, code snippets, and callouts (team-reported; no time logs).</li>
+            <li><strong>Uneven burden.</strong> The burden fell hardest on teammates without HTML fluency.</li>
+          </ul>
+          <p>The layout itself was never negotiable. How a guide looks is part of the reader’s experience, and it determines whether a user spots a warning before acting.</p>
         </section>
 
-        <section class="cs-section cs-prose" aria-labelledby="constraints-title">
-          <span class="eyebrow">03 — Constraints</span>
-          <h2 id="constraints-title">Constraints</h2>
+        <section class="cs-section cs-prose" id="sec-constraints" aria-labelledby="constraints-title">
+          <h2 id="constraints-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5v14M20 5v14"/><rect x="9" y="8.5" width="6" height="7"/></svg></span>Constraints</h2>
           <ul>
-            <li>Input is always an SME-approved Word document — never raw or unreviewed source.</li>
-            <li>Output must match exact CCMS conventions (heading levels, table styles, list markers) that generic cleaners can’t produce.</li>
-            <li>Markup defects are invisible in a way prose defects aren’t — a dropped list level renders as subtly wrong, not obviously broken.</li>
-            <li>The destination system is edited through raw HTML source, so verification means reading markup by eye unless a preview exists.</li>
-            <li>Source variance is real: Content copied from web Word behaves differently from desktop Word, and the tool has to handle both.</li>
-            <li>No framework, install, license, or token dependency — every article passes through this stage, so it has to be durable.</li>
+            <li><strong>Approved input only.</strong> Input is always an SME-approved Word document, never raw or unreviewed source.</li>
+            <li><strong>Exact conventions.</strong> Output must match exact CCMS conventions (heading levels, table styles, list markers) that generic cleaners can’t produce.</li>
+            <li><strong>Invisible defects.</strong> Markup defects are invisible in a way prose defects aren’t. A dropped list level renders as subtly wrong, not obviously broken.</li>
+            <li><strong>Raw-source editing.</strong> The destination system is edited through raw HTML source, so verification means reading markup by eye unless a preview exists.</li>
+            <li><strong>Source variance is real.</strong> Content copied from web Word behaves differently from desktop Word, and the tool has to handle both.</li>
+            <li><strong>No dependencies.</strong> No framework, install, license, or token dependency (every article passes through this stage, so it has to be durable).</li>
           </ul>
         </section>
 
-        <section class="cs-section cs-prose" aria-labelledby="approach-title">
-          <span class="eyebrow">04 — The approach</span>
-          <h2 id="approach-title">The approach</h2>
+        <section class="cs-section cs-prose" id="sec-approach" aria-labelledby="approach-title">
+          <h2 id="approach-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="5.5" cy="12" r="2"/><circle cx="18.5" cy="6.5" r="2"/><circle cx="18.5" cy="17.5" r="2"/><path d="M7.5 12h3l6-4.2M10.5 12l6 4.2"/></svg></span>The approach</h2>
           <p>Three-step guided workflow: Paste the Word draft, review the cleaned HTML against a rendered preview side by side, copy the final HTML into Salesforce.</p>
           <div class="cs-figure reveal">
             <div class="cs-diagram" role="img" aria-label="A writer pastes an approved Word draft, reviews the cleaned HTML beside a rendered preview, and copies the final HTML into Salesforce Knowledge. A typical staging pass drops from 30 to 60 minutes to about 15.">
@@ -935,14 +1181,35 @@
               </div>
             </div>
           </div>
-          <p><strong>What it standardizes deterministically:</strong> Section headings to <code>&lt;h2&gt;</code>, nested lists rebuilt from Word’s <code>mso-list</code> metadata rather than read as flat paragraphs, fixed marker hierarchies to seven levels (disc/circle/square; 1./a./i.), table styling (<code>#E8F9FF</code> header background, <code>0.5px</code> borders) applied the same way regardless of what Word sends in, horizontal dividers before section headings, callout keywords (Note, Important, Warning) formatted to convention, and code-shaped content rendered in monospace.</p>
-          <p><strong>What still needs a human:</strong> The validation panel and preview surface known risk points — wrong heading levels, restarted list numbering, table cells miscast as headings, hyperlinks altered by the link toggle — as checkpoints, not defects the tool claims to prevent blindly.</p>
+          <div class="cs-compare">
+            <div class="cs-compare-col">
+              <p class="cs-compare-head">What it standardizes deterministically</p>
+              <ul>
+                <li>Section headings to <code>&lt;h2&gt;</code>.</li>
+                <li>Nested lists rebuilt from Word’s <code>mso-list</code> metadata rather than read as flat paragraphs.</li>
+                <li>Fixed marker hierarchies to seven levels (disc/circle/square; 1./a./i.).</li>
+                <li>Table styling (<code>#E8F9FF</code> header background, <code>0.5px</code> borders) applied the same way regardless of what Word sends in.</li>
+                <li>Horizontal dividers before section headings.</li>
+                <li>Callout keywords (Note, Important, Warning) formatted to convention.</li>
+                <li>Code-shaped content rendered in monospace.</li>
+              </ul>
+            </div>
+            <div class="cs-compare-col">
+              <p class="cs-compare-head">What still needs a human</p>
+              <ul>
+                <li>Wrong heading levels.</li>
+                <li>Restarted list numbering.</li>
+                <li>Table cells miscast as headings.</li>
+                <li>Hyperlinks altered by the link toggle.</li>
+              </ul>
+              <p>The validation panel and preview surface these known risk points as checkpoints, not defects the tool claims to prevent blindly.</p>
+            </div>
+          </div>
         </section>
 
-        <section class="cs-section cs-prose" aria-labelledby="system-title">
-          <span class="eyebrow">05 — System in action</span>
-          <h2 id="system-title">System in action: Why conversion couldn’t be an agent</h2>
-          <p>Word doesn’t paste lists as lists — it emits flat paragraphs with the nesting encoded only as metadata (<code>mso-list:l0 level1</code> vs. <code>level2</code>).</p>
+        <section class="cs-section cs-prose" id="sec-system" aria-labelledby="system-title">
+          <h2 id="system-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17"/><rect x="8.5" y="8.5" width="7" height="7"/></svg></span>System in action: Why conversion couldn’t be an agent</h2>
+          <p>Word doesn’t paste lists as lists. It emits flat paragraphs with the nesting encoded only as metadata (<code>mso-list:l0 level1</code> vs. <code>level2</code>).</p>
 
           <details class="cs-details">
             <summary><strong>What Word actually pastes</strong> for a two-level list (representative sample, not a live capture)</summary>
@@ -950,30 +1217,31 @@
               <pre class="cs-code"><code>&lt;p class=MsoListParagraphCxSpFirst style='mso-list:l0 level1 lfo1'&gt;Open the settings panel&lt;/p&gt;
 &lt;p class=MsoListParagraphCxSpMiddle style='mso-list:l0 level2 lfo1'&gt;Select the account tab&lt;/p&gt;
 &lt;p class=MsoListParagraphCxSpLast style='mso-list:l0 level1 lfo1'&gt;Save and close&lt;/p&gt;</code></pre>
-              <p>No <code>&lt;ul&gt;</code>, no <code>&lt;li&gt;</code> anywhere — Word encodes the hierarchy as a number buried in a style attribute, and the bullet characters are literal text.</p>
+              <p>No <code>&lt;ul&gt;</code>, no <code>&lt;li&gt;</code> anywhere. Word encodes the hierarchy as a number buried in a style attribute, and the bullet characters are literal text.</p>
             </div>
           </details>
 
-          <!-- PLACEHOLDER: Replace with a real before/after capture from an actual document -->
-          <div class="cs-needs-input" role="note">
-            <span class="cs-needs-input-label">Needs input</span>
-            <p>Replace with a real before/after capture from an actual document.</p>
+          <!-- UPCOMING: real before/after capture from a production document -->
+          <div class="cs-upcoming" role="note">
+            <span class="cs-upcoming-label"><svg class="cs-label-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><path d="M12 6.8V12l3.6 2.2"/></svg>Upcoming documentation</span>
+            <p>A real before/after capture from a production document will be added as it becomes available.</p>
           </div>
 
           <details class="cs-details">
-            <summary><strong>What an agent produced</strong> — plausible, and wrong</summary>
+            <summary><strong>What an agent produced:</strong> Plausible, and wrong</summary>
             <div class="cs-details-body">
               <pre class="cs-code"><code>&lt;ul&gt;
   &lt;li&gt;Open the settings panel&lt;/li&gt;
   &lt;li&gt;Select the account tab&lt;/li&gt;
   &lt;li&gt;Save and close&lt;/li&gt;
 &lt;/ul&gt;</code></pre>
-              <p>Clean, valid, and it silently flattens a two-level list into one — the <code>level2</code> item becomes a sibling instead of a child. In a procedure, that turns a sub-step into a separate step: A meaning change, not a formatting one, and it looks correct until rendered.</p>
+              <p>Clean, valid, and it silently flattens a two-level list into one. The <code>level2</code> item becomes a sibling instead of a child.</p>
+              <p>In a procedure, that turns a sub-step into a separate step: A meaning change, not a formatting one. It looks correct until rendered.</p>
             </div>
           </details>
 
           <details class="cs-details">
-            <summary><strong>What the tool produces</strong> — reconstructed from the level metadata</summary>
+            <summary><strong>What the tool produces:</strong> Reconstructed from the level metadata</summary>
             <div class="cs-details-body">
               <pre class="cs-code"><code>&lt;ul&gt;
   &lt;li&gt;Open the settings panel
@@ -981,85 +1249,164 @@
   &lt;/li&gt;
   &lt;li&gt;Save and close&lt;/li&gt;
 &lt;/ul&gt;</code></pre>
-              <p>Same result every time, because it follows a rule instead of an impression. Nested lists build inside the parent <code>li</code>, up to seven levels — though deep nesting is discouraged by convention as harder to read and likelier to convert incorrectly.</p>
+              <p>Same result every time, because it follows a rule instead of an impression. Nested lists build inside the parent <code>li</code>, up to seven levels (though deep nesting is discouraged by convention as harder to read and likelier to convert incorrectly).</p>
             </div>
           </details>
 
-          <p><strong>What the conversion agent actually got wrong in testing:</strong> It missed required formatting (warning text that renders in red, section dividers), got heading hierarchy wrong, bolded and italicized the wrong spans, dropped hyperlinks, failed to recognize code snippets, and missed block quotes. The decisive defect was non-determinism: Each run produced a <em>different</em> set of errors from the same class of input, so every output required a full audit — no prior run told you what to check. Correcting the agent cost about as much as converting by hand. The realization: This is a logic problem, not an intelligence problem. Map the source heading and font size to a heading level, preserve existing emphasis, preserve nested-list order, monospace the code-shaped blocks, insert a divider before each section. It doesn’t need elaborate intelligence to execute that.</p>
-          <p>The rendered preview is what makes the tool safe in practice: A writer doesn’t have to notice a missing nesting level in markup, because the preview shows an indented sub-step or it doesn’t.</p>
+          <h3>What the conversion agent actually got wrong in testing</h3>
+          <ul>
+            <li>Missed required formatting (warning text that renders in red, section dividers).</li>
+            <li>Got heading hierarchy wrong.</li>
+            <li>Bolded and italicized the wrong spans.</li>
+            <li>Dropped hyperlinks.</li>
+            <li>Failed to recognize code snippets.</li>
+            <li>Missed block quotes.</li>
+          </ul>
+          <p>The decisive defect was non-determinism. Each run produced a <em>different</em> set of errors from the same class of input, so every output required a full audit, and no prior run told you what to check.</p>
+          <p>Correcting the agent cost about as much as converting by hand.</p>
+          <h3>The realization: This is a logic problem, not an intelligence problem</h3>
+          <ul>
+            <li>Map the source heading and font size to a heading level.</li>
+            <li>Preserve existing emphasis.</li>
+            <li>Preserve nested-list order.</li>
+            <li>Monospace the code-shaped blocks.</li>
+            <li>Insert a divider before each section.</li>
+          </ul>
+          <p>It doesn’t need elaborate intelligence to execute that.</p>
+          <h3>Why the preview makes it safe</h3>
+          <p>The rendered preview is what makes the tool safe in practice. A writer doesn’t have to notice a missing nesting level in markup, because the preview shows an indented sub-step or it doesn’t.</p>
         </section>
 
-        <section class="cs-section cs-prose" aria-labelledby="decisions-title">
-          <span class="eyebrow">06 — Key decisions</span>
-          <h2 id="decisions-title">Key decisions</h2>
-          <p><strong>Killed the third agent, built a tool instead.</strong> Two reasons. First, the conversion agent hallucinated in a way that relocated work rather than removing it — correcting its output took nearly as long as converting by hand, and that burden fell on the writers least equipped to catch it. Second, and more decisive: The pipeline was never continuous at this stage. Author review and SME validation are human gates before conversion, so every invocation is a cold start on an already-approved document — there’s no ambiguity left for an agent’s judgment to resolve. <em>Consequence:</em> Conversion became a deterministic browser tool; the agent idea’s most valuable piece, a strict input contract, survived in the tool’s expectations.</p>
-          <p><strong>Verification by preview, not by trust.</strong> A rendered preview beside the cleaned HTML means a writer confirms output instead of believing it. <em>Consequence:</em> The audit burden an unreliable agent would have pushed downstream disappears instead of relocating.</p>
-          <p><strong>How the pivot was communicated:</strong> We tested the agent idea and mapped the failure points — too many edge cases, too much variance, low trust. So I pivoted to a deterministic converter: It kept the value and removed the risk. Framed that way, no one pushed back. The argument was made from mapped failure points, not preference.</p>
+        <section class="cs-section cs-prose" id="sec-decisions" aria-labelledby="decisions-title">
+          <h2 id="decisions-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20.5v-6l-6.5-5.2V4"/><path d="M12 14.5l6.5-5.2V4"/></svg></span>Key decisions</h2>
+          <div class="cs-decision">
+            <h3>Killed the third agent, built a tool instead</h3>
+            <p>Two reasons.</p>
+            <ul>
+              <li><strong>First.</strong> The conversion agent hallucinated in a way that relocated work rather than removing it. Correcting its output took nearly as long as converting by hand, and that burden fell on the writers least equipped to catch it.</li>
+              <li><strong>Second, and more decisive.</strong> The pipeline was never continuous at this stage. Author review and SME validation are human gates before conversion, so every invocation is a cold start on an already-approved document, and there’s no ambiguity left for an agent’s judgment to resolve.</li>
+            </ul>
+            <p class="cs-outcome"><span class="cs-outcome-label">Consequence</span> Conversion became a deterministic browser tool; the agent idea’s most valuable piece, a strict input contract, survived in the tool’s expectations.</p>
+          </div>
+
+          <div class="cs-decision">
+            <h3>Verification by preview, not by trust</h3>
+            <p>A rendered preview beside the cleaned HTML means a writer confirms output instead of believing it.</p>
+            <p class="cs-outcome"><span class="cs-outcome-label">Consequence</span> The audit burden an unreliable agent would have pushed downstream disappears instead of relocating.</p>
+          </div>
+
+          <div class="cs-decision">
+            <h3>How the pivot was communicated</h3>
+            <p>We tested the agent idea and mapped the failure points:</p>
+            <ul>
+              <li>Too many edge cases.</li>
+              <li>Too much variance.</li>
+              <li>Low trust.</li>
+            </ul>
+            <p>So I pivoted to a deterministic converter: It kept the value and removed the risk. Framed that way, no one pushed back.</p>
+            <p>The argument was made from mapped failure points, not preference.</p>
+          </div>
         </section>
 
-        <section class="cs-section cs-prose" aria-labelledby="results-title">
-          <span class="eyebrow">07 — Results</span>
-          <h2 id="results-title">Results</h2>
-          <p>A typical article’s staging pass dropped from 30–60 minutes to about 15. The formatting portion — the strip-rebuild-restyle work — collapses to minutes; what remains is verification against the source, which is judgment the tool deliberately leaves with the writer. Complex multi-section documents previously ran up to 3 hours. All 9 team members use the tool; the 5-person testing group is the source of the reported numbers.</p>
+        <section class="cs-section cs-prose" id="sec-results" aria-labelledby="results-title">
+          <h2 id="results-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20h16"/><path d="M8 20v-5.5M12 20v-9.5M16 20v-13.5"/></svg></span>Results</h2>
+          <p>A typical article’s staging pass dropped from 30–60 minutes to about 15.</p>
+          <ul>
+            <li><strong>The mechanical part.</strong> The formatting portion, the strip-rebuild-restyle work, collapses to minutes.</li>
+            <li><strong>Judgment stays human.</strong> What remains is verification against the source, which is judgment the tool deliberately leaves with the writer.</li>
+            <li><strong>The worst case before.</strong> Complex multi-section documents previously ran up to 3 hours.</li>
+            <li><strong>Full team adoption.</strong> All 9 team members use the tool.</li>
+            <li><strong>Team-reported.</strong> The 5-person testing group is the source of the reported numbers.</li>
+          </ul>
           <p class="cs-fineprint">Figures are team-reported and typical/median, since a few complex documents would otherwise skew the average upward; no ratio is claimed.</p>
-          <p><strong>One documented save:</strong> During staging, the preview surfaced a repeating table header and a stray horizontal rule before the first heading — both would have broken formatting in Salesforce. Fixed pre-publish; a messy post-publication rollback avoided.</p>
-          <p><strong>Team-reported feedback (paraphrase, not a captured quote):</strong> The final stretch before publishing was the tedious part — not the research, the staging — and it scaled sharply with article type and length. The tool took that off their plates, freeing time already stretched across SME follow-up, drafting, and screenshots.</p>
+          <div class="cs-note">
+            <span class="cs-note-label"><svg class="cs-label-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><path d="M12 16.4v-5.2"/><path d="M12 7.8h.01"/></svg>One documented save</span>
+            <p>During staging, the preview surfaced a repeating table header and a stray horizontal rule before the first heading. Both would have broken formatting in Salesforce.</p>
+            <p>Fixed pre-publish; a messy post-publication rollback avoided.</p>
+          </div>
+          <div class="cs-note">
+            <span class="cs-note-label"><svg class="cs-label-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><path d="M12 16.4v-5.2"/><path d="M12 7.8h.01"/></svg>Team-reported feedback</span>
+            <p><em>Paraphrase, not a captured quote.</em> The final stretch before publishing was the tedious part (not the research, the staging), and it scaled sharply with article type and length.</p>
+            <p>The tool took that off their plates, freeing time already stretched across SME follow-up, drafting, and screenshots.</p>
+          </div>
         </section>
 
-        <section class="cs-section cs-prose" aria-labelledby="limitations-title">
-          <span class="eyebrow">08 — Known limitations</span>
-          <h2 id="limitations-title">Known limitations</h2>
+        <section class="cs-section cs-prose" id="sec-limitations" aria-labelledby="limitations-title">
+          <h2 id="limitations-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.6"/><path d="M6 18 18 6"/></svg></span>Known limitations</h2>
           <details class="cs-details">
-            <summary><strong>Known limitations</strong> — consistent, not infallible</summary>
+            <summary><strong>Known limitations:</strong> Consistent, not infallible</summary>
             <div class="cs-details-body">
-              <p>The tool is consistent, not infallible — and the preview is what surfaces the edge cases. Named plainly:</p>
+              <p>The tool is consistent, not infallible, and the preview is what surfaces the edge cases. Named plainly:</p>
               <ul>
-                <li>Complex mixed nested lists (numbered and bulleted markers interleaved at depth) don’t always reconstruct correctly.</li>
-                <li>Tables with merged cells break the uniform rows-and-columns assumption.</li>
-                <li>Some pasted content doesn’t survive the intake field intact.</li>
-                <li>Rich-text intake doesn’t always carry every piece of source formatting.</li>
+                <li><strong>Mixed nested lists.</strong> Complex mixed nested lists (numbered and bulleted markers interleaved at depth) don’t always reconstruct correctly.</li>
+                <li><strong>Merged table cells.</strong> Tables with merged cells break the uniform rows-and-columns assumption.</li>
+                <li><strong>Intake field loss.</strong> Some pasted content doesn’t survive the intake field intact.</li>
+                <li><strong>Rich-text intake gaps.</strong> Rich-text intake doesn’t always carry every piece of source formatting.</li>
               </ul>
             </div>
           </details>
         </section>
 
-        <section class="cs-section cs-prose" aria-labelledby="maintenance-title">
-          <span class="eyebrow">09 — Maintenance</span>
-          <h2 id="maintenance-title">Maintenance</h2>
-          <p>The tool ships with a built-in usage guide. The source is shared with the team, and the build is deliberately a single file so anyone can copy, run, or fork it without dependencies. Honest state: No one else has yet modified or extended it — maintenance is currently one person.</p>
+        <section class="cs-section cs-prose" id="sec-maintenance" aria-labelledby="maintenance-title">
+          <h2 id="maintenance-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8.5h16M4 15.5h16"/><circle cx="9.5" cy="8.5" r="2.2"/><circle cx="15" cy="15.5" r="2.2"/></svg></span>Maintenance</h2>
+          <h3>How the tool is shipped and shared</h3>
+          <ul>
+            <li>It ships with a built-in usage guide.</li>
+            <li>The source is shared with the team.</li>
+            <li>The build is deliberately a single file, so anyone can copy, run, or fork it without dependencies.</li>
+          </ul>
+          <div class="cs-note">
+            <span class="cs-note-label"><svg class="cs-label-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><path d="M12 16.4v-5.2"/><path d="M12 7.8h.01"/></svg>Honest state</span>
+            <p>No one else has yet modified or extended it. Maintenance is currently one person.</p>
+          </div>
         </section>
 
-        <section class="cs-section cs-prose" aria-labelledby="testing-title">
-          <span class="eyebrow">10 — After testing</span>
-          <h2 id="testing-title">What changed after testing</h2>
+        <section class="cs-section cs-prose" id="sec-testing" aria-labelledby="testing-title">
+          <h2 id="testing-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8.5h13m-3.4-3.4L17 8.5l-3.4 3.4"/><path d="M20 15.5H7m3.4-3.4L7 15.5l3.4 3.4"/></svg></span>What changed after testing</h2>
           <ul>
-            <li>Abandoned the three-agent pipeline plan after the conversion agent’s non-deterministic errors proved too costly to verify.</li>
-            <li>Replaced “an agent that’s usually right” with a rendered preview + validation panel a writer can trust without auditing line by line.</li>
-            <li>Kept the tool dependency-free (no framework, install, or license) so it survives platform and license changes that affected the agent-based stages.</li>
-            <li>Hardened against source variance between web Word and desktop Word paste behavior.</li>
-            <li>Added detection for code snippets, block quotes, and callout keywords that drafts didn’t always format as expected.</li>
+            <li><strong>Abandoned the three-agent plan.</strong> The conversion agent’s non-deterministic errors proved too costly to verify.</li>
+            <li><strong>Replaced “an agent that’s usually right.”</strong> A rendered preview and validation panel a writer can trust without auditing line by line took its place.</li>
+            <li><strong>Kept the tool dependency-free.</strong> No framework, install, or license, so it survives platform and license changes that affected the agent-based stages.</li>
+            <li><strong>Hardened against source variance.</strong> The gap was between web Word and desktop Word paste behavior.</li>
+            <li><strong>Added format detection.</strong> Code snippets, block quotes, and callout keywords now get detected, since drafts did not always format them as expected.</li>
           </ul>
         </section>
 
-        <section class="cs-section cs-prose" aria-labelledby="reflection-title">
-          <span class="eyebrow">11 — Reflection</span>
-          <h2 id="reflection-title">Reflection</h2>
-          <p>If I built this again, I’d instrument the staging workflow from day one — the technical outcome was measured, but baseline timings and before/after examples weren’t captured during active use, which forced reconstructing estimates later. And I’d validate the simplest solution earlier: The AI agent was explored first because it seemed more capable, but testing showed the bottleneck was deterministic conversion. The lesson this project cemented, carried into the governance work that followed: Prove where intelligence is actually needed before introducing AI.</p>
+        <section class="cs-section cs-prose" id="sec-reflection" aria-labelledby="reflection-title">
+          <h2 id="reflection-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 6.2L4 11.2l5 5"/><path d="M4 11.2h9.5a6.8 6.8 0 0 1 6.8 6.8v2.5"/></svg></span>Reflection</h2>
+          <p>If I built this again, two things would change:</p>
+          <ul>
+            <li><strong>Instrument the staging workflow from day one.</strong> The technical outcome was measured, but baseline timings and before/after examples weren’t captured during active use, which forced reconstructing estimates later.</li>
+            <li><strong>Validate the simplest solution earlier.</strong> The AI agent was explored first because it seemed more capable, but testing showed the bottleneck was deterministic conversion.</li>
+          </ul>
+          <div class="cs-note">
+            <span class="cs-note-label"><svg class="cs-label-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><path d="M12 16.4v-5.2"/><path d="M12 7.8h.01"/></svg>Lesson</span>
+            <p>The lesson this project cemented, carried into the governance work that followed: Prove where intelligence is actually needed before introducing AI.</p>
+          </div>
         </section>
 
-        <section class="cs-section cs-prose" aria-labelledby="next-title">
-          <span class="eyebrow">12 — Next step</span>
-          <h2 id="next-title">Limitations and next step</h2>
-          <p>A real captured before/after (rather than the representative sample above) and the validation panel’s exact severity rules (error vs. warning vs. info) aren’t documented yet. Next: Capture a real conversion example from production, confirm the panel’s severity logic against actual use, add a table-based before/after (tables are the other high-risk conversion case), and get 2–3 written teammate confirmations of the baseline.</p>
+        <section class="cs-section cs-prose" id="sec-next" aria-labelledby="next-title">
+          <h2 id="next-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h9.5"/><path d="M11 8.5l3.5 3.5-3.5 3.5"/><path d="M18 4.5v15"/></svg></span>Limitations and next step</h2>
+          <h3>What isn’t documented yet</h3>
+          <ul>
+            <li>A real captured before/after, rather than the representative sample above.</li>
+            <li>The validation panel’s exact severity rules (error vs. warning vs. info).</li>
+          </ul>
+          <h3>Next: Capture real examples and confirm the rules</h3>
+          <ul>
+            <li>Capture a real conversion example from production.</li>
+            <li>Confirm the panel’s severity logic against actual use.</li>
+            <li>Add a table-based before/after (tables are the other high-risk conversion case).</li>
+            <li>Get 2–3 written teammate confirmations of the baseline.</li>
+          </ul>
         </section>
 
-        <section class="cs-section cs-prose" aria-labelledby="artifacts-title">
-          <span class="eyebrow">13 — Artifacts</span>
-          <h2 id="artifacts-title">Supporting artifacts</h2>
-          <!-- PLACEHOLDER: converter demo, sanitized before/after samples, usage guide link -->
-          <div class="cs-needs-input" role="note">
-            <span class="cs-needs-input-label">Needs input</span>
-            <p>Converter demo, sanitized before/after samples, usage guide link.</p>
+        <section class="cs-section cs-prose" id="sec-artifacts" aria-labelledby="artifacts-title">
+          <h2 id="artifacts-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5.5 20.5V3.5h9l4 4v13Z"/><path d="M14.5 3.5v4h4"/></svg></span>Supporting artifacts</h2>
+          <!-- UPCOMING: sanitized before/after samples, usage guide -->
+          <div class="cs-upcoming" role="note">
+            <span class="cs-upcoming-label"><svg class="cs-label-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><path d="M12 6.8V12l3.6 2.2"/></svg>Upcoming documentation</span>
+            <p>Sanitized before/after samples and the usage guide will be added as they become available. The converter demo and its source are linked above.</p>
           </div>
         </section>
 
@@ -1084,13 +1431,13 @@
           <span class="star" aria-hidden="true"></span>
           <span class="footer-brand-copy">
             <span class="footer-brand-name">Nech Bayan</span>
-            <span class="footer-brand-loc">General Santos City, Philippines · remote</span>
+            <span class="footer-brand-loc">General Santos City, Philippines · Remote</span>
           </span>
         </a>
         <nav class="footer-nav" aria-label="Footer navigation">
           <a href="index.html">Home</a>
           <a href="index.html#case-studies">Case Studies</a>
-          <a href="Nech-Bayan-Resume.pdf" download>Resume</a>
+          <a href="Nech-Bayan-Resume.pdf" target="_blank" rel="noopener">Resume</a>
           <a href="mailto:nechillebayan@gmail.com">Email</a>
           <a href="https://www.linkedin.com/in/nechillebayan/" target="_blank" rel="noopener">LinkedIn</a>
         </nav>
@@ -1160,6 +1507,127 @@
         scrollPageTop();
       });
     });
+
+    /* Reading companion — the section rail follows the reader instead of sitting
+       still. The active section is the last one whose top has passed a line about
+       30% down the viewport, so the next section takes over exactly as the current
+       one scrolls out, with no interaction needed. */
+    const toc = document.querySelector('.cs-toc');
+    if (toc) {
+      const tocLinks = [...toc.querySelectorAll('a')];
+      const tocTrack = toc.querySelector('.cs-toc-track');
+      const tocMarker = toc.querySelector('.cs-toc-marker');
+      const siteNav = document.querySelector('.site-nav');
+      const csArticle = document.querySelector('article');
+      const tocTargets = tocLinks.map(link => document.querySelector(link.getAttribute('href')));
+      let sectionTops = [];
+      let activeIndex = -1;
+      let animating = false;
+
+      const navHeight = () => (siteNav ? siteNav.offsetHeight : 74);
+      const absTop = el => el.getBoundingClientRect().top + scrollY;
+
+      function placeMarker(index) {
+        const link = tocLinks[index];
+        if (!tocMarker || !link) return;
+        tocMarker.style.height = link.offsetHeight + 'px';
+        tocMarker.style.transform = 'translateY(' + link.offsetTop + 'px)';
+      }
+
+      function measureToc() {
+        document.documentElement.style.setProperty('--nav-h', navHeight() + 'px');
+        sectionTops = tocTargets.map(el => (el ? absTop(el) : Infinity));
+        if (activeIndex >= 0) placeMarker(activeIndex);
+      }
+
+      function setActive(index) {
+        if (index === activeIndex) return;
+        activeIndex = index;
+        tocLinks.forEach((link, i) => {
+          if (i === index) link.setAttribute('aria-current', 'true');
+          else link.removeAttribute('aria-current');
+        });
+        placeMarker(index);
+        if (tocTrack && tocTrack.scrollWidth > tocTrack.clientWidth + 1) {
+          const link = tocLinks[index];
+          const left = Math.max(0, link.offsetLeft - tocTrack.clientWidth / 2 + link.offsetWidth / 2);
+          tocTrack.scrollTo({ left, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+          /* Chrome silently drops programmatic smooth scrolls in a backgrounded tab;
+             snap the strip into place if the animation never ran. */
+          setTimeout(() => {
+            if (Math.abs(tocTrack.scrollLeft - left) > 4) tocTrack.scrollLeft = left;
+          }, 420);
+        }
+      }
+
+      function updateToc() {
+        if (animating) return;
+        const line = scrollY + navHeight() + Math.max(70, innerHeight * 0.3);
+        let index = 0;
+        for (let i = 0; i < sectionTops.length; i++) if (sectionTops[i] <= line) index = i;
+        if (scrollY + innerHeight >= document.documentElement.scrollHeight - 2) index = sectionTops.length - 1;
+        setActive(index);
+        if (csArticle) {
+          const articleEnd = absTop(csArticle) + csArticle.offsetHeight;
+          toc.classList.toggle('is-dimmed', scrollY + innerHeight * 0.55 > articleEnd);
+        }
+      }
+
+      function scrollToSection(target) {
+        const destination = Math.max(0, absTop(target) - navHeight() - 16);
+        const html = document.documentElement;
+        html.style.scrollBehavior = 'auto';
+        if (reducedMotion.matches) { scrollTo(0, destination); html.style.scrollBehavior = ''; return; }
+        const start = scrollY;
+        const delta = destination - start;
+        const t0 = performance.now();
+        const duration = Math.min(760, 260 + Math.abs(delta) / 8);
+        let finished = false;
+        animating = true;
+        const settle = () => { finished = true; animating = false; html.style.scrollBehavior = ''; };
+        requestAnimationFrame(function step(t) {
+          if (finished) return;
+          const p = Math.min(1, (t - t0) / duration);
+          scrollTo(0, Math.round(start + delta * (1 - Math.pow(1 - p, 3))));
+          if (p < 1) requestAnimationFrame(step); else settle();
+        });
+        setTimeout(() => { if (!finished) { scrollTo(0, destination); settle(); } }, duration + 300);
+      }
+
+      tocLinks.forEach((link, i) => {
+        link.addEventListener('click', event => {
+          const target = tocTargets[i];
+          if (!target) return;
+          event.preventDefault();
+          setActive(i);
+          scrollToSection(target);
+          history.replaceState(null, '', link.getAttribute('href'));
+        });
+      });
+
+      let tocTicking = false;
+      addEventListener('scroll', () => {
+        if (tocTicking) return;
+        tocTicking = true;
+        requestAnimationFrame(() => { tocTicking = false; updateToc(); });
+      }, { passive: true });
+      /* Chrome pauses rAF in a hidden tab, so a scroll fired while hidden would
+         leave tocTicking stuck true and freeze the rail after the reader returns.
+         Clear it and resync whenever the page becomes visible again. */
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) return;
+        tocTicking = false;
+        measureToc();
+        updateToc();
+      });
+      addEventListener('resize', () => { measureToc(); updateToc(); });
+      addEventListener('load', () => { measureToc(); updateToc(); });
+      if ('ResizeObserver' in window) {
+        new ResizeObserver(() => { measureToc(); updateToc(); }).observe(document.body);
+      }
+      measureToc();
+      updateToc();
+    }
   </script>
 </body>
 </html>

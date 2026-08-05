@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Case study: Two AI documentation-production architectures — a Microsoft Copilot workflow in team production and a Claude Cowork automation experiment.">
+  <meta name="description" content="Case study: Two AI documentation-production architectures, a Microsoft Copilot workflow in team production and a Claude Cowork automation experiment.">
   <meta name="theme-color" content="#000000">
   <title>AI-Assisted Documentation Pipeline · Case Study · Nech Bayan</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -111,7 +111,7 @@
     .eyebrow.light { color: var(--border-medium); }
     .arrow { transition: transform 220ms var(--ease); }
 
-    /* Buttons — one language site-wide: black + blue glow.
+    /* Buttons: One language site-wide, black + blue glow.
        .glow-rest carries rest-state glow (budgeted: featured CTAs + connect CTA only). */
     .btn {
       display: inline-flex;
@@ -157,7 +157,7 @@
     .btn-white.glow-rest { box-shadow: var(--glow-rest); }
     .btn-white.glow-rest:hover { box-shadow: var(--glow-hover); }
 
-    /* Navigation — black bar */
+    /* Navigation: Black bar */
     .site-nav {
       position: sticky;
       top: 0;
@@ -258,7 +258,7 @@
     .nav-links a:hover::before, .nav-links a.active::before { transform: translateX(-50%) scale(1); }
     .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
     .nav-cta { justify-self: end; min-height: 40px; padding: 0 16px; font-size: .76rem; border-radius: 999px; }
-    /* v4 — envelope icon in the nav CTA (static, no hover nudge) */
+    /* v4: Envelope icon in the nav CTA (static, no hover nudge) */
     .nav-cta-mail {
       width: 15px;
       height: 15px;
@@ -270,7 +270,7 @@
       stroke-linejoin: round;
     }
 
-    /* v4.1 — index labels as tag pills (cards + modals), replacing the eyebrow-text treatment */
+    /* v4.1: Index labels as tag pills (cards + modals), replacing the eyebrow-text treatment */
     .fw-index {
       display: inline-flex;
       align-items: center;
@@ -293,7 +293,7 @@
       font-weight: 500;
     }
 
-    /* Footer — continuous with connect block */
+    /* Footer: Continuous with connect block */
     footer {
       color: var(--text-on-dark);
       background: var(--surface-black);
@@ -373,7 +373,7 @@
       border: 0;
     }
 
-    /* Reading column — every article block sits inside this measure */
+    /* Reading column: Every article block sits inside this measure */
     .cs-col { max-width: 800px; }
 
     /* Page header */
@@ -410,7 +410,7 @@
     .cs-updated { margin-top: 18px; color: var(--text-disabled); font-size: .74rem; line-height: 1.6; }
     .cs-updated strong { color: var(--text-muted); font-weight: 600; }
 
-    /* Snapshot table — clean bordered table */
+    /* Snapshot table: Clean bordered table */
     .cs-snapshot {
       width: 100%;
       margin-top: 34px;
@@ -443,7 +443,10 @@
     /* Sections and prose */
     .cs-section { padding-top: clamp(44px, 6vw, 68px); }
     .cs-section h2 {
-      margin-top: 12px;
+      display: flex;
+      align-items: flex-start;
+      gap: .46em;
+      margin-top: 0;
       color: var(--text-heading);
       font-family: var(--font-serif);
       font-size: clamp(1.65rem, 3vw, 2.25rem);
@@ -451,6 +454,27 @@
       letter-spacing: -.02em;
       line-height: 1.12;
     }
+    /* v1.2 - section glyphs: One line icon per section, drawn in the accent at the
+       heading's cap height. Stroke-only and palette-bound on purpose; nothing on
+       these pages should read as a colored emoji. */
+    .cs-sec-icon {
+      flex: none;
+      width: .62em;
+      height: .62em;
+      margin-top: .22em;
+      color: var(--accent);
+      opacity: .8;
+    }
+    .cs-sec-icon svg,
+    .cs-label-icon {
+      display: block;
+      fill: none;
+      stroke: currentColor;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .cs-sec-icon svg { width: 100%; height: 100%; stroke-width: 1.6; }
+    .cs-label-icon { flex: none; width: 13px; height: 13px; stroke-width: 1.7; }
     .cs-section h3 {
       margin-top: 26px;
       color: var(--text-heading);
@@ -468,11 +492,15 @@
       transition: border-color 180ms ease;
     }
     .cs-prose a:hover { border-color: var(--accent); }
-    .cs-prose ul { margin-top: 16px; }
+    /* v1.2 - list marker: A 7px accent square carrying the site's clipped corner,
+       set on the first line's cap height. The old 8x2 rule read as a hyphen, which
+       made every list look like plain-text notes. Items sit further apart so a list
+       scans as a stack of decisions rather than a paragraph in disguise. */
+    .cs-prose ul { margin-top: 14px; }
     .cs-prose li {
       position: relative;
-      margin-top: 10px;
-      padding-left: 22px;
+      margin-top: 16px;
+      padding-left: 26px;
       color: var(--text-primary);
       font-size: .95rem;
     }
@@ -480,14 +508,93 @@
       content: "";
       position: absolute;
       left: 2px;
-      top: .62em;
-      width: 8px;
-      height: 2px;
+      top: .56em;
+      width: 7px;
+      height: 7px;
       background: var(--accent);
+      clip-path: polygon(0 0, 100% 0, 100% 58%, 58% 100%, 0 100%);
     }
     .cs-fineprint { margin-top: 14px; color: var(--text-muted); font-size: .8rem; line-height: 1.6; }
 
-    /* Figures — hand-built diagrams, light surfaces only */
+    /* Decision block: One named decision, its reasoning, and its consequence */
+    .cs-decision {
+      margin-top: 22px;
+      padding: 18px 20px 20px;
+      background: var(--bg-clean);
+      border: 1px solid var(--border-medium);
+      border-left: 3px solid var(--accent);
+    }
+    .cs-decision h3 { margin-top: 0; }
+    .cs-decision ul { margin-top: 12px; }
+    .cs-prose .cs-decision p { margin-top: 12px; }
+    .cs-prose .cs-decision .cs-outcome {
+      margin-top: 16px;
+      padding-top: 12px;
+      color: var(--text-secondary);
+      border-top: 1px solid var(--border-light);
+      font-size: .88rem;
+    }
+    .cs-outcome-label {
+      display: block;
+      color: var(--accent);
+      font-size: .62rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      line-height: 1.5;
+      text-transform: uppercase;
+    }
+
+    /* Compact callout: One labeled fact or a short attributed note */
+    .cs-note {
+      margin-top: 20px;
+      padding: 14px 16px;
+      background: var(--bg-section);
+      border: 1px solid var(--border-light);
+      border-left: 3px solid var(--accent);
+    }
+    .cs-note-label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--accent);
+      font-size: .62rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      line-height: 1.5;
+      text-transform: uppercase;
+    }
+    .cs-prose .cs-note p { margin-top: 6px; font-size: .88rem; }
+
+    /* Paired comparison: Two parallel sets, one column each */
+    .cs-compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 22px;
+    }
+    .cs-compare-col {
+      padding: 16px 16px 18px;
+      background: var(--bg-clean);
+      border: 1px solid var(--border-medium);
+    }
+    .cs-prose .cs-compare-col .cs-compare-head {
+      margin-top: 0;
+      color: var(--text-heading);
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      line-height: 1.45;
+      text-transform: uppercase;
+    }
+    .cs-prose .cs-compare-col ul { margin-top: 10px; }
+    .cs-prose .cs-compare-col li { margin-top: 13px; padding-left: 22px; font-size: .88rem; }
+    .cs-prose .cs-compare-col li::before { top: .52em; width: 6px; height: 6px; }
+    .cs-prose .cs-compare-col p { margin-top: 12px; color: var(--text-secondary); font-size: .84rem; }
+
+    /* Labeled bullets: A short bold lead, then one clause */
+    .cs-prose li strong { color: var(--text-heading); font-weight: 600; }
+
+    /* Figures: Hand-built diagrams, light surfaces only */
     .cs-figure { margin-top: 28px; }
     .cs-diagram {
       position: relative;
@@ -698,7 +805,7 @@
     .cs-details-body { padding: 0 16px 16px; }
     .cs-details-body p { margin-top: 12px; color: var(--text-primary); font-size: .88rem; }
 
-    /* Code blocks — horizontal scroll, never wrapped */
+    /* Code blocks: Horizontal scroll, never wrapped */
     .cs-code {
       margin-top: 12px;
       padding: 14px;
@@ -748,22 +855,24 @@
     }
     .cs-table td { color: var(--text-primary); }
 
-    /* NEEDS INPUT callout */
-    .cs-needs-input {
+    /* Upcoming documentation callout */
+    .cs-upcoming {
       margin-top: 24px;
       padding: 16px 18px;
       background: var(--bg-clean);
       border: 1.5px dashed var(--border-dark);
     }
-    .cs-needs-input-label {
-      display: block;
+    .cs-upcoming-label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
       color: var(--accent);
       font-size: .64rem;
       font-weight: 600;
       letter-spacing: .12em;
       text-transform: uppercase;
     }
-    .cs-needs-input p { margin-top: 6px; color: var(--text-secondary); font-size: .84rem; }
+    .cs-upcoming p { margin-top: 6px; color: var(--text-secondary); font-size: .84rem; }
 
     /* Prev/next pager */
     .cs-pager {
@@ -789,7 +898,107 @@
     }
     .cs-pager-all:hover { border-color: var(--accent); }
 
-    /* Responsive — case pages */
+    /* Reading companion: In-page section rail that tracks the reader's position.
+       Narrow screens get a sticky strip under the header; from 1280px up it moves
+       into the left gutter as a fixed rail with a marker that glides between items. */
+    .cs-section { scroll-margin-top: calc(var(--nav-h, 74px) + 18px); }
+    .cs-toc {
+      position: sticky;
+      top: var(--nav-h, 74px);
+      z-index: 40;
+      background: var(--bg-soft);
+      border-bottom: 1px solid var(--border-light);
+    }
+    .cs-toc-inner { width: min(1180px, calc(100% - 48px)); margin-inline: auto; }
+    .cs-toc-title { display: none; }
+    .cs-toc-track { overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+    .cs-toc-track::-webkit-scrollbar { display: none; }
+    .cs-toc ul { display: flex; gap: 6px; padding: 9px 0; list-style: none; }
+    .cs-toc li { margin: 0; padding: 0; list-style: none; }
+    .cs-toc li::before { content: none; }
+    .cs-toc a {
+      display: block;
+      padding: 6px 12px;
+      border-radius: 999px;
+      color: var(--text-muted);
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      line-height: 1.2;
+      text-transform: uppercase;
+      white-space: nowrap;
+      transition: color 180ms ease, background 180ms ease;
+    }
+    .cs-toc a:hover { color: var(--text-heading); }
+    .cs-toc a[aria-current="true"] { color: var(--accent); background: var(--accent-soft); }
+    .cs-toc-marker { display: none; }
+
+    @media (min-width: 1280px) {
+      .cs-toc {
+        position: fixed;
+        top: 50%;
+        left: max(20px, calc(50% - 596px));
+        width: 168px;
+        max-height: 74vh;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        background: none;
+        border-bottom: 0;
+        transform: translateY(-50%);
+        transition: opacity 300ms ease;
+      }
+      .cs-toc::-webkit-scrollbar { display: none; }
+      .cs-toc.is-dimmed { opacity: 0; pointer-events: none; }
+      .cs-toc-inner { width: auto; margin-inline: 0; }
+      .cs-toc-title {
+        display: block;
+        color: var(--text-muted);
+        font-size: .66rem;
+        font-weight: 600;
+        letter-spacing: .13em;
+        line-height: 1.2;
+        text-transform: uppercase;
+      }
+      .cs-toc-track { position: relative; margin-top: 13px; padding-left: 15px; overflow: visible; }
+      .cs-toc-track::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 3px;
+        bottom: 3px;
+        width: 1px;
+        background: var(--border-light);
+      }
+      .cs-toc-marker {
+        display: block;
+        position: absolute;
+        left: -1px;
+        top: 0;
+        width: 3px;
+        height: 0;
+        background: var(--accent);
+        transition: transform 340ms cubic-bezier(.4, 0, .2, 1), height 340ms cubic-bezier(.4, 0, .2, 1);
+      }
+      .cs-toc ul { display: block; padding: 0; }
+      .cs-toc a {
+        padding: 5px 0;
+        border-radius: 0;
+        background: none;
+        font-size: .74rem;
+        font-weight: 500;
+        letter-spacing: 0;
+        line-height: 1.35;
+        text-transform: none;
+        white-space: normal;
+      }
+      .cs-toc a[aria-current="true"] { color: var(--accent); background: none; font-weight: 600; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cs-toc-marker { transition: none; }
+    }
+
+    /* Responsive: Case pages */
     @media (max-width: 920px) {
       .footer-main { grid-template-columns: 1fr auto; }
       .footer-nav { grid-column: 1 / -1; grid-row: 2; justify-content: flex-start; }
@@ -813,6 +1022,7 @@
         transform: translate(-50%, 50%) rotate(90deg);
       }
       .cs-tracks { grid-template-columns: 1fr; }
+      .cs-compare { grid-template-columns: 1fr; }
       .gov-branch { grid-template-columns: 1fr; }
       .gov-terminals { grid-template-columns: 1fr; }
       .cs-table-scroll { margin-inline: 0; }
@@ -845,6 +1055,24 @@
   </header>
 
   <main id="main">
+    <nav class="cs-toc" aria-label="On this page">
+      <div class="cs-toc-inner">
+        <p class="cs-toc-title">On this page</p>
+        <div class="cs-toc-track">
+          <span class="cs-toc-marker" aria-hidden="true"></span>
+          <ul>
+            <li><a href="#sec-problem">The problem</a></li>
+            <li><a href="#sec-constraints">Constraints</a></li>
+            <li><a href="#sec-approach">The approach</a></li>
+            <li><a href="#sec-decisions">Key decisions</a></li>
+            <li><a href="#sec-results">Results</a></li>
+            <li><a href="#sec-changes">After testing</a></li>
+            <li><a href="#sec-limitations">Limitations and next step</a></li>
+            <li><a href="#sec-artifacts">Supporting artifacts</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
     <article>
       <div class="wrap cs-col">
 
@@ -854,7 +1082,8 @@
             <span class="star" aria-hidden="true"></span>
           </div>
           <h1>AI-Assisted Documentation Pipeline</h1>
-          <p class="cs-dek">Two documentation-production architectures for the same problem: A human-reviewed two-agent workflow on Microsoft Copilot, now in team production, and an automated file-based pipeline on Claude Cowork, run as a personal experiment. The Copilot pipeline raised team drafting throughput from 40 to 93 drafts per week — 233% of baseline, four active writers. The Claude Cowork experiment turned 22 source documents into 63 QA-validated articles in a one-week solo sprint.</p>
+          <p class="cs-dek">Two documentation-production architectures for the same problem: A human-reviewed two-agent workflow on Microsoft Copilot, now in team production, and an automated file-based pipeline on Claude Cowork, run as a personal experiment.</p>
+          <p class="cs-dek">The Copilot pipeline raised team drafting throughput from 40 to 93 drafts per week (233% of baseline, four active writers). The Claude Cowork experiment turned 22 source documents into 63 QA-validated articles in a one-week solo sprint.</p>
           <table class="cs-snapshot">
             <caption class="visually-hidden">Project snapshot</caption>
             <tbody>
@@ -869,38 +1098,61 @@
           </table>
         </header>
 
-        <section class="cs-section cs-prose" aria-labelledby="problem-title">
-          <span class="eyebrow">01 — The problem</span>
-          <h2 id="problem-title">The problem</h2>
-          <p>Long, unstructured source material — training decks, transcripts, SME notes, existing articles, image-only files, table-heavy PDFs, code samples — required manual drafting, restructuring, and formatting before it could ship as review-ready documentation. Writers and SMEs spent review time correcting structure and format, and filling gaps where a draft missed or misread source content, before they could even validate technical accuracy. That review time is the team’s scarcest resource, spent on rework instead of judgment.</p>
+        <section class="cs-section cs-prose" id="sec-problem" aria-labelledby="problem-title">
+          <h2 id="problem-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4.3 20.8 19.6H3.2z"/><path d="M12 10v4.3M12 17.1h.01"/></svg></span>The problem</h2>
+          <p>Long, unstructured source material required manual drafting, restructuring, and formatting before it could ship as review-ready documentation, and it arrived in many forms:</p>
+          <ul>
+            <li>Training decks.</li>
+            <li>Transcripts.</li>
+            <li>SME notes.</li>
+            <li>Existing articles.</li>
+            <li>Image-only files.</li>
+            <li>Table-heavy PDFs.</li>
+            <li>Code samples.</li>
+          </ul>
+          <p>Writers and SMEs spent review time correcting structure and format, and filling gaps where a draft missed or misread source content, before they could even validate technical accuracy. That review time is the team’s scarcest resource, spent on rework instead of judgment.</p>
         </section>
 
-        <section class="cs-section cs-prose" aria-labelledby="constraints-title">
-          <span class="eyebrow">02 — Constraints</span>
-          <h2 id="constraints-title">Constraints</h2>
+        <section class="cs-section cs-prose" id="sec-constraints" aria-labelledby="constraints-title">
+          <h2 id="constraints-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5v14M20 5v14"/><rect x="9" y="8.5" width="6" height="7"/></svg></span>Constraints</h2>
           <ul>
-            <li>Source material varied wildly in structure, cleanliness, and format.</li>
-            <li>Output had to follow a fixed internal template — not free-form generation.</li>
-            <li>Missing, conflicting, or uncertain source information had to surface as an SME flag, never get silently invented.</li>
-            <li>QA needed two stages — draft QA and render/DOCX QA — not one pass at the end.</li>
-            <li>The Copilot workspace ran on a limited license (initially free-tier, no Copilot Studio access), which ruled out a fully automated agent-to-agent chain regardless of design preference.</li>
-            <li>Every run needed a traceable log.</li>
+            <li><strong>Variable source.</strong> Source material varied wildly in structure, cleanliness, and format.</li>
+            <li><strong>Fixed template.</strong> Output had to follow a fixed internal template, not free-form generation.</li>
+            <li><strong>No silent invention.</strong> Missing, conflicting, or uncertain source information had to surface as an SME flag, never get silently invented.</li>
+            <li><strong>Two-stage QA.</strong> QA needed draft QA and render/DOCX QA, not one pass at the end.</li>
+            <li><strong>License ceiling.</strong> The Copilot workspace ran on a limited license (initially free-tier, no Copilot Studio access), which ruled out a fully automated agent-to-agent chain regardless of design preference.</li>
+            <li><strong>Traceable runs.</strong> Every run needed a traceable log.</li>
           </ul>
         </section>
 
-        <section class="cs-section cs-prose" aria-labelledby="approach-title">
-          <span class="eyebrow">03 — The approach</span>
-          <h2 id="approach-title">The approach</h2>
+        <section class="cs-section cs-prose" id="sec-approach" aria-labelledby="approach-title">
+          <h2 id="approach-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="5.5" cy="12" r="2"/><circle cx="18.5" cy="6.5" r="2"/><circle cx="18.5" cy="17.5" r="2"/><path d="M7.5 12h3l6-4.2M10.5 12l6 4.2"/></svg></span>The approach</h2>
 
-          <h3>Copilot pipeline — two agents, one human checkpoint</h3>
-          <p>KM Drafter takes in source material, identifies distinct user goals, proposes a parent/child document structure, and converts long source into task-focused Markdown drafts against a fixed output contract — flagging gaps and conflicts inline rather than inventing content. A human reviews that draft. KM Format Editor then takes the approved Markdown and generates the DOCX: Template, heading levels, procedures, tables, fonts, and styles applied against named styles, not chosen by the model. (Chat output can’t carry visual formatting and can’t touch a Word document directly — that’s the whole reason the Format Editor exists as its own stage.)</p>
+          <h3>Copilot pipeline: Two agents, one human checkpoint</h3>
+          <p>KM Drafter handles the drafting stage:</p>
+          <ul>
+            <li>Takes in source material.</li>
+            <li>Identifies distinct user goals.</li>
+            <li>Proposes a parent/child document structure.</li>
+            <li>Converts long source into task-focused Markdown drafts against a fixed output contract.</li>
+            <li>Flags gaps and conflicts inline rather than inventing content.</li>
+          </ul>
+          <p>A human reviews that draft. KM Format Editor then takes the approved Markdown and generates the DOCX.</p>
+          <p>The Format Editor applies the template, heading levels, procedures, tables, fonts, and styles against named styles, not chosen by the model.</p>
+          <p>(Chat output can’t carry visual formatting and can’t touch a Word document directly. That’s the whole reason the Format Editor exists as its own stage.)</p>
 
-          <h3>Claude Cowork pipeline — automated run, human gates preserved</h3>
-          <p>A 13-stage file-based pipeline (intake validation → source inventory → extraction → draft planning → parent/child decomposition → draft generation → draft QA → revision → DOCX generation → render QA → logging → packaging → archiving) runs with exception-based review: Two consecutive failures on one file, or a source spanning multiple topics, stop the run for a human decision. Author review and SME validation still gate publication outside the run — automating the draft doesn’t touch those checkpoints.</p>
+          <h3>Claude Cowork pipeline: Automated run, human gates preserved</h3>
+          <p>A 13-stage file-based pipeline (intake validation → source inventory → extraction → draft planning → parent/child decomposition → draft generation → draft QA → revision → DOCX generation → render QA → logging → packaging → archiving) runs with exception-based review.</p>
+          <p>Two things stop the run for a human decision:</p>
+          <ul>
+            <li>Two consecutive failures on one file.</li>
+            <li>A source spanning multiple topics.</li>
+          </ul>
+          <p>Author review and SME validation still gate publication outside the run. Automating the draft doesn’t touch those checkpoints.</p>
 
           <div class="cs-figure reveal">
             <div class="cs-diagram" role="img" aria-label="Two separate tracks solve the same problem. The Copilot track, in team production, runs source material through the KM Drafter agent, a human review checkpoint, and the KM Format Editor agent to a formatted DOCX, and raised team throughput from 40 to 93 drafts per week. The Claude Cowork track, a personal experiment, runs thirteen automated stages from intake validation to archiving, stopping for a human decision after two consecutive failures on one file or when a source spans multiple topics, and produced 63 QA-validated articles from 22 source documents in one week.">
-              <span class="cs-figure-caption" aria-hidden="true">Figure A — Two tracks</span>
+              <span class="cs-figure-caption" aria-hidden="true">Figure A · Two tracks</span>
               <div aria-hidden="true">
                 <div class="cs-tracks">
                   <div class="cs-track">
@@ -946,11 +1198,9 @@
             <p class="cs-figure-note">The two tracks are reported separately throughout: Copilot figures describe team production; Claude Cowork figures describe a solo experiment. They are never combined into one number.</p>
           </div>
 
-          <p><strong>Full lifecycle:</strong> Source → drafting agent/pipeline → author review → formatting → SME review → HTML conversion (<a href="case-study-staging-tool.html">own case study</a>) → Salesforce Knowledge.</p>
-
           <div class="cs-figure reveal">
             <div class="cs-diagram" role="img" aria-label="The full lifecycle runs from source material through the drafting agent or pipeline, author review, formatting, SME review, and HTML conversion into Salesforce Knowledge; author review and SME review are human gates.">
-              <span class="cs-figure-caption" aria-hidden="true">Figure B — Full lifecycle</span>
+              <span class="cs-figure-caption" aria-hidden="true">Figure B · Full lifecycle</span>
               <div aria-hidden="true">
                 <div class="cs-flow cs-flow--stack" style="--steps: 7">
                   <div class="cs-flow-step">Source material</div>
@@ -963,21 +1213,43 @@
                 </div>
               </div>
             </div>
-            <p class="cs-figure-note">Human gates highlighted. HTML conversion is its own case study — the Knowledge Article Staging Tool.</p>
+            <p class="cs-figure-note">Human gates highlighted. HTML conversion is its own case study, <a href="case-study-staging-tool.html">the Knowledge Article Staging Tool</a>.</p>
           </div>
         </section>
 
-        <section class="cs-section cs-prose" aria-labelledby="decisions-title">
-          <span class="eyebrow">04 — Key decisions</span>
-          <h2 id="decisions-title">Key decisions</h2>
-          <p><strong>Split one agent into two, rather than debug it in place.</strong> Version one combined drafting and formatting instructions in a single agent. It degraded unpredictably — different rules dropped on every run once roughly 60 competing rules hit an 8,000-character instruction ceiling. Splitting the roles gave each agent an instruction budget for behavior only; static lookup data moved into reference material instead of the prompt. <em>Consequence:</em> An extra handoff stage, but predictable output.</p>
-          <p><strong>Take visual styling out of the agent entirely.</strong> Asking a model to apply an exact font, size, and hex color is asking for a deterministic result by probabilistic means — a permanent failure rate that prompt tuning doesn’t remove. Styling now runs against named template styles instead. <em>Consequence:</em> The agent’s job narrows to structure and judgment; formatting became code’s job in both pipelines.</p>
-          <p><strong>Keep the human checkpoint instead of a fully automated Copilot chain.</strong> An early pilot let an uninterrupted chain pass errors to SME review undetected, and the license had no path to a governed automated handoff anyway. <em>Consequence:</em> The Copilot pipeline trades speed for review control; the Claude Cowork pipeline later automated the run itself while keeping the same lifecycle gates outside it.</p>
+        <section class="cs-section cs-prose" id="sec-decisions" aria-labelledby="decisions-title">
+          <h2 id="decisions-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20.5v-6l-6.5-5.2V4"/><path d="M12 14.5l6.5-5.2V4"/></svg></span>Key decisions</h2>
+          <div class="cs-decision">
+            <h3>Split one agent into two, rather than debug it in place</h3>
+            <p>Version one combined drafting and formatting instructions in a single agent, and it degraded unpredictably.</p>
+            <ul>
+              <li><strong>Rules dropped at random.</strong> Different rules dropped on every run once roughly 60 competing rules hit an 8,000-character instruction ceiling.</li>
+              <li><strong>One job per agent.</strong> Splitting the roles gave each agent an instruction budget for behavior only.</li>
+              <li><strong>Lookup data left the prompt.</strong> Static lookup data moved into reference material instead of the prompt.</li>
+            </ul>
+            <p class="cs-outcome"><span class="cs-outcome-label">Consequence</span> An extra handoff stage, but predictable output.</p>
+          </div>
+
+          <div class="cs-decision">
+            <h3>Take visual styling out of the agent entirely</h3>
+            <p>Asking a model to apply an exact font, size, and hex color is asking for a deterministic result by probabilistic means. The result is a permanent failure rate that prompt tuning doesn’t remove.</p>
+            <p>Styling now runs against named template styles instead.</p>
+            <p class="cs-outcome"><span class="cs-outcome-label">Consequence</span> The agent’s job narrows to structure and judgment; formatting became code’s job in both pipelines.</p>
+          </div>
+
+          <div class="cs-decision">
+            <h3>Keep the human checkpoint instead of a fully automated Copilot chain</h3>
+            <p>Two reasons:</p>
+            <ul>
+              <li><strong>Errors reached SME review.</strong> An early pilot let an uninterrupted chain pass errors to SME review undetected.</li>
+              <li><strong>No licensed handoff.</strong> The license had no path to a governed automated handoff anyway.</li>
+            </ul>
+            <p class="cs-outcome"><span class="cs-outcome-label">Consequence</span> The Copilot pipeline trades speed for review control; the Claude Cowork pipeline later automated the run itself while keeping the same lifecycle gates outside it.</p>
+          </div>
         </section>
 
-        <section class="cs-section cs-prose" aria-labelledby="results-title">
-          <span class="eyebrow">05 — Results</span>
-          <h2 id="results-title">Results</h2>
+        <section class="cs-section cs-prose" id="sec-results" aria-labelledby="results-title">
+          <h2 id="results-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20h16"/><path d="M8 20v-5.5M12 20v-9.5M16 20v-13.5"/></svg></span>Results</h2>
           <div class="cs-table-scroll">
             <table class="cs-table">
               <caption class="visually-hidden">Results by pipeline</caption>
@@ -1001,7 +1273,7 @@
                 </tr>
                 <tr>
                   <th scope="row">Measurement scope</th>
-                  <td colspan="2">Drafting/authoring stage only — SME review and Salesforce staging excluded; their timing isn’t consistently recorded</td>
+                  <td colspan="2">Drafting/authoring stage only. SME review and Salesforce staging excluded; their timing isn’t consistently recorded</td>
                 </tr>
               </tbody>
             </table>
@@ -1009,31 +1281,36 @@
           <p class="cs-fineprint">Not claimed: Reduced backlog age, faster onboarding, improved review turnaround, or “publication-ready” status for the Claude pipeline’s output (QA-validated is the accurate term).</p>
         </section>
 
-        <section class="cs-section cs-prose" aria-labelledby="changes-title">
-          <span class="eyebrow">06 — What changed after testing</span>
-          <h2 id="changes-title">What changed after testing</h2>
+        <section class="cs-section cs-prose" id="sec-changes" aria-labelledby="changes-title">
+          <h2 id="changes-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8.5h13m-3.4-3.4L17 8.5l-3.4 3.4"/><path d="M20 15.5H7m3.4-3.4L7 15.5l3.4 3.4"/></svg></span>What changed after testing</h2>
           <ul>
-            <li>Split the single overloaded agent into KM Drafter and KM Format Editor after the stochastic rule-dropping failure.</li>
-            <li>Moved static lookup data (label sets, templates, table specs) out of instructions and into reference material the agent consults.</li>
-            <li>Removed visual styling from the agent’s job entirely — code now applies it deterministically in both pipelines.</li>
-            <li>Kept the human checkpoint between drafting and formatting on Copilot rather than automating it, given the license constraint and the undetected-error pilot.</li>
-            <li>Built exception-based stops (repeated failure, multi-topic source) into the Claude Cowork run instead of a checkpoint at every stage.</li>
+            <li><strong>Split the overloaded agent.</strong> KM Drafter and KM Format Editor replaced it after the stochastic rule-dropping failure.</li>
+            <li><strong>Moved static lookup data out of instructions.</strong> Label sets, templates, and table specs now live in reference material the agent consults.</li>
+            <li><strong>Removed styling from the agent.</strong> Visual styling left the agent’s job entirely, and code now applies it deterministically in both pipelines.</li>
+            <li><strong>Kept the human checkpoint.</strong> The handoff between drafting and formatting stayed manual on Copilot rather than automated, given the license constraint and the undetected-error pilot.</li>
+            <li><strong>Built exception-based stops.</strong> Repeated failure and multi-topic source halt the Claude Cowork run, instead of a checkpoint at every stage.</li>
           </ul>
         </section>
 
-        <section class="cs-section cs-prose" aria-labelledby="limitations-title">
-          <span class="eyebrow">07 — Limitations and next step</span>
-          <h2 id="limitations-title">Limitations and next step</h2>
-          <p>The Claude Cowork result is a personal, one-week build-and-run sprint, not a steady-state weekly rate, and it hasn’t been compared against the Copilot pipeline under matched conditions. Operating cost (token use) for the Claude pipeline wasn’t formally measured. Next step: A controlled team trial of the Claude Cowork pipeline, measuring editing time, SME correction rate, cost, and throughput against the Copilot baseline.</p>
+        <section class="cs-section cs-prose" id="sec-limitations" aria-labelledby="limitations-title">
+          <h2 id="limitations-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h9.5"/><path d="M11 8.5l3.5 3.5-3.5 3.5"/><path d="M18 4.5v15"/></svg></span>Limitations and next step</h2>
+          <h3>Limits on the Claude Cowork result</h3>
+          <ul>
+            <li><strong>A sprint, not a rate.</strong> It is a personal, one-week build-and-run sprint, not a steady-state weekly rate.</li>
+            <li><strong>No matched comparison.</strong> It hasn’t been compared against the Copilot pipeline under matched conditions.</li>
+            <li><strong>No formal cost figure.</strong> Operating cost (token use) for the Claude pipeline wasn’t formally measured.</li>
+          </ul>
+
+          <h3>Next step</h3>
+          <p>A controlled team trial of the Claude Cowork pipeline, measuring editing time, SME correction rate, cost, and throughput against the Copilot baseline.</p>
         </section>
 
-        <section class="cs-section cs-prose" aria-labelledby="artifacts-title">
-          <span class="eyebrow">08 — Supporting artifacts</span>
-          <h2 id="artifacts-title">Supporting artifacts</h2>
-          <!-- PLACEHOLDER: agent instructions, PIPELINE-SPEC.md and skill files, a representative source-to-output example, and style guide/template inputs -->
-          <div class="cs-needs-input" role="note">
-            <span class="cs-needs-input-label">Needs input</span>
-            <p>Agent instructions, PIPELINE-SPEC.md and skill files, a representative source-to-output example, and style guide/template inputs.</p>
+        <section class="cs-section cs-prose" id="sec-artifacts" aria-labelledby="artifacts-title">
+          <h2 id="artifacts-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5.5 20.5V3.5h9l4 4v13Z"/><path d="M14.5 3.5v4h4"/></svg></span>Supporting artifacts</h2>
+          <!-- UPCOMING: agent instructions, PIPELINE-SPEC.md and skill files, a representative source-to-output example, and style guide/template inputs -->
+          <div class="cs-upcoming" role="note">
+            <span class="cs-upcoming-label"><svg class="cs-label-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><path d="M12 6.8V12l3.6 2.2"/></svg>Upcoming documentation</span>
+            <p>Agent instructions, the PIPELINE-SPEC and skill files, a representative source-to-output example, and the style guide and template inputs will be added as they become available.</p>
           </div>
         </section>
 
@@ -1058,13 +1335,13 @@
           <span class="star" aria-hidden="true"></span>
           <span class="footer-brand-copy">
             <span class="footer-brand-name">Nech Bayan</span>
-            <span class="footer-brand-loc">General Santos City, Philippines · remote</span>
+            <span class="footer-brand-loc">General Santos City, Philippines · Remote</span>
           </span>
         </a>
         <nav class="footer-nav" aria-label="Footer navigation">
           <a href="index.html">Home</a>
           <a href="index.html#case-studies">Case Studies</a>
-          <a href="Nech-Bayan-Resume.pdf" download>Resume</a>
+          <a href="Nech-Bayan-Resume.pdf" target="_blank" rel="noopener">Resume</a>
           <a href="mailto:nechillebayan@gmail.com">Email</a>
           <a href="https://www.linkedin.com/in/nechillebayan/" target="_blank" rel="noopener">LinkedIn</a>
         </nav>
@@ -1134,6 +1411,127 @@
         scrollPageTop();
       });
     });
+
+    /* Reading companion — the section rail follows the reader instead of sitting
+       still. The active section is the last one whose top has passed a line about
+       30% down the viewport, so the next section takes over exactly as the current
+       one scrolls out, with no interaction needed. */
+    const toc = document.querySelector('.cs-toc');
+    if (toc) {
+      const tocLinks = [...toc.querySelectorAll('a')];
+      const tocTrack = toc.querySelector('.cs-toc-track');
+      const tocMarker = toc.querySelector('.cs-toc-marker');
+      const siteNav = document.querySelector('.site-nav');
+      const csArticle = document.querySelector('article');
+      const tocTargets = tocLinks.map(link => document.querySelector(link.getAttribute('href')));
+      let sectionTops = [];
+      let activeIndex = -1;
+      let animating = false;
+
+      const navHeight = () => (siteNav ? siteNav.offsetHeight : 74);
+      const absTop = el => el.getBoundingClientRect().top + scrollY;
+
+      function placeMarker(index) {
+        const link = tocLinks[index];
+        if (!tocMarker || !link) return;
+        tocMarker.style.height = link.offsetHeight + 'px';
+        tocMarker.style.transform = 'translateY(' + link.offsetTop + 'px)';
+      }
+
+      function measureToc() {
+        document.documentElement.style.setProperty('--nav-h', navHeight() + 'px');
+        sectionTops = tocTargets.map(el => (el ? absTop(el) : Infinity));
+        if (activeIndex >= 0) placeMarker(activeIndex);
+      }
+
+      function setActive(index) {
+        if (index === activeIndex) return;
+        activeIndex = index;
+        tocLinks.forEach((link, i) => {
+          if (i === index) link.setAttribute('aria-current', 'true');
+          else link.removeAttribute('aria-current');
+        });
+        placeMarker(index);
+        if (tocTrack && tocTrack.scrollWidth > tocTrack.clientWidth + 1) {
+          const link = tocLinks[index];
+          const left = Math.max(0, link.offsetLeft - tocTrack.clientWidth / 2 + link.offsetWidth / 2);
+          tocTrack.scrollTo({ left, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+          /* Chrome silently drops programmatic smooth scrolls in a backgrounded tab;
+             snap the strip into place if the animation never ran. */
+          setTimeout(() => {
+            if (Math.abs(tocTrack.scrollLeft - left) > 4) tocTrack.scrollLeft = left;
+          }, 420);
+        }
+      }
+
+      function updateToc() {
+        if (animating) return;
+        const line = scrollY + navHeight() + Math.max(70, innerHeight * 0.3);
+        let index = 0;
+        for (let i = 0; i < sectionTops.length; i++) if (sectionTops[i] <= line) index = i;
+        if (scrollY + innerHeight >= document.documentElement.scrollHeight - 2) index = sectionTops.length - 1;
+        setActive(index);
+        if (csArticle) {
+          const articleEnd = absTop(csArticle) + csArticle.offsetHeight;
+          toc.classList.toggle('is-dimmed', scrollY + innerHeight * 0.55 > articleEnd);
+        }
+      }
+
+      function scrollToSection(target) {
+        const destination = Math.max(0, absTop(target) - navHeight() - 16);
+        const html = document.documentElement;
+        html.style.scrollBehavior = 'auto';
+        if (reducedMotion.matches) { scrollTo(0, destination); html.style.scrollBehavior = ''; return; }
+        const start = scrollY;
+        const delta = destination - start;
+        const t0 = performance.now();
+        const duration = Math.min(760, 260 + Math.abs(delta) / 8);
+        let finished = false;
+        animating = true;
+        const settle = () => { finished = true; animating = false; html.style.scrollBehavior = ''; };
+        requestAnimationFrame(function step(t) {
+          if (finished) return;
+          const p = Math.min(1, (t - t0) / duration);
+          scrollTo(0, Math.round(start + delta * (1 - Math.pow(1 - p, 3))));
+          if (p < 1) requestAnimationFrame(step); else settle();
+        });
+        setTimeout(() => { if (!finished) { scrollTo(0, destination); settle(); } }, duration + 300);
+      }
+
+      tocLinks.forEach((link, i) => {
+        link.addEventListener('click', event => {
+          const target = tocTargets[i];
+          if (!target) return;
+          event.preventDefault();
+          setActive(i);
+          scrollToSection(target);
+          history.replaceState(null, '', link.getAttribute('href'));
+        });
+      });
+
+      let tocTicking = false;
+      addEventListener('scroll', () => {
+        if (tocTicking) return;
+        tocTicking = true;
+        requestAnimationFrame(() => { tocTicking = false; updateToc(); });
+      }, { passive: true });
+      /* Chrome pauses rAF in a hidden tab, so a scroll fired while hidden would
+         leave tocTicking stuck true and freeze the rail after the reader returns.
+         Clear it and resync whenever the page becomes visible again. */
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) return;
+        tocTicking = false;
+        measureToc();
+        updateToc();
+      });
+      addEventListener('resize', () => { measureToc(); updateToc(); });
+      addEventListener('load', () => { measureToc(); updateToc(); });
+      if ('ResizeObserver' in window) {
+        new ResizeObserver(() => { measureToc(); updateToc(); }).observe(document.body);
+      }
+      measureToc();
+      updateToc();
+    }
   </script>
 </body>
 </html>

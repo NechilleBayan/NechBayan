@@ -479,8 +479,13 @@
       animation: barIn 900ms var(--ease) both;
     }
     .impact-row.is-peak .impact-row-head { color: var(--bg-clean); font-weight: 600; }
+    /* v4.6 — the peak bar climbs over 3s so the headline number gets watched rather
+       than missed. It carries its own curve: the shared --ease front-loads the travel,
+       which stretched to 3s reads as a stall, not a climb. */
     .impact-row.is-peak .impact-track i {
       background: linear-gradient(90deg, var(--accent), #8FA9C4);
+      animation-duration: 3000ms;
+      animation-timing-function: cubic-bezier(.3, .2, .2, 1);
       animation-delay: 140ms;
     }
     @keyframes barIn { from { transform: scaleX(0); } }
@@ -671,16 +676,9 @@
       clip-path: var(--clip-tile);
     }
     .fw-icon svg { width: 24px; height: 24px; stroke: #fff; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
-    .fw-cat {
-      margin-top: 20px;
-      color: var(--accent);
-      font-size: .74rem;
-      font-weight: 600;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-    }
+    /* v4.3 — the category line above the title is gone; the title carries the top of the card */
     .fw-card h3 {
-      margin-top: 10px;
+      margin-top: 22px;
       color: var(--text-heading);
       font-family: var(--font-serif);
       font-size: 1.42rem;
@@ -694,7 +692,9 @@
       position: relative;
       display: flex;
       align-items: center;
-      min-height: 158px;
+      /* v4.6 — raised from 158px to hold card 1's two-row pipeline. All three diagram
+         blocks stay one height, which is what keeps the card CTAs on a shared baseline. */
+      min-height: 196px;
       margin-top: 18px;
       padding: 26px 14px 14px;
       background: var(--bg-soft);
@@ -710,55 +710,91 @@
       letter-spacing: .12em;
       text-transform: uppercase;
     }
+    /* v4.6 — the AI draft stage has two implementations. They used to sit inside the
+       stage box, which squeezed them and made them read as pipeline steps. They now
+       live in a band tethered below the row, so the top line stays one clean
+       left-to-right read and the two variants are visibly subordinate to one stage. */
+    .fw-pipeline { display: grid; width: 100%; }
     .fw-flow {
       display: grid;
       width: 100%;
       grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 8px;
+      gap: 10px;
     }
     .fw-flow-step {
       position: relative;
       display: grid;
       place-items: center;
-      min-height: 48px;
-      padding: 7px 4px;
+      min-height: 56px;
+      padding: 8px 5px;
       color: var(--text-primary);
       background: var(--bg-clean);
       border: 1px solid var(--border-medium);
       text-align: center;
-      font-size: .56rem;
+      font-size: .55rem;
       font-weight: 600;
-      line-height: 1.25;
+      line-height: 1.3;
       overflow-wrap: break-word;
     }
     .fw-flow-step:not(:last-child)::after {
       content: "›";
       position: absolute;
       top: 50%;
-      right: -8px;
+      right: -10px;
       z-index: 1;
       color: var(--accent);
       font-size: .95rem;
       transform: translate(50%, -52%);
     }
-    .fw-flow-tracks {
-      align-content: center;
-      place-items: stretch;
-      gap: 3px;
+    /* The branching stage and its tether. The tether hangs off the stage box itself,
+       so it stays centered on that column at every width with no percentage math. */
+    .fw-flow-step.is-branch { color: var(--accent); border-color: var(--accent); }
+    .fw-flow-step.is-branch::before {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      width: 1px;
+      height: 20px;
+      background: var(--accent);
+      opacity: .55;
+      transform: translateX(-50%);
     }
-    .fw-flow-track-label { font-size: .56rem; }
-    .fw-track-chip {
+    .fw-branch {
+      margin-top: 20px;
+      padding: 9px 11px 10px;
+      background: var(--bg-clean);
+      border: 1px solid var(--border-light);
+      border-top: 2px solid var(--accent);
+    }
+    .fw-branch-label {
       display: block;
-      padding: 3px 2px;
-      color: var(--accent);
-      background: var(--accent-soft);
-      border: 1px solid var(--border-medium);
-      border-radius: 2px;
-      font-size: .5rem;
+      color: var(--text-muted);
+      font-size: .52rem;
       font-weight: 600;
-      line-height: 1.25;
+      letter-spacing: .11em;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+    .fw-branch-opts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .fw-branch-opt {
+      display: grid;
+      gap: 2px;
+      padding: 6px 8px;
+      color: var(--text-muted);
+      background: var(--bg-soft);
+      border-left: 2px solid var(--border-medium);
+      font-size: .52rem;
+      font-weight: 500;
+      line-height: 1.3;
       overflow-wrap: break-word;
     }
+    .fw-branch-opt b { color: var(--text-primary); font-size: .57rem; font-weight: 600; }
     .fw-stage-flow { display: grid; width: 100%; gap: 7px; }
     .fw-stage-row {
       display: grid;
@@ -933,9 +969,8 @@
     }
     .modal-close:hover { background: var(--border-light); }
     .modal-top { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding-right: 44px; }
-    .modal-panel-inner .fw-cat { margin-top: 26px; font-size: .8rem; }
     .modal-panel-inner h3 {
-      margin-top: 10px;
+      margin-top: 26px;
       color: var(--text-heading);
       font-family: var(--font-serif);
       font-size: clamp(1.6rem, 3.4vw, 2.05rem);
@@ -1024,9 +1059,32 @@
     .connect .sec-head { margin-bottom: 0; }
     .connect .sec-head h2 { max-width: 22ch; }
     .connect-blurb { max-width: 56ch; margin-top: 24px; color: var(--border-medium); font-size: .92rem; }
-    .connect-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+    /* v4.6 — the closing section is down to lede, tools, and the CTA pair. The
+       "What I build" / "How I work" bullet columns were cut; the case studies carry
+       that ground already, and the closing block reads faster without them. */
+    .about-label {
+      display: block;
+      color: var(--bg-clean);
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: .13em;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+    .connect-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .connect-tools { margin-top: 34px; }
     .connect-chips .chip { color: var(--border-medium); border-color: rgba(195, 206, 222, .35); }
     .connect-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+    /* v4.6 — the two closing CTAs stack: one full-width track, equal height, one
+       above the other, so the primary action is read first at every width. */
+    .connect-btns {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      align-items: stretch;
+    }
+    .connect-btns .btn { width: 100%; padding: 0 16px; text-align: center; }
     .connect-linkedin { color: var(--border-medium); font-size: .78rem; transition: color 160ms ease; }
     .connect-linkedin:hover { color: var(--bg-clean); }
     .connect-availability { color: var(--text-disabled); font-size: .74rem; max-width: 42ch; }
@@ -1090,7 +1148,11 @@
     .delay-1 { transition-delay: 90ms; }
     .delay-2 { transition-delay: 180ms; }
 
-    @media (max-width: 960px) {
+    /* v4.6 — was 960px. Between there and ~1160px the cards are still three across but
+       narrow enough that the five-stage diagram row cannot hold its labels: they spill
+       into the arrow gaps and card 1's block outgrows the other two. One 520px column
+       has room, so the switch happens before the row gets cramped rather than after. */
+    @media (max-width: 1180px) {
       .fw-grid { grid-template-columns: 1fr; max-width: 520px; margin-inline: auto; }
     }
 
@@ -1149,6 +1211,21 @@
       .exp-row { padding: 26px 6px; }
       .fw-card-inner { padding: 22px; }
       .fw-actions .btn { flex: 1 1 auto; }
+      .fw-flow { gap: 8px; }
+      .fw-flow-step:not(:last-child)::after { right: -8px; }
+      .fw-branch-opts { gap: 6px; }
+    }
+
+    /* v4.6 — below ~420px the five stage columns are too narrow to hold the longest
+       label, which then spills into the arrow gaps. Tighten the row and let the long
+       hyphenated word break wherever it needs to rather than overflow its box. */
+    @media (max-width: 420px) {
+      .fw-flow { gap: 6px; }
+      .fw-flow-step { padding: 7px 3px; font-size: .5rem; overflow-wrap: anywhere; }
+      .fw-flow-step:not(:last-child)::after { right: -6px; font-size: .85rem; }
+      .fw-branch { padding: 8px 9px 9px; }
+      .fw-branch-opts { gap: 5px; }
+      .fw-branch-opt { padding: 5px 6px; }
       .modal-overlay { padding: 12px; }
       .modal-foot { flex-direction: column; align-items: stretch; }
       .modal-links { justify-content: center; }
@@ -1236,7 +1313,7 @@
                   <div class="impact-track" aria-hidden="true"><i style="--w:100%"></i></div>
                 </div>
               </div>
-              <p class="impact-note">Peak week, drafting stage only — team tracker data.</p>
+              <p class="impact-note">Peak week, drafting stage only. Team tracker data.</p>
             </div>
             <div class="impact-foot">
               <span>Team workflow</span>
@@ -1333,22 +1410,26 @@
                   <svg viewBox="0 0 24 24"><rect x="3" y="4" width="7" height="16" rx="1"/><path d="M10 8.5l7.6-2.7M10 12h7.6M10 15.5l7.6 2.7"/><rect x="18.4" y="4.6" width="2.6" height="2.6" fill="#fff" stroke="none"/><rect x="18.4" y="10.7" width="2.6" height="2.6" fill="#fff" stroke="none"/><rect x="18.4" y="16.8" width="2.6" height="2.6" fill="#fff" stroke="none"/></svg>
                 </span>
               </div>
-              <p class="fw-cat">Documentation • AI Ops</p>
               <h3 id="fw1-title">AI-Assisted Documentation Pipeline</h3>
               <div class="fw-underline" aria-hidden="true"></div>
               <p class="fw-desc">Long, fragmented source material becomes structured, review-ready documentation. Deterministic formatting and QA checks cut manual cleanup while preserving source accuracy.</p>
-              <div class="fw-artifact" role="img" aria-label="Source documents flow through AI drafting — a Copilot production workflow or the Claude Cowork experiment — then QA gates and SME review to an approved, staging-ready article.">
+              <div class="fw-artifact" role="img" aria-label="Five stages run left to right: Source material, AI draft, QA gates, SME review, and a staging-ready article. The AI draft stage has two alternative implementations rather than two steps: A Microsoft Copilot workflow in production, and a Claude Cowork pipeline run as a personal experiment.">
                 <span class="fw-artifact-caption" aria-hidden="true">System flow</span>
-                <div class="fw-flow" aria-hidden="true">
-                  <span class="fw-flow-step">Source<br>documents</span>
-                  <span class="fw-flow-step fw-flow-tracks">
-                    <span class="fw-flow-track-label">AI draft</span>
-                    <span class="fw-track-chip">Copilot · Production</span>
-                    <span class="fw-track-chip">Claude Cowork · Experiment</span>
-                  </span>
-                  <span class="fw-flow-step">QA<br>gates</span>
-                  <span class="fw-flow-step">SME<br>review</span>
-                  <span class="fw-flow-step">Staging-ready<br>article</span>
+                <div class="fw-pipeline" aria-hidden="true">
+                  <div class="fw-flow">
+                    <span class="fw-flow-step">Source<br>material</span>
+                    <span class="fw-flow-step is-branch">AI<br>draft</span>
+                    <span class="fw-flow-step">QA<br>gates</span>
+                    <span class="fw-flow-step">SME<br>review</span>
+                    <span class="fw-flow-step">Staging-ready<br>article</span>
+                  </div>
+                  <div class="fw-branch">
+                    <span class="fw-branch-label">AI draft · two implementations</span>
+                    <div class="fw-branch-opts">
+                      <span class="fw-branch-opt"><b>Copilot</b>Production</span>
+                      <span class="fw-branch-opt"><b>Claude Cowork</b>Experiment</span>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="fw-evidence">
@@ -1359,7 +1440,6 @@
                 <span class="chip">AI Drafting</span>
                 <span class="chip">Output Contracts</span>
                 <span class="chip">Deterministic Rendering</span>
-                <span class="chip">QA Automation</span>
                 <span class="chip">Audit Logs</span>
               </div>
               <div class="fw-actions">
@@ -1380,7 +1460,6 @@
                   <svg viewBox="0 0 24 24"><polyline points="9,6.5 4,12 9,17.5"/><polyline points="15,6.5 20,12 15,17.5"/><line x1="13.2" y1="5" x2="10.8" y2="19"/></svg>
                 </span>
               </div>
-              <p class="fw-cat">Tooling • Staging Workflow</p>
               <h3 id="fw2-title">Knowledge Article Staging Tool</h3>
               <div class="fw-underline" aria-hidden="true"></div>
               <p class="fw-desc">A browser-based converter turns Word drafts into clean, validated, Salesforce-ready HTML. Writers with no HTML background get structure, style, and preview control without touching raw code cleanup.</p>
@@ -1425,10 +1504,10 @@
                 <p>Typical article staging: 30–60 minutes down to about 15, with validation built in.</p>
               </div>
               <div class="fw-tags">
-                <span class="chip">Custom Tooling</span>
                 <span class="chip">HTML Conversion</span>
-                <span class="chip">Staging Workflow</span>
                 <span class="chip">Style Standardization</span>
+                <span class="chip">Validation &amp; Preview</span>
+                <span class="chip">Salesforce Knowledge</span>
               </div>
               <div class="fw-actions">
                 <button class="btn btn-secondary" type="button" data-modal-open="modal-2">Quick view</button>
@@ -1448,7 +1527,6 @@
                   <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.4" fill="#fff" stroke="none"/><circle cx="5" cy="5" r="1.8" fill="#fff" stroke="none"/><circle cx="19" cy="5" r="1.8" fill="#fff" stroke="none"/><circle cx="5" cy="19" r="1.8" fill="#fff" stroke="none"/><circle cx="19" cy="19" r="1.8" fill="#fff" stroke="none"/><line x1="12" y1="12" x2="5" y2="5" stroke-width="1.2"/><line x1="12" y1="12" x2="19" y2="5" stroke-width="1.2"/><line x1="12" y1="12" x2="5" y2="19" stroke-width="1.2"/><line x1="12" y1="12" x2="19" y2="19" stroke-width="1.2"/></svg>
                 </span>
               </div>
-              <p class="fw-cat">Knowledge Ops • Team Systems</p>
               <h3 id="fw3-title">Knowledge Ops &amp; Governance Framework</h3>
               <div class="fw-underline" aria-hidden="true"></div>
               <p class="fw-desc">The operating system behind the documentation team. Nine lifecycle statuses, ownership, evidence rules, and review commitments defined as one controlled model instead of tribal knowledge.</p>
@@ -1471,13 +1549,13 @@
               </div>
               <div class="fw-evidence">
                 <span class="fw-evidence-label">Evidence</span>
-                <p>Nine controlled statuses, each with one named owner and required evidence — endorsed by the Team Lead.</p>
+                <p>Nine controlled statuses, each with one named owner and required evidence. Endorsed by the Team Lead.</p>
               </div>
               <div class="fw-tags">
-                <span class="chip">Lifecycle Framework</span>
+                <span class="chip">Lifecycle Design</span>
                 <span class="chip">Evidence Gates</span>
+                <span class="chip">SLAs &amp; Escalation</span>
                 <span class="chip">Capacity Planning</span>
-                <span class="chip">AI Governance</span>
               </div>
               <div class="fw-actions">
                 <button class="btn btn-secondary" type="button" data-modal-open="modal-3">Quick view</button>
@@ -1524,18 +1602,23 @@
               <h2 id="connect-title">Building an AI workflow or untangling a knowledge system?<br>Let’s talk.</h2>
             </div>
           </div>
-          <p class="connect-blurb">I started in technical documentation and moved upstream into the systems that control how knowledge gets created, governed, measured, and delivered: To people and, increasingly, to AI. The throughline: Make complex work legible, repeatable, and measurable.</p>
-          <div class="connect-chips">
-            <span class="chip">Claude</span>
-            <span class="chip">Microsoft Copilot</span>
-            <span class="chip">Salesforce Knowledge</span>
-            <span class="chip">Content Composer</span>
-            <span class="chip">Jira</span>
+          <p class="connect-blurb">I started in technical documentation and moved upstream, into the systems that control how knowledge gets created, governed, measured, and delivered: To people and, increasingly, to AI.</p>
+          <div class="connect-tools">
+            <span class="about-label">Tools</span>
+            <div class="connect-chips">
+              <span class="chip">Claude</span>
+              <span class="chip">Microsoft Copilot</span>
+              <span class="chip">Salesforce Knowledge</span>
+              <span class="chip">Confluence</span>
+              <span class="chip">Jira</span>
+            </div>
           </div>
         </div>
         <div class="connect-actions">
-          <a class="btn btn-white glow-rest" href="mailto:nechillebayan@gmail.com">Start a conversation <span class="arrow">→</span></a>
-          <a class="btn btn-primary on-dark" href="Nech-Bayan-Resume.pdf" download>Download resume</a>
+          <div class="connect-btns">
+            <a class="btn btn-white glow-rest" href="mailto:nechillebayan@gmail.com">Start a conversation</a>
+            <a class="btn btn-primary on-dark" href="Nech-Bayan-Resume.pdf" target="_blank" rel="noopener">View resume</a>
+          </div>
           <a class="connect-linkedin" href="https://www.linkedin.com/in/nechillebayan/" target="_blank" rel="noopener">Connect on LinkedIn ↗</a>
           <span class="connect-availability">Open to roles and selected projects in AI workflows, knowledge operations, and documentation systems.</span>
         </div>
@@ -1550,14 +1633,14 @@
           <span class="star" aria-hidden="true"></span>
           <span class="footer-brand-copy">
             <span class="footer-brand-name">Nech Bayan</span>
-            <span class="footer-brand-loc">General Santos City, Philippines · remote</span>
+            <span class="footer-brand-loc">General Santos City, Philippines · Remote</span>
           </span>
         </a>
         <nav class="footer-nav" aria-label="Footer navigation">
           <a href="#top">Home</a>
           <a href="#expertise">Expertise</a>
           <a href="#case-studies">Case Studies</a>
-          <a href="Nech-Bayan-Resume.pdf" download>Resume</a>
+          <a href="Nech-Bayan-Resume.pdf" target="_blank" rel="noopener">Resume</a>
           <a href="mailto:nechillebayan@gmail.com">Email</a>
           <a href="https://www.linkedin.com/in/nechillebayan/" target="_blank" rel="noopener">LinkedIn</a>
         </nav>
@@ -1583,7 +1666,6 @@
               <svg viewBox="0 0 24 24"><rect x="3" y="4" width="7" height="16" rx="1"/><path d="M10 8.5l7.6-2.7M10 12h7.6M10 15.5l7.6 2.7"/><rect x="18.4" y="4.6" width="2.6" height="2.6" fill="#fff" stroke="none"/><rect x="18.4" y="10.7" width="2.6" height="2.6" fill="#fff" stroke="none"/><rect x="18.4" y="16.8" width="2.6" height="2.6" fill="#fff" stroke="none"/></svg>
             </span>
           </div>
-          <p class="fw-cat">Documentation • AI Ops</p>
           <h3 id="modal-1-title">AI-Assisted Documentation Pipeline</h3>
           <div class="modal-underline" aria-hidden="true"></div>
           <span class="modal-label">Problem</span>
@@ -1618,13 +1700,12 @@
               <svg viewBox="0 0 24 24"><polyline points="9,6.5 4,12 9,17.5"/><polyline points="15,6.5 20,12 15,17.5"/><line x1="13.2" y1="5" x2="10.8" y2="19"/></svg>
             </span>
           </div>
-          <p class="fw-cat">Tooling • Staging Workflow</p>
           <h3 id="modal-2-title">Knowledge Article Staging Tool</h3>
           <div class="modal-underline" aria-hidden="true"></div>
           <span class="modal-label">Problem</span>
           <p>Approved Word drafts still needed manual HTML cleanup before publishing. Writers stripped Word markup, rebuilt lists and tables, reapplied styles, and switched between editor, source view, and preview to catch errors. Generic HTML cleaners couldn’t match the team’s Salesforce implementation.</p>
           <span class="modal-label">Outcome</span>
-          <p>A guided three-step workflow (paste, review, copy) with editable source, live preview, and pre-publication validation. A typical article now stages in about 15 minutes instead of 30–60 — formatting collapses to minutes, verification stays with the writer — with non-technical writers getting direct control over HTML output.</p>
+          <p>A guided three-step workflow (paste, review, copy) with editable source, live preview, and pre-publication validation. A typical article now stages in about 15 minutes instead of 30–60. Formatting collapses to minutes and verification stays with the writer, so non-technical writers get direct control over HTML output.</p>
           <div class="modal-stack">
             <span class="chip">Vanilla JS</span>
             <span class="chip">Zero Dependencies</span>
@@ -1656,11 +1737,10 @@
               <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.4" fill="#fff" stroke="none"/><circle cx="5" cy="5" r="1.8" fill="#fff" stroke="none"/><circle cx="19" cy="5" r="1.8" fill="#fff" stroke="none"/><circle cx="5" cy="19" r="1.8" fill="#fff" stroke="none"/><circle cx="19" cy="19" r="1.8" fill="#fff" stroke="none"/><line x1="12" y1="12" x2="5" y2="5" stroke-width="1.2"/><line x1="12" y1="12" x2="19" y2="5" stroke-width="1.2"/><line x1="12" y1="12" x2="5" y2="19" stroke-width="1.2"/><line x1="12" y1="12" x2="19" y2="19" stroke-width="1.2"/></svg>
             </span>
           </div>
-          <p class="fw-cat">Knowledge Ops • Team Systems</p>
           <h3 id="modal-3-title">Knowledge Ops &amp; Governance Framework</h3>
           <div class="modal-underline" aria-hidden="true"></div>
           <span class="modal-label">Problem</span>
-          <p>Two analysts independently drafted articles from the same source document — duplicating authoring and SME review time, the scarcest resource in the pipeline — and two new hires couldn’t get a straight answer about the team’s own process. Ownership, evidence, and review commitments existed as suggestions, not controls.</p>
+          <p>Two analysts independently drafted articles from the same source document, duplicating authoring and SME review time, which is the scarcest resource in the pipeline. Two new hires also couldn’t get a straight answer about the team’s own process. Ownership, evidence, and review commitments existed as suggestions, not controls.</p>
           <span class="modal-label">Outcome</span>
           <p>A lifecycle of nine controlled statuses, each with entry criteria, one named owner, exit criteria, required evidence, and allowed next statuses. Review commitments split acknowledgement from decision, so busy SME reviewers are only asked what they can honor. Endorsed by the Team Lead; full rollout targeted for Q1 2027.</p>
           <div class="modal-stack">

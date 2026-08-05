@@ -111,7 +111,7 @@
     .eyebrow.light { color: var(--border-medium); }
     .arrow { transition: transform 220ms var(--ease); }
 
-    /* Buttons — one language site-wide: black + blue glow.
+    /* Buttons: One language site-wide, black + blue glow.
        .glow-rest carries rest-state glow (budgeted: featured CTAs + connect CTA only). */
     .btn {
       display: inline-flex;
@@ -157,7 +157,7 @@
     .btn-white.glow-rest { box-shadow: var(--glow-rest); }
     .btn-white.glow-rest:hover { box-shadow: var(--glow-hover); }
 
-    /* Navigation — black bar */
+    /* Navigation: Black bar */
     .site-nav {
       position: sticky;
       top: 0;
@@ -258,7 +258,7 @@
     .nav-links a:hover::before, .nav-links a.active::before { transform: translateX(-50%) scale(1); }
     .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
     .nav-cta { justify-self: end; min-height: 40px; padding: 0 16px; font-size: .76rem; border-radius: 999px; }
-    /* v4 — envelope icon in the nav CTA (static, no hover nudge) */
+    /* v4: Envelope icon in the nav CTA (static, no hover nudge) */
     .nav-cta-mail {
       width: 15px;
       height: 15px;
@@ -270,7 +270,7 @@
       stroke-linejoin: round;
     }
 
-    /* v4.1 — index labels as tag pills (cards + modals), replacing the eyebrow-text treatment */
+    /* v4.1: Index labels as tag pills (cards + modals), replacing the eyebrow-text treatment */
     .fw-index {
       display: inline-flex;
       align-items: center;
@@ -293,7 +293,7 @@
       font-weight: 500;
     }
 
-    /* Footer — continuous with connect block */
+    /* Footer: Continuous with connect block */
     footer {
       color: var(--text-on-dark);
       background: var(--surface-black);
@@ -373,7 +373,7 @@
       border: 0;
     }
 
-    /* Reading column — every article block sits inside this measure */
+    /* Reading column: Every article block sits inside this measure */
     .cs-col { max-width: 800px; }
 
     /* Page header */
@@ -410,7 +410,7 @@
     .cs-updated { margin-top: 18px; color: var(--text-disabled); font-size: .74rem; line-height: 1.6; }
     .cs-updated strong { color: var(--text-muted); font-weight: 600; }
 
-    /* Snapshot table — clean bordered table */
+    /* Snapshot table: Clean bordered table */
     .cs-snapshot {
       width: 100%;
       margin-top: 34px;
@@ -443,7 +443,10 @@
     /* Sections and prose */
     .cs-section { padding-top: clamp(44px, 6vw, 68px); }
     .cs-section h2 {
-      margin-top: 12px;
+      display: flex;
+      align-items: flex-start;
+      gap: .46em;
+      margin-top: 0;
       color: var(--text-heading);
       font-family: var(--font-serif);
       font-size: clamp(1.65rem, 3vw, 2.25rem);
@@ -451,6 +454,27 @@
       letter-spacing: -.02em;
       line-height: 1.12;
     }
+    /* v1.2 - section glyphs: One line icon per section, drawn in the accent at the
+       heading's cap height. Stroke-only and palette-bound on purpose; nothing on
+       these pages should read as a colored emoji. */
+    .cs-sec-icon {
+      flex: none;
+      width: .62em;
+      height: .62em;
+      margin-top: .22em;
+      color: var(--accent);
+      opacity: .8;
+    }
+    .cs-sec-icon svg,
+    .cs-label-icon {
+      display: block;
+      fill: none;
+      stroke: currentColor;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .cs-sec-icon svg { width: 100%; height: 100%; stroke-width: 1.6; }
+    .cs-label-icon { flex: none; width: 13px; height: 13px; stroke-width: 1.7; }
     .cs-section h3 {
       margin-top: 26px;
       color: var(--text-heading);
@@ -468,11 +492,15 @@
       transition: border-color 180ms ease;
     }
     .cs-prose a:hover { border-color: var(--accent); }
-    .cs-prose ul { margin-top: 16px; }
+    /* v1.2 - list marker: A 7px accent square carrying the site's clipped corner,
+       set on the first line's cap height. The old 8x2 rule read as a hyphen, which
+       made every list look like plain-text notes. Items sit further apart so a list
+       scans as a stack of decisions rather than a paragraph in disguise. */
+    .cs-prose ul { margin-top: 14px; }
     .cs-prose li {
       position: relative;
-      margin-top: 10px;
-      padding-left: 22px;
+      margin-top: 16px;
+      padding-left: 26px;
       color: var(--text-primary);
       font-size: .95rem;
     }
@@ -480,14 +508,93 @@
       content: "";
       position: absolute;
       left: 2px;
-      top: .62em;
-      width: 8px;
-      height: 2px;
+      top: .56em;
+      width: 7px;
+      height: 7px;
       background: var(--accent);
+      clip-path: polygon(0 0, 100% 0, 100% 58%, 58% 100%, 0 100%);
     }
     .cs-fineprint { margin-top: 14px; color: var(--text-muted); font-size: .8rem; line-height: 1.6; }
 
-    /* Figures — hand-built diagrams, light surfaces only */
+    /* Decision block: One named decision, its reasoning, and its consequence */
+    .cs-decision {
+      margin-top: 22px;
+      padding: 18px 20px 20px;
+      background: var(--bg-clean);
+      border: 1px solid var(--border-medium);
+      border-left: 3px solid var(--accent);
+    }
+    .cs-decision h3 { margin-top: 0; }
+    .cs-decision ul { margin-top: 12px; }
+    .cs-prose .cs-decision p { margin-top: 12px; }
+    .cs-prose .cs-decision .cs-outcome {
+      margin-top: 16px;
+      padding-top: 12px;
+      color: var(--text-secondary);
+      border-top: 1px solid var(--border-light);
+      font-size: .88rem;
+    }
+    .cs-outcome-label {
+      display: block;
+      color: var(--accent);
+      font-size: .62rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      line-height: 1.5;
+      text-transform: uppercase;
+    }
+
+    /* Compact callout: One labeled fact or a short attributed note */
+    .cs-note {
+      margin-top: 20px;
+      padding: 14px 16px;
+      background: var(--bg-section);
+      border: 1px solid var(--border-light);
+      border-left: 3px solid var(--accent);
+    }
+    .cs-note-label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--accent);
+      font-size: .62rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      line-height: 1.5;
+      text-transform: uppercase;
+    }
+    .cs-prose .cs-note p { margin-top: 6px; font-size: .88rem; }
+
+    /* Paired comparison: Two parallel sets, one column each */
+    .cs-compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 22px;
+    }
+    .cs-compare-col {
+      padding: 16px 16px 18px;
+      background: var(--bg-clean);
+      border: 1px solid var(--border-medium);
+    }
+    .cs-prose .cs-compare-col .cs-compare-head {
+      margin-top: 0;
+      color: var(--text-heading);
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      line-height: 1.45;
+      text-transform: uppercase;
+    }
+    .cs-prose .cs-compare-col ul { margin-top: 10px; }
+    .cs-prose .cs-compare-col li { margin-top: 13px; padding-left: 22px; font-size: .88rem; }
+    .cs-prose .cs-compare-col li::before { top: .52em; width: 6px; height: 6px; }
+    .cs-prose .cs-compare-col p { margin-top: 12px; color: var(--text-secondary); font-size: .84rem; }
+
+    /* Labeled bullets: A short bold lead, then one clause */
+    .cs-prose li strong { color: var(--text-heading); font-weight: 600; }
+
+    /* Figures: Hand-built diagrams, light surfaces only */
     .cs-figure { margin-top: 28px; }
     .cs-diagram {
       position: relative;
@@ -698,7 +805,7 @@
     .cs-details-body { padding: 0 16px 16px; }
     .cs-details-body p { margin-top: 12px; color: var(--text-primary); font-size: .88rem; }
 
-    /* Code blocks — horizontal scroll, never wrapped */
+    /* Code blocks: Horizontal scroll, never wrapped */
     .cs-code {
       margin-top: 12px;
       padding: 14px;
@@ -748,22 +855,24 @@
     }
     .cs-table td { color: var(--text-primary); }
 
-    /* NEEDS INPUT callout */
-    .cs-needs-input {
+    /* Upcoming documentation callout */
+    .cs-upcoming {
       margin-top: 24px;
       padding: 16px 18px;
       background: var(--bg-clean);
       border: 1.5px dashed var(--border-dark);
     }
-    .cs-needs-input-label {
-      display: block;
+    .cs-upcoming-label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
       color: var(--accent);
       font-size: .64rem;
       font-weight: 600;
       letter-spacing: .12em;
       text-transform: uppercase;
     }
-    .cs-needs-input p { margin-top: 6px; color: var(--text-secondary); font-size: .84rem; }
+    .cs-upcoming p { margin-top: 6px; color: var(--text-secondary); font-size: .84rem; }
 
     /* Prev/next pager */
     .cs-pager {
@@ -789,7 +898,107 @@
     }
     .cs-pager-all:hover { border-color: var(--accent); }
 
-    /* Responsive — case pages */
+    /* Reading companion: In-page section rail that tracks the reader's position.
+       Narrow screens get a sticky strip under the header; from 1280px up it moves
+       into the left gutter as a fixed rail with a marker that glides between items. */
+    .cs-section { scroll-margin-top: calc(var(--nav-h, 74px) + 18px); }
+    .cs-toc {
+      position: sticky;
+      top: var(--nav-h, 74px);
+      z-index: 40;
+      background: var(--bg-soft);
+      border-bottom: 1px solid var(--border-light);
+    }
+    .cs-toc-inner { width: min(1180px, calc(100% - 48px)); margin-inline: auto; }
+    .cs-toc-title { display: none; }
+    .cs-toc-track { overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+    .cs-toc-track::-webkit-scrollbar { display: none; }
+    .cs-toc ul { display: flex; gap: 6px; padding: 9px 0; list-style: none; }
+    .cs-toc li { margin: 0; padding: 0; list-style: none; }
+    .cs-toc li::before { content: none; }
+    .cs-toc a {
+      display: block;
+      padding: 6px 12px;
+      border-radius: 999px;
+      color: var(--text-muted);
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      line-height: 1.2;
+      text-transform: uppercase;
+      white-space: nowrap;
+      transition: color 180ms ease, background 180ms ease;
+    }
+    .cs-toc a:hover { color: var(--text-heading); }
+    .cs-toc a[aria-current="true"] { color: var(--accent); background: var(--accent-soft); }
+    .cs-toc-marker { display: none; }
+
+    @media (min-width: 1280px) {
+      .cs-toc {
+        position: fixed;
+        top: 50%;
+        left: max(20px, calc(50% - 596px));
+        width: 168px;
+        max-height: 74vh;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        background: none;
+        border-bottom: 0;
+        transform: translateY(-50%);
+        transition: opacity 300ms ease;
+      }
+      .cs-toc::-webkit-scrollbar { display: none; }
+      .cs-toc.is-dimmed { opacity: 0; pointer-events: none; }
+      .cs-toc-inner { width: auto; margin-inline: 0; }
+      .cs-toc-title {
+        display: block;
+        color: var(--text-muted);
+        font-size: .66rem;
+        font-weight: 600;
+        letter-spacing: .13em;
+        line-height: 1.2;
+        text-transform: uppercase;
+      }
+      .cs-toc-track { position: relative; margin-top: 13px; padding-left: 15px; overflow: visible; }
+      .cs-toc-track::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 3px;
+        bottom: 3px;
+        width: 1px;
+        background: var(--border-light);
+      }
+      .cs-toc-marker {
+        display: block;
+        position: absolute;
+        left: -1px;
+        top: 0;
+        width: 3px;
+        height: 0;
+        background: var(--accent);
+        transition: transform 340ms cubic-bezier(.4, 0, .2, 1), height 340ms cubic-bezier(.4, 0, .2, 1);
+      }
+      .cs-toc ul { display: block; padding: 0; }
+      .cs-toc a {
+        padding: 5px 0;
+        border-radius: 0;
+        background: none;
+        font-size: .74rem;
+        font-weight: 500;
+        letter-spacing: 0;
+        line-height: 1.35;
+        text-transform: none;
+        white-space: normal;
+      }
+      .cs-toc a[aria-current="true"] { color: var(--accent); background: none; font-weight: 600; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cs-toc-marker { transition: none; }
+    }
+
+    /* Responsive: Case pages */
     @media (max-width: 920px) {
       .footer-main { grid-template-columns: 1fr auto; }
       .footer-nav { grid-column: 1 / -1; grid-row: 2; justify-content: flex-start; }
@@ -813,6 +1022,7 @@
         transform: translate(-50%, 50%) rotate(90deg);
       }
       .cs-tracks { grid-template-columns: 1fr; }
+      .cs-compare { grid-template-columns: 1fr; }
       .gov-branch { grid-template-columns: 1fr; }
       .gov-terminals { grid-template-columns: 1fr; }
       .cs-table-scroll { margin-inline: 0; }
@@ -845,6 +1055,27 @@
   </header>
 
   <main id="main">
+    <nav class="cs-toc" aria-label="On this page">
+      <div class="cs-toc-inner">
+        <p class="cs-toc-title">On this page</p>
+        <div class="cs-toc-track">
+          <span class="cs-toc-marker" aria-hidden="true"></span>
+          <ul>
+            <li><a href="#sec-status-flow">The status flow</a></li>
+            <li><a href="#sec-problem">The problem</a></li>
+            <li><a href="#sec-constraints">Constraints</a></li>
+            <li><a href="#sec-design">The design</a></li>
+            <li><a href="#sec-one-status">One status, in full</a></li>
+            <li><a href="#sec-key-decisions">Key decisions</a></li>
+            <li><a href="#sec-mechanized">Already mechanized</a></li>
+            <li><a href="#sec-changed">After testing</a></li>
+            <li><a href="#sec-limitations">Limitations and next step</a></li>
+            <li><a href="#sec-proposed">Proposed next</a></li>
+            <li><a href="#sec-artifacts">Supporting artifacts</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
     <article>
       <div class="wrap cs-col">
 
@@ -854,22 +1085,22 @@
             <span class="star" aria-hidden="true"></span>
           </div>
           <h1>Knowledge Ops &amp; Governance Framework</h1>
-          <p class="cs-dek">A governance framework for a 9-person knowledge team whose entire publication pipeline depends on SME reviewers who owe the team no formal time. Nine controlled statuses, each with one named owner, observable entry and exit criteria, and required evidence — designed after a duplicated article and two confused new hires showed that ownership existed as suggestion, not control. Endorsed by the Team Lead; partially implemented, with full rollout targeted for Q1 2027.</p>
+          <p class="cs-dek">A governance framework for a 9-person knowledge team whose entire publication pipeline depends on SME reviewers who owe the team no formal time. The design followed a duplicated article and two confused new hires, which showed that ownership existed as suggestion, not control.</p>
+          <p class="cs-dek">Nine controlled statuses, each with one named owner, observable entry and exit criteria, and required evidence. Endorsed by the Team Lead; partially implemented, with full rollout targeted for Q1 2027.</p>
           <table class="cs-snapshot">
             <caption class="visually-hidden">Project snapshot</caption>
             <tbody>
               <tr><th scope="row">Role</th><td>Knowledge Management Analyst, self-initiated</td></tr>
               <tr><th scope="row">Context</th><td>9-person knowledge team: 5 analysts in one regional pod, 4 internal counterparts, enterprise tax compliance software</td></tr>
               <tr><th scope="row">Timeline</th><td>Designed late July 2026, after pipeline and measurement work exposed the gaps</td></tr>
-              <tr><th scope="row">Status</th><td>Endorsed by Team Lead. Partially implemented — retrofitted onto the current tracker; two proposed status additions (In SME Review, Migrated) under observation, not yet adopted. Target implementation window: Q1 2027, with pieces already being incorporated incrementally</td></tr>
+              <tr><th scope="row">Status</th><td>Endorsed by Team Lead. Partially implemented. Retrofitted onto the current tracker; two proposed status additions (In SME Review, Migrated) under observation, not yet adopted. Target implementation window: Q1 2027, with pieces already being incorporated incrementally</td></tr>
               <tr><th scope="row">Artifacts</th><td>Lifecycle/status guide, governance glossary, operating model document, lifecycle diagram, reusable template</td></tr>
             </tbody>
           </table>
         </header>
 
-        <section class="cs-section cs-prose" aria-labelledby="status-flow-title">
-          <span class="eyebrow">01 — The status flow</span>
-          <h2 id="status-flow-title">The status flow</h2>
+        <section class="cs-section cs-prose" id="sec-status-flow" aria-labelledby="status-flow-title">
+          <h2 id="status-flow-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="5.2" cy="12" r="2.2"/><circle cx="12" cy="12" r="2.2"/><circle cx="18.8" cy="12" r="2.2"/><path d="M7.4 12h2.4M14.2 12h2.4"/></svg></span>The status flow</h2>
           <div class="cs-figure reveal">
             <div class="cs-diagram" role="img" aria-label="The deployed lifecycle moves an article from Authoring to For SME Review, then to Ready for Migration on a clean approval, Ready with Edits on minor edits, or For Revision on major edits, which returns it to Authoring. From Ready for Migration or Ready with Edits the author stages the article in the CCMS and assigns it to the publisher; the article becomes Good for Publish, then Published. Cancelled and Already in Product Docs can be declared by either the analyst or the SME. Two trial statuses are under observation: In SME Review, inserted once the SME actually starts reviewing, and Migrated, which would replace Good for Publish.">
               <span class="cs-figure-caption" aria-hidden="true">Status flow</span>
@@ -877,11 +1108,11 @@
                 <div class="gov-node">Authoring</div>
                 <div class="gov-arrow">↓</div>
                 <div class="gov-node">For SME Review</div>
-                <div class="gov-node is-trial">In SME Review · Trial — inserted once the SME starts reviewing</div>
+                <div class="gov-node is-trial">In SME Review · Trial, inserted once the SME starts reviewing</div>
                 <div class="gov-arrow">↓</div>
                 <div class="gov-branch">
                   <div>
-                    <span class="gov-branch-label">Major edits — returns to Authoring</span>
+                    <span class="gov-branch-label">Major edits, returns to Authoring</span>
                     <div class="gov-node">For Revision ↺</div>
                   </div>
                   <div>
@@ -897,12 +1128,12 @@
                 <div class="gov-node is-action">Author stages in the CCMS, assigns to publisher</div>
                 <div class="gov-arrow">↓</div>
                 <div class="gov-node">Good for Publish</div>
-                <div class="gov-node is-trial">Migrated · Trial — would replace Good for Publish</div>
+                <div class="gov-node is-trial">Migrated · Trial, would replace Good for Publish</div>
                 <div class="gov-arrow">↓</div>
                 <div class="gov-node is-terminal">Published</div>
                 <div class="gov-terminals">
-                  <div class="gov-node is-terminal">Cancelled — declared by analyst or SME</div>
-                  <div class="gov-node is-terminal">Already in Product Docs — declared by analyst or SME</div>
+                  <div class="gov-node is-terminal">Cancelled, declared by analyst or SME</div>
+                  <div class="gov-node is-terminal">Already in Product Docs, declared by analyst or SME</div>
                 </div>
                 <div class="gov-legend">
                   <span><span class="gov-swatch"></span>Status</span>
@@ -912,44 +1143,102 @@
                 </div>
               </div>
             </div>
-            <p class="cs-figure-note">Solid nodes are the deployed nine-status lifecycle: A revision loops back through Authoring rather than straight to the SME, and staging in the CCMS happens before Good for Publish. Dashed nodes are trial additions under observation, not yet adopted into the core nine. Cancelled and Already in Product Docs can be declared by either the analyst or the SME.</p>
+            <p class="cs-figure-note">Solid nodes are the deployed nine-status lifecycle: A revision loops back through Authoring rather than straight to the SME, and staging in the CCMS happens before Good for Publish.</p>
+            <p class="cs-figure-note">Dashed nodes are trial additions under observation, not yet adopted into the core nine. Cancelled and Already in Product Docs can be declared by either the analyst or the SME.</p>
           </div>
         </section>
 
-        <section class="cs-section cs-prose" aria-labelledby="problem-title">
-          <span class="eyebrow">02 — The problem</span>
-          <h2 id="problem-title">The problem</h2>
-          <p>Two analysts independently drafted articles from the same source document — caught before publication, but at the cost of duplicated authoring and duplicated SME review time, the scarcest resource in the pipeline. Nobody could answer “why are there two of these,” because there was no intake control and no single record of ownership. Separately, two new hires exposed the same gap from another angle: The team couldn’t explain its own process or where any article stood, because there was no structure to explain it with. One failure cost money and expert time; the other costs the team’s ability to describe itself, and recurs with every hire.</p>
+        <section class="cs-section cs-prose" id="sec-problem" aria-labelledby="problem-title">
+          <h2 id="problem-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4.3 20.8 19.6H3.2z"/><path d="M12 10v4.3M12 17.1h.01"/></svg></span>The problem</h2>
+          <p>Two failures, both traceable to no intake control and no single record of ownership:</p>
+          <ul>
+            <li><strong>A duplicated draft.</strong> Two analysts independently drafted articles from the same source document, caught before publication, but at the cost of duplicated authoring and duplicated SME review time, the scarcest resource in the pipeline. Nobody could answer “why are there two of these.”</li>
+            <li><strong>Two new hires.</strong> The team couldn’t explain its own process or where any article stood, because there was no structure to explain it with.</li>
+          </ul>
+          <p>One failure cost money and expert time; the other costs the team’s ability to describe itself, and recurs with every hire.</p>
         </section>
 
-        <section class="cs-section cs-prose" aria-labelledby="constraints-title">
-          <span class="eyebrow">03 — Constraints</span>
-          <h2 id="constraints-title">Constraints</h2>
+        <section class="cs-section cs-prose" id="sec-constraints" aria-labelledby="constraints-title">
+          <h2 id="constraints-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5v14M20 5v14"/><rect x="9" y="8.5" width="6" height="7"/></svg></span>Constraints</h2>
           <ul>
-            <li>SME review gates every article, and the KM team has no authority over reviewer time — every review is a favor, since reviewers are primarily support operators.</li>
-            <li>Dedicated review support scaled to only one product area; it can’t be requested everywhere.</li>
-            <li>Existing ownership language used “or” between roles, which meant no one was actually accountable.</li>
-            <li>Service commitments (e.g., a 3-day review turnaround) existed as examples with no enforcement or escalation behind them.</li>
-            <li>The tracker couldn’t yet timestamp status transitions, which blocks measuring cycle time until it’s fixed.</li>
-            <li>Any new commitment on reviewers had to be realistic enough that a busy SME could actually honor it.</li>
+            <li><strong>Favor-based review.</strong> SME review gates every article, and the KM team has no authority over reviewer time. Every review is a favor, since reviewers are primarily support operators.</li>
+            <li><strong>Limited review support.</strong> Dedicated review support scaled to only one product area; it can’t be requested everywhere.</li>
+            <li><strong>Ambiguous ownership.</strong> Existing ownership language used “or” between roles, which meant no one was actually accountable.</li>
+            <li><strong>Unenforced commitments.</strong> Service commitments (e.g., a 3-day review turnaround) existed as examples with no enforcement or escalation behind them.</li>
+            <li><strong>No transition timestamps.</strong> The tracker couldn’t yet timestamp status transitions, which blocks measuring cycle time until it’s fixed.</li>
+            <li><strong>Realistic commitments.</strong> Any new commitment on reviewers had to be realistic enough that a busy SME could actually honor it.</li>
           </ul>
         </section>
 
-        <section class="cs-section cs-prose" aria-labelledby="design-title">
-          <span class="eyebrow">04 — The design</span>
-          <h2 id="design-title">The design</h2>
-          <p><strong>Nine statuses, each a controlled checkpoint:</strong> Authoring · For SME Review · For Revision · Ready with Edits · Ready for Migration · Good for Publish · Published · Cancelled · Already in Product Docs. Every status carries entry criteria, one named owner, exit criteria, required evidence, and allowed next statuses — observable criteria only (“has passed self-review and been assigned to the correct reviewer,” not “is mostly ready”). A later redesign inserts an <em>In SME Review</em> status once the SME actually starts reviewing — separating queue wait from active review time, which the current single status conflates — and proposes a <em>Migrated</em> status to replace Good for Publish with a more precisely defined state. Both are under observation and not yet part of the core nine.</p>
-          <p><strong>One owner per status, no “or.”</strong> Where an owner genuinely wasn’t decided, the document carries a visible placeholder rather than a guessed answer.</p>
-          <p><strong>Evidence as a control, not a “should.”</strong> A status change without its required evidence is invalid and gets reverted — this is what turns the tracker into an audit trail instead of a self-reported board.</p>
-          <p><strong>Acknowledgement split from decision.</strong> Where a product has a dedicated reviewer: One business day to acknowledge, three to decide, up to three follow-ups spaced three days apart. Everywhere else — most products, since reviewers are support operators juggling other work — only acknowledgement is asked; no hard decision deadline is imposed. An acknowledgement a busy expert can honor; a forced decision often can’t be, so only the enforceable half gets committed.</p>
-          <p><strong>The follow-up rule.</strong> Follow up only after the date the reviewer themselves committed to, never before. If still open, close the intake ticket (not the article, which keeps its lifecycle status), move on, and circle back on a scheduled follow-up — instead of holding capacity open through an unbounded renegotiation loop.</p>
-          <p><strong>Throughput as a rate, not a fixed number.</strong> Completed articles ÷ available writer-weeks (headcount minus absence and overhead). A rate reads a short-staffed week as arithmetic, not failure, and stays comparable as staffing changes.</p>
-          <p><strong>Five tracker-derived metrics, reported monthly</strong> — no new logging burden, since an abandoned metric produces confidently wrong data.</p>
+        <section class="cs-section cs-prose" id="sec-design" aria-labelledby="design-title">
+          <h2 id="design-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5l8.5 4.2-8.5 4.2-8.5-4.2 8.5-4.2z"/><path d="M3.5 12.6l8.5 4.2 8.5-4.2"/></svg></span>The design</h2>
+          <h3>Nine statuses, each a controlled checkpoint</h3>
+          <p>Authoring · For SME Review · For Revision · Ready with Edits · Ready for Migration · Good for Publish · Published · Cancelled · Already in Product Docs.</p>
+          <p>Every status carries the same five parts:</p>
+          <ul>
+            <li>Entry criteria.</li>
+            <li>One named owner.</li>
+            <li>Exit criteria.</li>
+            <li>Required evidence.</li>
+            <li>Allowed next statuses.</li>
+          </ul>
+          <p>The criteria are observable only (“has passed self-review and been assigned to the correct reviewer,” not “is mostly ready”).</p>
+
+          <h3>Two trial statuses under observation</h3>
+          <p>A later redesign introduces two more statuses.</p>
+          <ul>
+            <li><strong>An <em>In SME Review</em> status.</strong> Inserted once the SME actually starts reviewing, it separates queue wait from active review time, which the current single status conflates.</li>
+            <li><strong>A <em>Migrated</em> status.</strong> Proposed to replace Good for Publish with a more precisely defined state.</li>
+          </ul>
+          <p>Both are under observation and not yet part of the core nine.</p>
+
+          <h3>One owner per status, no “or”</h3>
+          <p>Where an owner genuinely wasn’t decided, the document carries a visible placeholder rather than a guessed answer.</p>
+
+          <h3>Evidence as a control, not a “should”</h3>
+          <p>A status change without its required evidence is invalid and gets reverted. That is what turns the tracker into an audit trail instead of a self-reported board.</p>
+
+          <h3>Acknowledgement split from decision</h3>
+          <p>The commitment depends on whether the product has a dedicated reviewer.</p>
+          <div class="cs-compare">
+            <div class="cs-compare-col">
+              <p class="cs-compare-head">Where a product has a dedicated reviewer</p>
+              <ul>
+                <li>One business day to acknowledge.</li>
+                <li>Three to decide.</li>
+                <li>Up to three follow-ups spaced three days apart.</li>
+              </ul>
+            </div>
+            <div class="cs-compare-col">
+              <p class="cs-compare-head">Everywhere else</p>
+              <ul>
+                <li>Most products, since reviewers are support operators juggling other work.</li>
+                <li>Only acknowledgement is asked.</li>
+                <li>No hard decision deadline is imposed.</li>
+              </ul>
+            </div>
+          </div>
+          <p>An acknowledgement a busy expert can honor; a forced decision often can’t be, so only the enforceable half gets committed.</p>
+
+          <h3>The follow-up rule</h3>
+          <p>Follow up only after the date the reviewer themselves committed to, never before.</p>
+          <p>If it is still open, three steps follow instead of holding capacity open through an unbounded renegotiation loop:</p>
+          <ul>
+            <li>Close the intake ticket (not the article, which keeps its lifecycle status).</li>
+            <li>Move on.</li>
+            <li>Circle back on a scheduled follow-up.</li>
+          </ul>
+
+          <h3>Throughput as a rate, not a fixed number</h3>
+          <p>Completed articles ÷ available writer-weeks (headcount minus absence and overhead).</p>
+          <p>A rate reads a short-staffed week as arithmetic, not failure, and stays comparable as staffing changes.</p>
+
+          <h3>Five tracker-derived metrics, reported monthly</h3>
+          <p>They add no new logging burden, since an abandoned metric produces confidently wrong data.</p>
         </section>
 
-        <section class="cs-section cs-prose" aria-labelledby="one-status-title">
-          <span class="eyebrow">05 — One status, in full</span>
-          <h2 id="one-status-title">One status, in full</h2>
+        <section class="cs-section cs-prose" id="sec-one-status" aria-labelledby="one-status-title">
+          <h2 id="one-status-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M3.5 12h4.3M16.2 12h4.3"/></svg></span>One status, in full</h2>
           <div class="cs-excerpt reveal">
             <span class="cs-figure-caption">Document excerpt</span>
             <h3>For SME Review</h3>
@@ -978,56 +1267,94 @@
           </div>
         </section>
 
-        <section class="cs-section cs-prose" aria-labelledby="key-decisions-title">
-          <span class="eyebrow">06 — Key decisions</span>
-          <h2 id="key-decisions-title">Key decisions</h2>
-          <p><strong>Left post-publication statuses unwritten.</strong> Maintenance, retirement, and archiving stay undesigned until one real maintenance cycle has run by hand — a status for work nobody’s done yet gets used by nobody.</p>
-          <p><strong>No quality metrics in phase one.</strong> A quality metric on an unstable process just measures the instability; visibility and measurement had to come first.</p>
-          <p><strong>Anchored publication targets to the tax season cycle</strong>, not internal preference, since that peak is also the only window with enough traffic to measure whether articles actually close support gaps.</p>
-        </section>
+        <section class="cs-section cs-prose" id="sec-key-decisions" aria-labelledby="key-decisions-title">
+          <h2 id="key-decisions-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20.5v-6l-6.5-5.2V4"/><path d="M12 14.5l6.5-5.2V4"/></svg></span>Key decisions</h2>
+          <div class="cs-decision">
+            <h3>Left post-publication statuses unwritten</h3>
+            <p>Maintenance, retirement, and archiving stay undesigned until one real maintenance cycle has run by hand.</p>
+            <p>A status for work nobody’s done yet gets used by nobody.</p>
+          </div>
 
-        <section class="cs-section cs-prose" aria-labelledby="mechanized-title">
-          <span class="eyebrow">07 — What’s already mechanized</span>
-          <h2 id="mechanized-title">What’s already mechanized</h2>
-          <p>Parts of this model run as code today. The Claude Cowork drafting pipeline (<a href="case-study-documentation-pipeline.html">its own case study</a>) enforces two of its exception rules directly: Two consecutive failures on one file stop the run, and a source spanning multiple topics stops for an approved split plan before drafting begins — the same triage control that would have prevented the original duplicate. Every draft also carries a mandatory review tail (flags, structure suggestions, changes) so uncertainty surfaces as a reviewable item instead of being resolved silently. Same principle either place: Controls that can be mechanized get mechanized in code; controls that need judgment get written down and assigned to a person instead.</p>
-        </section>
+          <div class="cs-decision">
+            <h3>No quality metrics in phase one</h3>
+            <p>A quality metric on an unstable process just measures the instability; visibility and measurement had to come first.</p>
+          </div>
 
-        <section class="cs-section cs-prose" aria-labelledby="changed-title">
-          <span class="eyebrow">08 — What changed after testing</span>
-          <h2 id="changed-title">What changed after testing</h2>
-          <ul>
-            <li>Split ownership language to remove every “or” after tracing how accountability died inside it.</li>
-            <li>Made evidence a hard gate instead of a “should,” after the tracker drifted from reality without one.</li>
-            <li>Split acknowledgement from decision commitments once it was clear a forced deadline on a favor-based reviewer would be ignored.</li>
-            <li>Added the follow-up rule after watching a promised date slip into an unbounded renegotiation loop.</li>
-            <li>Deferred quality metrics and post-publication statuses rather than design ahead of real usage data.</li>
-          </ul>
-        </section>
-
-        <section class="cs-section cs-prose" aria-labelledby="limitations-title">
-          <span class="eyebrow">09 — Limitations and next step</span>
-          <h2 id="limitations-title">Limitations and next step</h2>
-          <p>Endorsed but only partially implemented — retrofitted onto the current tracker, with full rollout targeted for Q1 2027 while pieces are incorporated incrementally in the meantime. Measurement is blocked until the tracker logs status-change timestamps automatically (see the open item below); until then, cycle time and reviewer wait time can’t be measured at all. In hindsight, the measurement layer (commitment table, five indicators) was specified before the tracker could measure anything — instrumentation should have shipped first. A 70-term glossary was written as a maintained artifact when only about a dozen terms actually carry rules; the rest was a one-time alignment exercise, not an asset to maintain. Next: Ship the tracker timestamping, then validate wait time, rework rate, and duplicate/cancellation rate against the pre-framework baseline.</p>
-          <!-- PLACEHOLDER: whether the tracker change has shipped -->
-          <div class="cs-needs-input" role="note">
-            <span class="cs-needs-input-label">Needs input</span>
-            <p>Whether the tracker change has shipped.</p>
+          <div class="cs-decision">
+            <h3>Anchored publication targets to the tax season cycle</h3>
+            <p>The driver is the season, not internal preference, since that peak is also the only window with enough traffic to measure whether articles actually close support gaps.</p>
           </div>
         </section>
 
-        <section class="cs-section cs-prose" aria-labelledby="proposed-title">
-          <span class="eyebrow">10 — What I’ve proposed next</span>
-          <h2 id="proposed-title">What I’ve proposed next</h2>
-          <p>Two further pieces, both proposed and not started: A controlled vocabulary (product/UI terminology, one approved term per concept) that also improves retrieval for the downstream support AI, and a standing QA function to own editorial consistency and migration fidelity, which nobody currently owns as a job.</p>
+        <section class="cs-section cs-prose" id="sec-mechanized" aria-labelledby="mechanized-title">
+          <h2 id="mechanized-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="9.5" rx="1"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg></span>What’s already mechanized</h2>
+          <p>The Claude Cowork drafting pipeline (<a href="case-study-documentation-pipeline.html">its own case study</a>) already runs parts of this model as code, enforcing two of its exception rules directly:</p>
+          <ul>
+            <li><strong>Repeat-failure stop.</strong> Two consecutive failures on one file stop the run.</li>
+            <li><strong>Split-plan gate.</strong> A source spanning multiple topics stops for an approved split plan before drafting begins.</li>
+          </ul>
+          <p>That is the same triage control that would have prevented the original duplicate. Every draft also carries a mandatory review tail (flags, structure suggestions, changes), so uncertainty surfaces as a reviewable item instead of being resolved silently.</p>
+          <div class="cs-note">
+            <span class="cs-note-label"><svg class="cs-label-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><path d="M12 16.4v-5.2"/><path d="M12 7.8h.01"/></svg>Same principle either place</span>
+            <p>Controls that can be mechanized get mechanized in code. Controls that need judgment get written down and assigned to a person instead.</p>
+          </div>
         </section>
 
-        <section class="cs-section cs-prose" aria-labelledby="artifacts-title">
-          <span class="eyebrow">11 — Supporting artifacts</span>
-          <h2 id="artifacts-title">Supporting artifacts</h2>
-          <!-- PLACEHOLDER: owner/approver of this document, and links to repo, portfolio, and any published artifacts -->
-          <div class="cs-needs-input" role="note">
-            <span class="cs-needs-input-label">Needs input</span>
-            <p>Owner/approver of this document, and links to repo, portfolio, and any published artifacts.</p>
+        <section class="cs-section cs-prose" id="sec-changed" aria-labelledby="changed-title">
+          <h2 id="changed-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8.5h13m-3.4-3.4L17 8.5l-3.4 3.4"/><path d="M20 15.5H7m3.4-3.4L7 15.5l3.4 3.4"/></svg></span>What changed after testing</h2>
+          <ul>
+            <li><strong>Split ownership language.</strong> Every “or” came out, after tracing how accountability died inside it.</li>
+            <li><strong>Made evidence a hard gate.</strong> It had been a “should,” and the tracker drifted from reality without one.</li>
+            <li><strong>Split acknowledgement from decision.</strong> The two commitments separated once it was clear a forced deadline on a favor-based reviewer would be ignored.</li>
+            <li><strong>Added the follow-up rule.</strong> A promised date had slipped into an unbounded renegotiation loop.</li>
+            <li><strong>Deferred metrics and post-publication statuses.</strong> Neither was designed ahead of real usage data.</li>
+          </ul>
+        </section>
+
+        <section class="cs-section cs-prose" id="sec-limitations" aria-labelledby="limitations-title">
+          <h2 id="limitations-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h9.5"/><path d="M11 8.5l3.5 3.5-3.5 3.5"/><path d="M18 4.5v15"/></svg></span>Limitations and next step</h2>
+          <p>Endorsed but only partially implemented. It is retrofitted onto the current tracker, with full rollout targeted for Q1 2027 while pieces are incorporated incrementally in the meantime.</p>
+
+          <h3>What the missing timestamps block</h3>
+          <ul>
+            <li><strong>Blocked on timestamps.</strong> Measurement is blocked until the tracker logs status-change timestamps automatically (see the open item below).</li>
+            <li><strong>Cycle and wait time invisible.</strong> Until then, cycle time and reviewer wait time can’t be measured at all.</li>
+          </ul>
+
+          <h3>What I would scope and sequence differently</h3>
+          <ul>
+            <li><strong>Measurement layer before instrumentation.</strong> In hindsight, the measurement layer (commitment table, five indicators) was specified before the tracker could measure anything, so instrumentation should have shipped first.</li>
+            <li><strong>A 70-term glossary.</strong> It was written as a maintained artifact when only about a dozen terms actually carry rules; the rest was a one-time alignment exercise, not an asset to maintain.</li>
+          </ul>
+
+          <p>Next: Ship the tracker timestamping. Then validate three measures against the pre-framework baseline:</p>
+          <ul>
+            <li>Wait time.</li>
+            <li>Rework rate.</li>
+            <li>Duplicate/cancellation rate.</li>
+          </ul>
+          <!-- UPCOMING: tracker instrumentation status and the measurements it unblocks -->
+          <div class="cs-upcoming" role="note">
+            <span class="cs-upcoming-label"><svg class="cs-label-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><path d="M12 6.8V12l3.6 2.2"/></svg>Upcoming documentation</span>
+            <p>Tracker instrumentation status and the measurements it unblocks will be added as they become available.</p>
+          </div>
+        </section>
+
+        <section class="cs-section cs-prose" id="sec-proposed" aria-labelledby="proposed-title">
+          <h2 id="proposed-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.8" y="3.8" width="16.4" height="16.4" stroke-dasharray="3.4 2.8"/><path d="M12 8.5v7M8.5 12h7"/></svg></span>What I’ve proposed next</h2>
+          <p>Two further pieces, both proposed and not started:</p>
+          <ul>
+            <li><strong>A controlled vocabulary.</strong> Product/UI terminology with one approved term per concept, which also improves retrieval for the downstream support AI.</li>
+            <li><strong>A standing QA function.</strong> It would own editorial consistency and migration fidelity, which nobody currently owns as a job.</li>
+          </ul>
+        </section>
+
+        <section class="cs-section cs-prose" id="sec-artifacts" aria-labelledby="artifacts-title">
+          <h2 id="artifacts-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5.5 20.5V3.5h9l4 4v13Z"/><path d="M14.5 3.5v4h4"/></svg></span>Supporting artifacts</h2>
+          <!-- UPCOMING: repository, implementation details, published artifacts, related documentation -->
+          <div class="cs-upcoming" role="note">
+            <span class="cs-upcoming-label"><svg class="cs-label-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><path d="M12 6.8V12l3.6 2.2"/></svg>Upcoming documentation</span>
+            <p>The repository, implementation details, published artifacts, and related documentation will be added as they become available.</p>
           </div>
         </section>
 
@@ -1052,13 +1379,13 @@
           <span class="star" aria-hidden="true"></span>
           <span class="footer-brand-copy">
             <span class="footer-brand-name">Nech Bayan</span>
-            <span class="footer-brand-loc">General Santos City, Philippines · remote</span>
+            <span class="footer-brand-loc">General Santos City, Philippines · Remote</span>
           </span>
         </a>
         <nav class="footer-nav" aria-label="Footer navigation">
           <a href="index.html">Home</a>
           <a href="index.html#case-studies">Case Studies</a>
-          <a href="Nech-Bayan-Resume.pdf" download>Resume</a>
+          <a href="Nech-Bayan-Resume.pdf" target="_blank" rel="noopener">Resume</a>
           <a href="mailto:nechillebayan@gmail.com">Email</a>
           <a href="https://www.linkedin.com/in/nechillebayan/" target="_blank" rel="noopener">LinkedIn</a>
         </nav>
@@ -1128,6 +1455,127 @@
         scrollPageTop();
       });
     });
+
+    /* Reading companion — the section rail follows the reader instead of sitting
+       still. The active section is the last one whose top has passed a line about
+       30% down the viewport, so the next section takes over exactly as the current
+       one scrolls out, with no interaction needed. */
+    const toc = document.querySelector('.cs-toc');
+    if (toc) {
+      const tocLinks = [...toc.querySelectorAll('a')];
+      const tocTrack = toc.querySelector('.cs-toc-track');
+      const tocMarker = toc.querySelector('.cs-toc-marker');
+      const siteNav = document.querySelector('.site-nav');
+      const csArticle = document.querySelector('article');
+      const tocTargets = tocLinks.map(link => document.querySelector(link.getAttribute('href')));
+      let sectionTops = [];
+      let activeIndex = -1;
+      let animating = false;
+
+      const navHeight = () => (siteNav ? siteNav.offsetHeight : 74);
+      const absTop = el => el.getBoundingClientRect().top + scrollY;
+
+      function placeMarker(index) {
+        const link = tocLinks[index];
+        if (!tocMarker || !link) return;
+        tocMarker.style.height = link.offsetHeight + 'px';
+        tocMarker.style.transform = 'translateY(' + link.offsetTop + 'px)';
+      }
+
+      function measureToc() {
+        document.documentElement.style.setProperty('--nav-h', navHeight() + 'px');
+        sectionTops = tocTargets.map(el => (el ? absTop(el) : Infinity));
+        if (activeIndex >= 0) placeMarker(activeIndex);
+      }
+
+      function setActive(index) {
+        if (index === activeIndex) return;
+        activeIndex = index;
+        tocLinks.forEach((link, i) => {
+          if (i === index) link.setAttribute('aria-current', 'true');
+          else link.removeAttribute('aria-current');
+        });
+        placeMarker(index);
+        if (tocTrack && tocTrack.scrollWidth > tocTrack.clientWidth + 1) {
+          const link = tocLinks[index];
+          const left = Math.max(0, link.offsetLeft - tocTrack.clientWidth / 2 + link.offsetWidth / 2);
+          tocTrack.scrollTo({ left, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+          /* Chrome silently drops programmatic smooth scrolls in a backgrounded tab;
+             snap the strip into place if the animation never ran. */
+          setTimeout(() => {
+            if (Math.abs(tocTrack.scrollLeft - left) > 4) tocTrack.scrollLeft = left;
+          }, 420);
+        }
+      }
+
+      function updateToc() {
+        if (animating) return;
+        const line = scrollY + navHeight() + Math.max(70, innerHeight * 0.3);
+        let index = 0;
+        for (let i = 0; i < sectionTops.length; i++) if (sectionTops[i] <= line) index = i;
+        if (scrollY + innerHeight >= document.documentElement.scrollHeight - 2) index = sectionTops.length - 1;
+        setActive(index);
+        if (csArticle) {
+          const articleEnd = absTop(csArticle) + csArticle.offsetHeight;
+          toc.classList.toggle('is-dimmed', scrollY + innerHeight * 0.55 > articleEnd);
+        }
+      }
+
+      function scrollToSection(target) {
+        const destination = Math.max(0, absTop(target) - navHeight() - 16);
+        const html = document.documentElement;
+        html.style.scrollBehavior = 'auto';
+        if (reducedMotion.matches) { scrollTo(0, destination); html.style.scrollBehavior = ''; return; }
+        const start = scrollY;
+        const delta = destination - start;
+        const t0 = performance.now();
+        const duration = Math.min(760, 260 + Math.abs(delta) / 8);
+        let finished = false;
+        animating = true;
+        const settle = () => { finished = true; animating = false; html.style.scrollBehavior = ''; };
+        requestAnimationFrame(function step(t) {
+          if (finished) return;
+          const p = Math.min(1, (t - t0) / duration);
+          scrollTo(0, Math.round(start + delta * (1 - Math.pow(1 - p, 3))));
+          if (p < 1) requestAnimationFrame(step); else settle();
+        });
+        setTimeout(() => { if (!finished) { scrollTo(0, destination); settle(); } }, duration + 300);
+      }
+
+      tocLinks.forEach((link, i) => {
+        link.addEventListener('click', event => {
+          const target = tocTargets[i];
+          if (!target) return;
+          event.preventDefault();
+          setActive(i);
+          scrollToSection(target);
+          history.replaceState(null, '', link.getAttribute('href'));
+        });
+      });
+
+      let tocTicking = false;
+      addEventListener('scroll', () => {
+        if (tocTicking) return;
+        tocTicking = true;
+        requestAnimationFrame(() => { tocTicking = false; updateToc(); });
+      }, { passive: true });
+      /* Chrome pauses rAF in a hidden tab, so a scroll fired while hidden would
+         leave tocTicking stuck true and freeze the rail after the reader returns.
+         Clear it and resync whenever the page becomes visible again. */
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) return;
+        tocTicking = false;
+        measureToc();
+        updateToc();
+      });
+      addEventListener('resize', () => { measureToc(); updateToc(); });
+      addEventListener('load', () => { measureToc(); updateToc(); });
+      if ('ResizeObserver' in window) {
+        new ResizeObserver(() => { measureToc(); updateToc(); }).observe(document.body);
+      }
+      measureToc();
+      updateToc();
+    }
   </script>
 </body>
 </html>

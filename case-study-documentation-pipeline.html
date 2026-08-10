@@ -1083,7 +1083,7 @@
           </div>
           <h1>AI-Assisted Documentation Pipeline</h1>
           <p class="cs-dek">Two documentation-production architectures for the same problem: A human-reviewed two-agent workflow on Microsoft Copilot, now in team production, and an automated file-based pipeline on Claude Cowork, run as a personal experiment.</p>
-          <p class="cs-dek">The Copilot pipeline raised team drafting throughput from 40 to 93 drafts per week (233% of baseline, four active writers). The Claude Cowork experiment turned 22 source documents into 63 QA-validated articles in a one-week solo sprint.</p>
+          <p class="cs-dek">Both were built to move a writer’s attention off transcription and formatting and onto judgment. The measured outcome: The Copilot pipeline raised team drafting throughput from 40 to 93 drafts per week (233% of baseline, four active writers), and the Claude Cowork experiment turned 22 source documents into 63 QA-validated articles in a one-week solo sprint.</p>
           <table class="cs-snapshot">
             <caption class="visually-hidden">Project snapshot</caption>
             <tbody>
@@ -1100,7 +1100,7 @@
 
         <section class="cs-section cs-prose" id="sec-problem" aria-labelledby="problem-title">
           <h2 id="problem-title"><span class="cs-sec-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4.3 20.8 19.6H3.2z"/><path d="M12 10v4.3M12 17.1h.01"/></svg></span>The problem</h2>
-          <p>Long, unstructured source material required manual drafting, restructuring, and formatting before it could ship as review-ready documentation, and it arrived in many forms:</p>
+          <p>Writers were spending their best hours on the lowest-judgment work in the job. Long, unstructured source material required manual drafting, restructuring, and formatting before it could ship as review-ready documentation, and output quality varied run to run, so consistency depended on individual discipline rather than on the system. Source material arrived in many forms:</p>
           <ul>
             <li>Training decks.</li>
             <li>Transcripts.</li>
@@ -1110,7 +1110,7 @@
             <li>Table-heavy PDFs.</li>
             <li>Code samples.</li>
           </ul>
-          <p>Writers and SMEs spent review time correcting structure and format, and filling gaps where a draft missed or misread source content, before they could even validate technical accuracy. That review time is the team’s scarcest resource, spent on rework instead of judgment.</p>
+          <p>Downstream, writers and SMEs spent review time correcting structure and format, and filling gaps where a draft missed or misread source content, before they could even validate technical accuracy. That review time is the team’s scarcest resource, spent on rework instead of judgment.</p>
         </section>
 
         <section class="cs-section cs-prose" id="sec-constraints" aria-labelledby="constraints-title">
@@ -1278,6 +1278,7 @@
               </tbody>
             </table>
           </div>
+          <p><strong>Design intent:</strong> The system was built for writers, to move their attention off transcription and formatting and onto judgment. Throughput is the measurable outcome, not the goal that shaped the design. SME flagging was added on top of that, marking what actually needs verification so neither the writer nor the reviewer carries the whole document at the same level of suspicion.</p>
           <p class="cs-fineprint">Not claimed: Reduced backlog age, faster onboarding, improved review turnaround, or “publication-ready” status for the Claude pipeline’s output (QA-validated is the accurate term).</p>
         </section>
 

@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Case study: A Copilot documentation pipeline built for writers, moving their best hours off transcription and formatting and onto judgment. Drafting throughput reached 2.3× baseline.">
+  <meta name="theme-color" content="#0B0F14">
+  <title>Copilot Production Workflow · Case Study · Nech Bayan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-soft: #FBFBFB;
+      --bg-clean: #FFFFFF;
+      --text-heading: #0B0F14;
+      --text-primary: #232830;
+      --text-secondary: #545F70;
+      --text-muted: #6B7688;
+      --surface-charcoal: #39424E;
+      --surface-graphite: #232830;
+      --surface-black: #0B0F14;
+      --text-on-dark: #FBFBFB;
+      --border-light: #E9EDF2;
+      --border-medium: #C7CFDA;
+      --accent: #4C6785;
+      --state-success: #2F6B62;
+      --state-success-bg: #E7F1EF;
+      --font-serif: "Source Serif 4", Georgia, serif;
+      --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --shadow-card: 0 12px 34px rgba(11, 15, 20, 0.07);
+      --shadow-raised: 0 22px 54px rgba(11, 15, 20, 0.12);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 24px;
+      --ease: cubic-bezier(.2, .75, .25, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+    body {
+      background: var(--bg-soft);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      opacity: .45;
+      background-image:
+        linear-gradient(rgba(76, 103, 133, .045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(76, 103, 133, .045) 1px, transparent 1px);
+      background-size: 64px 64px;
+    }
+
+    .wrap { width: min(1120px, 92vw); margin: 0 auto; }
+    a { color: inherit; }
+
+    .skip-link {
+      position: absolute; left: -9999px; top: 0; z-index: 100;
+      background: var(--surface-black); color: var(--text-on-dark);
+      padding: 12px 18px; border-radius: 0 0 var(--radius-sm) 0;
+    }
+    .skip-link:focus { left: 0; }
+
+    /* Nav */
+    .site-nav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(251, 251, 251, .88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-light);
+    }
+    .nav-row {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 24px; padding: 16px 0;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .star {
+      width: 10px; height: 10px; flex: none;
+      background: var(--accent);
+      clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+    }
+    .brand-copy { display: flex; flex-direction: column; line-height: 1.25; }
+    .brand-name { font-weight: 600; color: var(--text-heading); font-size: .98rem; }
+    .brand-role { font-size: .74rem; color: var(--text-muted); letter-spacing: .02em; }
+    .nav-links { display: flex; gap: 26px; }
+    .nav-links a {
+      text-decoration: none; font-size: .88rem; color: var(--text-secondary);
+      padding: 4px 0; border-bottom: 1px solid transparent; transition: .2s var(--ease);
+    }
+    .nav-links a:hover { color: var(--text-heading); border-bottom-color: var(--border-medium); }
+    .nav-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      text-decoration: none; font-size: .84rem; font-weight: 500;
+      color: var(--text-heading);
+      border: 1px solid var(--border-medium); border-radius: 999px;
+      padding: 9px 18px; transition: .2s var(--ease);
+      white-space: nowrap;
+    }
+    .nav-back:hover { background: var(--surface-black); color: var(--text-on-dark); border-color: var(--surface-black); }
+
+    /* Hero */
+    .cs-hero { padding: 76px 0 64px; }
+    .eyebrow {
+      font-size: .74rem; letter-spacing: .16em; text-transform: uppercase;
+      color: var(--accent); font-weight: 600; margin-bottom: 18px;
+    }
+    .cs-hero h1 {
+      font-family: var(--font-serif); font-weight: 500;
+      font-size: clamp(2.1rem, 5vw, 3.4rem); line-height: 1.12;
+      color: var(--text-heading); letter-spacing: -.02em;
+      max-width: 17ch;
+    }
+    .cs-hero h1 em { font-style: italic; color: var(--accent); }
+    .cs-lead {
+      margin-top: 22px; max-width: 62ch;
+      font-size: 1.08rem; color: var(--text-secondary);
+    }
+
+    .facts {
+      margin-top: 44px; display: grid; gap: 1px;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      background: var(--border-light);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md); overflow: hidden;
+    }
+    .fact { background: var(--bg-clean); padding: 22px 24px; }
+    .fact dt {
+      font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--text-muted); font-weight: 600; margin-bottom: 8px;
+    }
+    .fact dd { font-size: .94rem; color: var(--text-primary); }
+
+    /* Sections */
+    section { padding: 64px 0; }
+    section + section { border-top: 1px solid var(--border-light); }
+    .sec-label {
+      font-size: .72rem; letter-spacing: .16em; text-transform: uppercase;
+      color: var(--text-muted); font-weight: 600; margin-bottom: 14px;
+    }
+    h2 {
+      font-family: var(--font-serif); font-weight: 500;
+      font-size: clamp(1.6rem, 3.2vw, 2.3rem); line-height: 1.2;
+      color: var(--text-heading); letter-spacing: -.015em;
+    }
+    .sec-intro { margin-top: 18px; max-width: 68ch; color: var(--text-secondary); }
+    h3 { font-size: 1rem; font-weight: 600; color: var(--text-heading); }
+
+    /* Constraint cards */
+    .cards {
+      margin-top: 40px; display: grid; gap: 18px;
+      grid-template-columns: repeat(auto-fit, minmax(238px, 1fr));
+    }
+    .card {
+      background: var(--bg-clean); border: 1px solid var(--border-light);
+      border-radius: var(--radius-md); padding: 26px 24px;
+      box-shadow: var(--shadow-card); transition: .25s var(--ease);
+    }
+    .card:hover { transform: translateY(-3px); box-shadow: var(--shadow-raised); }
+    .card p { margin-top: 10px; font-size: .9rem; color: var(--text-secondary); }
+    .card .tick {
+      display: block; width: 26px; height: 2px;
+      background: var(--accent); margin-bottom: 16px;
+    }
+
+    /* Numbered steps */
+    .steps { margin-top: 40px; display: grid; gap: 0; counter-reset: step; }
+    .step {
+      display: grid; grid-template-columns: 62px 1fr; gap: 22px;
+      padding: 24px 0; border-top: 1px solid var(--border-light);
+    }
+    .step:last-child { border-bottom: 1px solid var(--border-light); }
+    .step-num {
+      font-family: var(--font-serif); font-size: 1.6rem;
+      color: var(--accent); line-height: 1;
+    }
+    .step p { margin-top: 8px; font-size: .93rem; color: var(--text-secondary); max-width: 66ch; }
+
+    /* Deliverables */
+    .grid-3 {
+      margin-top: 40px; display: grid; gap: 18px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+    .deliverable {
+      background: var(--bg-clean); border: 1px solid var(--border-light);
+      border-radius: var(--radius-md); padding: 26px 24px;
+    }
+    .deliverable .kind {
+      font-size: .68rem; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--accent); font-weight: 600; display: block; margin-bottom: 12px;
+    }
+    .deliverable p { margin-top: 10px; font-size: .9rem; color: var(--text-secondary); }
+
+    /* Impact */
+    .impact {
+      background: var(--surface-black); color: var(--text-on-dark);
+      border-radius: var(--radius-lg); padding: clamp(34px, 5vw, 56px);
+      margin-top: 40px;
+      display: grid; gap: 40px;
+      grid-template-columns: minmax(0, 260px) minmax(0, 1fr);
+      align-items: start;
+    }
+    .impact-figure { text-align: left; }
+    .impact-value {
+      font-family: var(--font-serif); font-size: clamp(3.4rem, 8vw, 5rem);
+      line-height: 1; font-weight: 500; display: block;
+    }
+    .impact-caption {
+      margin-top: 14px; font-size: .84rem; color: rgba(251, 251, 251, .68);
+      max-width: 26ch;
+    }
+    .impact-body p { color: rgba(251, 251, 251, .82); font-size: .96rem; }
+    .impact-body p + p { margin-top: 16px; }
+    .impact-body h3 { color: var(--text-on-dark); margin-bottom: 12px; }
+    .method-note {
+      margin-top: 24px; padding: 18px 20px;
+      border: 1px solid rgba(251, 251, 251, .18);
+      border-radius: var(--radius-sm);
+      font-size: .87rem; color: rgba(251, 251, 251, .72);
+    }
+    .method-note strong { color: var(--text-on-dark); }
+
+    /* Competencies */
+    .comp-grid {
+      margin-top: 36px; display: grid; gap: 1px;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      background: var(--border-light);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md); overflow: hidden;
+    }
+    .comp { background: var(--bg-clean); padding: 26px 24px; }
+    .comp p { margin-top: 8px; font-size: .88rem; color: var(--text-secondary); }
+
+    .callout {
+      margin-top: 36px; background: var(--state-success-bg);
+      border: 1px solid rgba(47, 107, 98, .22);
+      border-radius: var(--radius-md); padding: 26px 28px;
+    }
+    .callout h3 { color: var(--state-success); }
+    .callout p { margin-top: 10px; font-size: .93rem; color: var(--text-primary); max-width: 74ch; }
+    .callout a { color: var(--state-success); font-weight: 500; }
+
+    /* Footer */
+    .cs-footer {
+      border-top: 1px solid var(--border-light);
+      padding: 52px 0 40px; margin-top: 20px;
+    }
+    .foot-row {
+      display: flex; flex-wrap: wrap; gap: 20px;
+      align-items: center; justify-content: space-between;
+    }
+    .foot-links { display: flex; flex-wrap: wrap; gap: 22px; font-size: .88rem; }
+    .foot-links a { color: var(--text-secondary); text-decoration: none; }
+    .foot-links a:hover { color: var(--text-heading); }
+    .foot-note { font-size: .8rem; color: var(--text-muted); margin-top: 24px; }
+
+    /* Reveal */
+    .reveal { opacity: 0; transform: translateY(16px); transition: .6s var(--ease); }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 860px) {
+      .nav-links { display: none; }
+      .impact { grid-template-columns: 1fr; gap: 28px; }
+      .step { grid-template-columns: 44px 1fr; gap: 16px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; animation: none !important; }
+      .reveal { opacity: 1; transform: none; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-nav" id="top">
+    <div class="wrap nav-row">
+      <a class="brand" href="index.html" aria-label="Nechille Bayan, home">
+        <span class="star" aria-hidden="true"></span>
+        <span class="brand-copy">
+          <span class="brand-name">Nechille Bayan</span>
+          <span class="brand-role">AI operations · knowledge systems</span>
+        </span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="index.html">Home</a>
+        <a href="index.html#expertise">Expertise</a>
+        <a href="index.html#case-studies">Case Studies</a>
+        <a href="index.html#connect">Connect</a>
+      </nav>
+      <a class="nav-back" href="index.html#case-studies">← All work</a>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <section class="cs-hero">
+      <div class="wrap">
+        <p class="eyebrow">Copilot implementation · Automation system</p>
+        <h1>Moving a writer's attention onto the <em>work only a writer can do.</em></h1>
+        <p class="cs-lead">
+          Writers were spending their best hours on transcription and formatting, the lowest-judgment work in the job, and output quality varied run to run. I separated content generation from formatting, added QA gates and audit logs, and layered SME flagging on top so verification effort could be aimed. Drafting throughput reached 2.3× baseline as a measurable outcome of that redesign.
+        </p>
+
+        <dl class="facts">
+          <div class="fact">
+            <dt>Role</dt>
+            <dd>Knowledge Management Analyst. Owned the pipeline design end to end.</dd>
+          </div>
+          <div class="fact">
+            <dt>System</dt>
+            <dd>Two Copilot agents, KM Drafter and KM Format Editor, with a human review checkpoint between them.</dd>
+          </div>
+          <div class="fact">
+            <dt>Design intent</dt>
+            <dd>Change what a writer spends attention on. Throughput is the outcome, not the goal that shaped the design.</dd>
+          </div>
+          <div class="fact">
+            <dt>Measured outcome</dt>
+            <dd>2.3× drafting throughput against baseline. Drafting stage only.</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <div class="wrap">
+        <p class="sec-label">The challenge</p>
+        <h2>The writing job had the wrong shape.</h2>
+        <p class="sec-intro">
+          A writer's scarcest asset is judgment: Deciding what a reader needs, what the source actually says, and what is missing. That is not where the hours were going. Transcription, restructuring, and formatting consumed the best part of the day, and because the output depended on individual discipline rather than on the system, quality varied run to run. Downstream, reviewers read every draft at the same level of suspicion, and nothing recorded which stage produced a defect.
+        </p>
+
+        <div class="cards">
+          <article class="card">
+            <span class="tick" aria-hidden="true"></span>
+            <h3>Best hours on the lowest-judgment work</h3>
+            <p>Writers spent their sharpest time transcribing source material and fixing formatting. Every draft started from a blank page.</p>
+          </article>
+          <article class="card">
+            <span class="tick" aria-hidden="true"></span>
+            <h3>Inconsistent output quality</h3>
+            <p>Content and formatting varied between runs, so consistency depended on individual discipline rather than on the system.</p>
+          </article>
+          <article class="card">
+            <span class="tick" aria-hidden="true"></span>
+            <h3>Review with no signal</h3>
+            <p>Nothing marked which passages were uncertain, so reviewers carried a whole document at one level of suspicion. That is slow and mentally expensive on both sides.</p>
+          </article>
+          <article class="card">
+            <span class="tick" aria-hidden="true"></span>
+            <h3>No traceability</h3>
+            <p>When output was wrong, nothing recorded which stage or which inputs produced it. Fixes were guesses.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <div class="wrap">
+        <p class="sec-label">Strategic approach</p>
+        <h2>Take the non-deterministic work off the model.</h2>
+        <p class="sec-intro">
+          The core decision was to stop asking a generative model to do work that did not require judgment. Formatting is deterministic. Validation is deterministic. Only the content itself needs a model, and only accuracy needs a human. Separating those three responsibilities is what gave the writer their judgment hours back.
+        </p>
+
+        <div class="steps">
+          <article class="step">
+            <span class="step-num" aria-hidden="true">1</span>
+            <div>
+              <h3>Separate generation from formatting</h3>
+              <p>Formatting moved out of the model and into a deterministic layer, splitting the work across two agents, KM Drafter and KM Format Editor, with a human review checkpoint between them. The model became responsible for content only, and presentation stopped varying between runs.</p>
+            </div>
+          </article>
+          <article class="step">
+            <span class="step-num" aria-hidden="true">2</span>
+            <div>
+              <h3>Insert QA gates between stages</h3>
+              <p>Defined pass criteria at each stage boundary so structural and completeness defects were caught inside the pipeline, before anything reached a human reviewer.</p>
+            </div>
+          </article>
+          <article class="step">
+            <span class="step-num" aria-hidden="true">3</span>
+            <div>
+              <h3>Add run modes</h3>
+              <p>Built distinct configurations for drafting, full production, and reprocessing, so a correction did not require rerunning the entire pipeline from the start.</p>
+            </div>
+          </article>
+          <article class="step">
+            <span class="step-num" aria-hidden="true">4</span>
+            <div>
+              <h3>Add audit logs</h3>
+              <p>Every output became traceable to the stage and inputs that produced it. Failures became diagnosable instead of anecdotal, which made the QA gates tunable over time.</p>
+            </div>
+          </article>
+          <article class="step">
+            <span class="step-num" aria-hidden="true">5</span>
+            <div>
+              <h3>Add SME flagging on top</h3>
+              <p>An added feature rather than the core purpose. Missing, conflicting, or uncertain source information surfaces as an explicit flag instead of being silently invented, so neither the writer nor the reviewer carries a whole document at the same level of suspicion. The writer knows what to escalate, and the reviewer knows where to look.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <div class="wrap">
+        <p class="sec-label">What was built</p>
+        <h2>Deliverables.</h2>
+        <p class="sec-intro">
+          The redesign produced a set of durable artifacts, not a one-time fix. Each one is independently maintainable and can be revised without rebuilding the pipeline.
+        </p>
+
+        <div class="grid-3">
+          <article class="deliverable">
+            <span class="kind">Architecture</span>
+            <h3>Pipeline design</h3>
+            <p>Stage boundaries, responsibilities, and data contracts for a two-agent pipeline with a human review checkpoint and a deterministic formatting layer.</p>
+          </article>
+          <article class="deliverable">
+            <span class="kind">Quality</span>
+            <h3>QA gate criteria</h3>
+            <p>Explicit pass and fail conditions at each stage boundary, defining what may proceed and what must be reprocessed.</p>
+          </article>
+          <article class="deliverable">
+            <span class="kind">Operations</span>
+            <h3>Run mode specification</h3>
+            <p>Draft, full production, and reprocess configurations with defined inputs, outputs, and appropriate use for each.</p>
+          </article>
+          <article class="deliverable">
+            <span class="kind">Traceability</span>
+            <h3>Audit log schema</h3>
+            <p>Structured record of stage, inputs, and outcome for every run, supporting both defect diagnosis and throughput measurement.</p>
+          </article>
+          <article class="deliverable">
+            <span class="kind">Process</span>
+            <h3>SME flagging convention</h3>
+            <p>Rules for what the draft must mark as missing, conflicting, or uncertain, so verification effort can be aimed at the passages that need it.</p>
+          </article>
+          <article class="deliverable">
+            <span class="kind">Evidence</span>
+            <h3>Drafting throughput baseline</h3>
+            <p>Before and after drafts per week, giving the change a measured result rather than an asserted one.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <div class="wrap">
+        <p class="sec-label">Result</p>
+        <h2>The outcome, measured.</h2>
+
+        <div class="impact">
+          <div class="impact-figure">
+            <span class="impact-value">2.3×</span>
+            <p class="impact-caption">drafting throughput against baseline, four active writers</p>
+          </div>
+          <div class="impact-body">
+            <h3>Why it moved</h3>
+            <p>
+              The gain did not come from making the model faster. It came from changing what a writer spends attention on. Once formatting was deterministic and QA gates caught structural defects, the hours that had gone to transcription and cleanup went to judgment instead, and drafting stopped restarting from a blank page.
+            </p>
+            <p>
+              The audit logs made the result verifiable. Because every run was recorded, the before and after comparison came from the system's own records rather than from recall.
+            </p>
+            <div class="method-note">
+              <strong>How it was measured:</strong> Drafts per week across a defined window before and after, four active writers. The scope is the drafting and authoring stage only. SME review and Salesforce staging are excluded, because their timing is not consistently recorded. The number is the measurable outcome of the redesign, not the goal that shaped it.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <div class="wrap">
+        <p class="sec-label">Practice</p>
+        <h2>What this demonstrates.</h2>
+
+        <div class="comp-grid">
+          <div class="comp">
+            <h3>AI workflow design</h3>
+            <p>Assigning generative and deterministic work to the correct layer, so model variability does not propagate into output.</p>
+          </div>
+          <div class="comp">
+            <h3>Designing for the operator</h3>
+            <p>Targeting what the person inside the workflow spends attention on, rather than optimizing a number and assuming the experience follows.</p>
+          </div>
+          <div class="comp">
+            <h3>Quality gate design</h3>
+            <p>Defining machine-checkable pass criteria that reduce defect load on human reviewers.</p>
+          </div>
+          <div class="comp">
+            <h3>Auditability</h3>
+            <p>Building traceability into an AI system so failures are diagnosable and results are verifiable after the fact.</p>
+          </div>
+          <div class="comp">
+            <h3>Measurement design</h3>
+            <p>Choosing an outcome metric that cannot be gamed by producing more unfinished work.</p>
+          </div>
+          <div class="comp">
+            <h3>Process change</h3>
+            <p>Adding a flagging convention so specialist attention lands on the passages that actually need verification.</p>
+          </div>
+        </div>
+
+        <div class="callout">
+          <h3>Transferable method</h3>
+          <p>
+            The approach generalizes to any AI-assisted production process with a human review step. Start from what the people inside the process spend their attention on, separate deterministic work from generative work, put automated gates in front of the human, and log every run so the result can be measured rather than claimed. The measurement discipline behind the 2.3× figure is documented separately in the <a href="case-study-governance-framework.html">Knowledge Ops and Governance Framework</a> case study.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="cs-footer">
+    <div class="wrap">
+      <div class="foot-row">
+        <a class="brand" href="index.html">
+          <span class="star" aria-hidden="true"></span>
+          <span class="brand-copy">
+            <span class="brand-name">Nechille Bayan</span>
+            <span class="brand-role">AI operations · knowledge systems</span>
+          </span>
+        </a>
+        <nav class="foot-links" aria-label="Footer">
+          <a href="index.html#case-studies">All work</a>
+          <a href="index.html#connect">Connect</a>
+          <a href="mailto:nechillebayan@gmail.com">nechillebayan@gmail.com</a>
+        </nav>
+      </div>
+      <p class="foot-note">
+        Details are described generically. No client-internal tool names, team names, process names, or data are disclosed.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    const revealItems = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: .12 });
+      revealItems.forEach(item => observer.observe(item));
+    } else {
+      revealItems.forEach(item => item.classList.add('visible'));
+    }
+  </script>
+</body>
+</html>

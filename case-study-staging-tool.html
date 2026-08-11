@@ -615,7 +615,7 @@
     .cs-figure-note { margin-top: 10px; color: var(--text-muted); font-size: .78rem; line-height: 1.55; }
 
     /* Step flows (lifecycle lines, staging workflow) */
-    .cs-flow { display: grid; grid-template-columns: repeat(var(--steps, 5), minmax(0, 1fr)); gap: 10px; }
+    .cs-flow { --flow-gap: 14px; display: grid; grid-template-columns: repeat(var(--steps, 5), minmax(0, 1fr)); gap: var(--flow-gap); }
     .cs-flow-step {
       position: relative;
       display: grid;
@@ -635,11 +635,13 @@
       content: "›";
       position: absolute;
       top: 50%;
-      right: -9px;
+      left: 100%;
       z-index: 1;
+      width: calc(var(--flow-gap) + 2px);
       color: var(--accent);
       font-size: 1rem;
-      transform: translate(50%, -52%);
+      text-align: center;
+      transform: translateY(-52%);
     }
     .cs-flow-step.is-highlight {
       color: var(--accent);
@@ -1013,13 +1015,14 @@
       .cs-snapshot th { padding-bottom: 2px; border-right: 0; border-bottom: 0; }
       .cs-snapshot td { padding-top: 4px; }
       .cs-flow-step { font-size: .58rem; }
-      .cs-flow--stack { grid-template-columns: 1fr; gap: 18px; }
+      .cs-flow--stack { --flow-gap: 18px; grid-template-columns: 1fr; }
       .cs-flow--stack .cs-flow-step:not(:last-child)::after {
-        top: auto;
-        right: auto;
-        bottom: -14px;
+        top: 100%;
         left: 50%;
-        transform: translate(-50%, 50%) rotate(90deg);
+        width: 1em;
+        height: calc(var(--flow-gap) + 2px);
+        line-height: calc(var(--flow-gap) + 2px);
+        transform: translateX(-50%) rotate(90deg);
       }
       .cs-tracks { grid-template-columns: 1fr; }
       .cs-compare { grid-template-columns: 1fr; }

@@ -1030,6 +1030,73 @@
     }
     .beyond-cell p { margin-top: 9px; color: var(--text-secondary); font-size: .84rem; }
 
+    /* Beyond: procedural writing band. A full-width row below .beyond-grid, not a
+       fourth .beyond-cell, which would force the 3-across grid into a 2x2 reflow
+       and disturb the three existing cells and their 920px collapse. */
+    .beyond-practice {
+      margin-top: 36px;
+      padding-top: 30px;
+      border-top: 1px solid var(--border-medium);
+    }
+    .beyond-practice-title {
+      color: var(--text-heading);
+      font-family: var(--font-serif);
+      font-size: clamp(1.2rem, 2vw, 1.45rem);
+      font-weight: 600;
+      line-height: 1.25;
+    }
+    .beyond-practice-body {
+      max-width: 720px;
+      margin-top: 10px;
+      color: var(--text-secondary);
+      font-size: .88rem;
+    }
+    .beyond-ba {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .beyond-ba-cell {
+      padding: 11px 14px;
+      background: var(--bg-section);
+      border: 1px solid var(--border-light);
+    }
+    .beyond-ba-cell.is-out { background: var(--bg-clean); border-color: var(--border-medium); }
+    .beyond-ba-label {
+      display: block;
+      color: var(--text-disabled);
+      font-size: .58rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      line-height: 1.5;
+      text-transform: uppercase;
+    }
+    .beyond-ba-cell code {
+      display: block;
+      margin-top: 5px;
+      font-family: Consolas, Menlo, monospace;
+      font-size: .73rem;
+      line-height: 1.6;
+      color: var(--text-primary);
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+    .beyond-practice-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 20px;
+      padding-bottom: 2px;
+      color: var(--accent);
+      font-size: .84rem;
+      font-weight: 600;
+      border-bottom: 1px solid var(--border-medium);
+      transition: border-color 180ms ease;
+    }
+    .beyond-practice-link:hover { border-color: var(--accent); }
+    .beyond-practice-link:hover .arrow { transform: translateX(4px); }
+
     /* Connect — merged About + Contact, black closing block */
     .connect {
       color: var(--text-on-dark);
@@ -1186,6 +1253,7 @@
       .beyond-cell { padding: 0 0 0 20px; }
       .beyond-cell:first-child { padding-left: 20px; border-left: 1px solid var(--border-medium); }
       .beyond-cell, .beyond-cell:first-child { border-left: 2px solid var(--border-medium); }
+      .beyond-ba { grid-template-columns: minmax(0, 1fr); }
       .connect-grid { grid-template-columns: 1fr; align-items: start; }
       .footer-main { grid-template-columns: 1fr auto; }
       .footer-nav { grid-column: 1 / -1; grid-row: 2; justify-content: flex-start; }
@@ -1568,7 +1636,7 @@
       </div>
     </section>
 
-    <section class="beyond" aria-labelledby="beyond-title">
+    <section class="beyond" id="beyond" aria-labelledby="beyond-title">
       <div class="wrap reveal">
         <div class="sec-head">
           <div class="sec-head-row">
@@ -1590,6 +1658,23 @@
             <span class="beyond-label">Governance artifacts</span>
             <p>SLAs, KPI definitions, and escalation paths endorsed as the knowledge function’s source of truth.</p>
           </div>
+        </div>
+
+        <div class="beyond-practice">
+          <p class="beyond-practice-title">Procedural &amp; Instructional Writing</p>
+          <p class="beyond-practice-body">Specialist knowledge, translated into instructions people can follow without help. Manuals, SOPs, and training guides, written to ASD-STE100 principles.</p>
+          <div class="beyond-ba">
+            <div class="beyond-ba-cell">
+              <span class="beyond-ba-label">Raw</span>
+              <code>you push the belt with your thumb and you'll feel when the tension's right...</code>
+            </div>
+            <div class="beyond-ba-cell is-out">
+              <span class="beyond-ba-label">Written</span>
+              <code>1. Apply 20 N to the centre of the drive belt span.
+2. Confirm 1.5 mm of deflection per 100 mm.</code>
+            </div>
+          </div>
+          <a class="beyond-practice-link" href="procedural-writing.html">See the practice <span class="arrow" aria-hidden="true">→</span></a>
         </div>
       </div>
     </section>
@@ -1641,6 +1726,7 @@
           <a href="#top">Home</a>
           <a href="#expertise">Expertise</a>
           <a href="#case-studies">Case Studies</a>
+          <a href="procedural-writing.html">Procedural Writing</a>
           <a href="Nech-Bayan-Resume.pdf" target="_blank" rel="noopener">Resume</a>
           <a href="mailto:nechillebayan@gmail.com">Email</a>
           <a href="https://www.linkedin.com/in/nechillebayan/" target="_blank" rel="noopener">LinkedIn</a>

@@ -514,7 +514,11 @@
       background: var(--accent);
       clip-path: polygon(0 0, 100% 0, 100% 58%, 58% 100%, 0 100%);
     }
-    .cs-fineprint { margin-top: 14px; color: var(--text-muted); font-size: .8rem; line-height: 1.6; }
+    /* Bare .cs-fineprint (0,1,0) lost colour, size and margin to .cs-prose p (0,1,1),
+       so this rendered as ordinary body copy everywhere it was used. The prefixed
+       selector wins inside prose; the bare one still covers any use outside it. */
+    .cs-fineprint,
+    .cs-prose .cs-fineprint { margin-top: 14px; color: var(--text-muted); font-size: .8rem; line-height: 1.6; }
 
     /* Decision block: One named decision, its reasoning, and its consequence */
     .cs-decision {

@@ -112,7 +112,7 @@
     .eyebrow.light { color: var(--border-medium); }
     .arrow { transition: transform 220ms var(--ease); }
 
-    /* Buttons — one language site-wide: black + blue glow.
+    /* Buttons. One language site-wide: black + blue glow.
        .glow-rest carries rest-state glow (budgeted: featured CTAs + connect CTA only). */
     .btn {
       display: inline-flex;
@@ -158,7 +158,7 @@
     .btn-white.glow-rest { box-shadow: var(--glow-rest); }
     .btn-white.glow-rest:hover { box-shadow: var(--glow-hover); }
 
-    /* Navigation — black bar */
+    /* Navigation: Black bar */
     .site-nav {
       position: sticky;
       top: 0;
@@ -259,7 +259,7 @@
     .nav-links a:hover::before, .nav-links a.active::before { transform: translateX(-50%) scale(1); }
     .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
     .nav-cta { justify-self: end; min-height: 40px; padding: 0 16px; font-size: .76rem; border-radius: 999px; }
-    /* v4 — envelope icon in the nav CTA (static, no hover nudge) */
+    /* v4: Envelope icon in the nav CTA (static, no hover nudge) */
     .nav-cta-mail {
       width: 15px;
       height: 15px;
@@ -434,7 +434,7 @@
       font-size: .74rem;
       line-height: 1.5;
     }
-    /* Comparison chart — two real values (40 → 93 drafts/week), both proportional to the 93 peak.
+    /* Comparison chart: Two real values (40 → 93 drafts/week), both proportional to the 93 peak.
        Horizontal: the card column is ~365px (297px at 640px), too narrow for legible vertical pairs. */
     .impact-chart { max-width: 460px; margin-top: 28px; }
     .impact-chart-head {
@@ -479,7 +479,7 @@
       animation: barIn 900ms var(--ease) both;
     }
     .impact-row.is-peak .impact-row-head { color: var(--bg-clean); font-weight: 600; }
-    /* v4.6 — the peak bar climbs over 3s so the headline number gets watched rather
+    /* v4.6: The peak bar climbs over 3s so the headline number gets watched rather
        than missed. It carries its own curve: the shared --ease front-loads the travel,
        which stretched to 3s reads as a stall, not a climb. */
     .impact-row.is-peak .impact-track i {
@@ -559,7 +559,7 @@
       font-size: .84rem;
     }
 
-    /* Sections shared — one header style everywhere: star + serif heading + subtitle */
+    /* Sections shared. One header style everywhere: star + serif heading + subtitle */
     section { padding: clamp(88px, 10vw, 130px) 0; }
     .sec-head { margin-bottom: 50px; }
     .sec-head-row { display: flex; align-items: center; gap: 16px; }
@@ -577,7 +577,7 @@
     .sec-head.on-dark .star { color: var(--bg-clean); }
     .sec-head.on-dark > p { color: var(--border-medium); }
 
-    /* Expertise — editorial rows */
+    /* Expertise: Editorial rows */
     .exp-list { border-top: 1px solid var(--border-medium); }
     .exp-row {
       position: relative;
@@ -636,7 +636,7 @@
       filter: drop-shadow(var(--shadow-card));
       transition: filter 250ms ease, transform 250ms var(--ease);
     }
-    /* v4.1 — the entrance reveal sits on a wrapper div, so .reveal.visible can't override this transform */
+    /* v4.1: The entrance reveal sits on a wrapper div, so .reveal.visible can't override this transform */
     .fw-card:hover { filter: drop-shadow(var(--shadow-card-hover)); transform: translateY(-6px); }
     .fw-card-inner {
       clip-path: var(--clip-card-inner);
@@ -652,7 +652,7 @@
       justify-content: space-between;
       gap: 14px;
     }
-    /* v4.1 — index labels as tag pills (cards + modals), replacing the eyebrow-text treatment */
+    /* v4.1: Index labels as tag pills (cards + modals), replacing the eyebrow-text treatment */
     .fw-index {
       display: inline-flex;
       align-items: center;
@@ -676,7 +676,7 @@
       clip-path: var(--clip-tile);
     }
     .fw-icon svg { width: 24px; height: 24px; stroke: #fff; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
-    /* v4.3 — the category line above the title is gone; the title carries the top of the card */
+    /* v4.3: The category line above the title is gone; the title carries the top of the card */
     .fw-card h3 {
       margin-top: 22px;
       color: var(--text-heading);
@@ -687,12 +687,12 @@
     }
     .fw-underline { width: 36px; height: 3px; margin-top: 12px; background: var(--accent); }
     .fw-desc { margin-top: 16px; color: var(--text-secondary); font-size: .88rem; }
-    /* v4 — per-card diagram blocks (light surfaces only; no navy fills) */
+    /* v4: Per-card diagram blocks (light surfaces only; no navy fills) */
     .fw-artifact {
       position: relative;
       display: flex;
       align-items: center;
-      /* v4.6 — raised from 158px to hold card 1's two-row pipeline. All three diagram
+      /* v4.6: Raised from 158px to hold card 1's two-row pipeline. All three diagram
          blocks stay one height, which is what keeps the card CTAs on a shared baseline. */
       min-height: 196px;
       margin-top: 18px;
@@ -710,7 +710,7 @@
       letter-spacing: .12em;
       text-transform: uppercase;
     }
-    /* v4.6 — the AI draft stage has two implementations. They used to sit inside the
+    /* v4.6: The AI draft stage has two implementations. They used to sit inside the
        stage box, which squeezed them and made them read as pipeline steps. They now
        live in a band tethered below the row, so the top line stays one clean
        left-to-right read and the two variants are visibly subordinate to one stage. */
@@ -1097,7 +1097,7 @@
     .beyond-practice-link:hover { border-color: var(--accent); }
     .beyond-practice-link:hover .arrow { transform: translateX(4px); }
 
-    /* Connect — merged About + Contact, black closing block */
+    /* Connect: Merged About + Contact, black closing block */
     .connect {
       color: var(--text-on-dark);
       background: var(--surface-black);
@@ -1126,7 +1126,7 @@
     .connect .sec-head { margin-bottom: 0; }
     .connect .sec-head h2 { max-width: 22ch; }
     .connect-blurb { max-width: 56ch; margin-top: 24px; color: var(--border-medium); font-size: .92rem; }
-    /* v4.6 — the closing section is down to lede, tools, and the CTA pair. The
+    /* v4.6: The closing section is down to lede, tools, and the CTA pair. The
        "What I build" / "How I work" bullet columns were cut; the case studies carry
        that ground already, and the closing block reads faster without them. */
     .about-label {
@@ -1142,7 +1142,7 @@
     .connect-tools { margin-top: 34px; }
     .connect-chips .chip { color: var(--border-medium); border-color: rgba(195, 206, 222, .35); }
     .connect-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
-    /* v4.6 — the two closing CTAs stack: one full-width track, equal height, one
+    /* v4.6. The two closing CTAs stack: one full-width track, equal height, one
        above the other, so the primary action is read first at every width. */
     .connect-btns {
       width: 100%;
@@ -1156,7 +1156,7 @@
     .connect-linkedin:hover { color: var(--bg-clean); }
     .connect-availability { color: var(--text-disabled); font-size: .74rem; max-width: 42ch; }
 
-    /* Footer — continuous with connect block */
+    /* Footer: Continuous with connect block */
     footer {
       color: var(--text-on-dark);
       background: var(--surface-black);
@@ -1215,7 +1215,7 @@
     .delay-1 { transition-delay: 90ms; }
     .delay-2 { transition-delay: 180ms; }
 
-    /* v4.6 — was 960px. Between there and ~1160px the cards are still three across but
+    /* v4.6: Was 960px. Between there and ~1160px the cards are still three across but
        narrow enough that the five-stage diagram row cannot hold its labels: they spill
        into the arrow gaps and card 1's block outgrows the other two. One 520px column
        has room, so the switch happens before the row gets cramped rather than after. */
@@ -1284,7 +1284,7 @@
       .fw-branch-opts { gap: 6px; }
     }
 
-    /* v4.6 — below ~420px the five stage columns are too narrow to hold the longest
+    /* v4.6: Below ~420px the five stage columns are too narrow to hold the longest
        label, which then spills into the arrow gaps. Tighten the row and let the long
        hyphenated word break wherever it needs to rather than overflow its box. */
     @media (max-width: 420px) {
@@ -1468,7 +1468,7 @@
         </div>
 
         <div class="fw-grid">
-          <!-- Card 1 — AI-Assisted Documentation Pipeline -->
+          <!-- Card 1: AI-Assisted Documentation Pipeline -->
           <div class="reveal">
           <article class="fw-card" aria-labelledby="fw1-title">
             <div class="fw-card-inner">
@@ -1518,7 +1518,7 @@
           </article>
           </div>
 
-          <!-- Card 2 — Knowledge Article Staging Tool -->
+          <!-- Card 2: Knowledge Article Staging Tool -->
           <div class="reveal delay-1">
           <article class="fw-card" aria-labelledby="fw2-title">
             <div class="fw-card-inner">
@@ -1585,7 +1585,7 @@
           </article>
           </div>
 
-          <!-- Card 3 — Knowledge Ops & Governance Framework -->
+          <!-- Card 3: Knowledge Ops & Governance Framework -->
           <div class="reveal delay-2">
           <article class="fw-card" aria-labelledby="fw3-title">
             <div class="fw-card-inner">
@@ -1901,7 +1901,7 @@
     onScroll();
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    /* Back to top — #top is the sticky header, which is always visually at the
+    /* Back to top. #top is the sticky header, which is always visually at the
        viewport top, so plain anchor navigation is a no-op. Animate the scroll with
        rAF: Chrome can silently swallow programmatic behavior:'smooth' scrolls. */
     const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');

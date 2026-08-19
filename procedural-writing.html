@@ -623,7 +623,11 @@
       letter-spacing: .12em;
       text-transform: uppercase;
     }
-    .cs-figure-note { margin-top: 10px; color: var(--text-muted); font-size: .78rem; line-height: 1.55; }
+    /* Bare class (0,1,0) lost colour and size to .cs-prose p (0,1,1), so this
+       rendered as body copy. Prefixed form wins inside prose; bare form still
+       covers any use outside it. */
+    .cs-figure-note,
+    .cs-prose .cs-figure-note { margin-top: 10px; color: var(--text-muted); font-size: .78rem; line-height: 1.55; }
 
     /* Step flows (lifecycle lines, staging workflow) */
     .cs-flow { --flow-gap: 14px; display: grid; grid-template-columns: repeat(var(--steps, 5), minmax(0, 1fr)); gap: var(--flow-gap); }
@@ -659,7 +663,11 @@
       background: var(--accent-soft);
       border-color: var(--accent);
     }
-    .cs-flow-stat {
+    /* Bare class (0,1,0) lost colour and size to .cs-prose p (0,1,1), so this
+       rendered as body copy. Prefixed form wins inside prose; bare form still
+       covers any use outside it. */
+    .cs-flow-stat,
+    .cs-prose .cs-flow-stat {
       margin-top: 14px;
       color: var(--text-heading);
       font-family: var(--font-serif);
@@ -703,14 +711,22 @@
       background: var(--bg-clean);
       border-style: dashed;
     }
-    .cs-track-stat {
+    /* Bare class (0,1,0) lost colour and size to .cs-prose p (0,1,1), so this
+       rendered as body copy. Prefixed form wins inside prose; bare form still
+       covers any use outside it. */
+    .cs-track-stat,
+    .cs-prose .cs-track-stat {
       margin-top: 14px;
       color: var(--text-heading);
       font-family: var(--font-serif);
       font-size: .95rem;
       font-weight: 600;
     }
-    .cs-track-note { margin-top: 4px; color: var(--text-muted); font-size: .68rem; line-height: 1.5; }
+    /* Bare class (0,1,0) lost colour and size to .cs-prose p (0,1,1), so this
+       rendered as body copy. Prefixed form wins inside prose; bare form still
+       covers any use outside it. */
+    .cs-track-note,
+    .cs-prose .cs-track-note { margin-top: 4px; color: var(--text-muted); font-size: .68rem; line-height: 1.5; }
 
     /* Status-flow diagram (governance page) */
     .gov-flow { display: grid; gap: 7px; justify-items: center; }
@@ -1726,8 +1742,12 @@
     .cs-prose .pw-fam-row p { margin-top: 0; font-size: .89rem; }
     .cs-prose .pw-fam-row .pw-fam-miss { color: var(--text-muted); font-size: .62rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
 
-    /* ---- Responsive additions ---- */
-    @media (max-width: 920px) {
+    /* ---- Responsive additions ----
+       919.98px, not 920px: The build prompt asked for margin labels "at 920px and
+       above", and max-width: 920px would stack them at exactly 920px, one pixel
+       early. Note this now differs by 0.02px from every other 920px breakpoint on
+       the site, including the shared case-study block. */
+    @media (max-width: 919.98px) {
       .pw-annot { grid-template-columns: minmax(0, 1fr); gap: 6px; }
       .cs-prose .pw-annot .pw-annot-label { text-align: left; padding-top: 0; }
       .pw-fam-row { grid-template-columns: minmax(0, 1fr); gap: 4px; }

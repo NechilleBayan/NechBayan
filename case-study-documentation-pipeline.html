@@ -616,7 +616,11 @@
       letter-spacing: .12em;
       text-transform: uppercase;
     }
-    .cs-figure-note { margin-top: 10px; color: var(--text-muted); font-size: .78rem; line-height: 1.55; }
+    /* Bare class (0,1,0) lost colour and size to .cs-prose p (0,1,1), so this
+       rendered as body copy. Prefixed form wins inside prose; bare form still
+       covers any use outside it. */
+    .cs-figure-note,
+    .cs-prose .cs-figure-note { margin-top: 10px; color: var(--text-muted); font-size: .78rem; line-height: 1.55; }
 
     /* Step flows (lifecycle lines, staging workflow) */
     .cs-flow { --flow-gap: 14px; display: grid; grid-template-columns: repeat(var(--steps, 5), minmax(0, 1fr)); gap: var(--flow-gap); }
@@ -652,7 +656,11 @@
       background: var(--accent-soft);
       border-color: var(--accent);
     }
-    .cs-flow-stat {
+    /* Bare class (0,1,0) lost colour and size to .cs-prose p (0,1,1), so this
+       rendered as body copy. Prefixed form wins inside prose; bare form still
+       covers any use outside it. */
+    .cs-flow-stat,
+    .cs-prose .cs-flow-stat {
       margin-top: 14px;
       color: var(--text-heading);
       font-family: var(--font-serif);
@@ -696,14 +704,22 @@
       background: var(--bg-clean);
       border-style: dashed;
     }
-    .cs-track-stat {
+    /* Bare class (0,1,0) lost colour and size to .cs-prose p (0,1,1), so this
+       rendered as body copy. Prefixed form wins inside prose; bare form still
+       covers any use outside it. */
+    .cs-track-stat,
+    .cs-prose .cs-track-stat {
       margin-top: 14px;
       color: var(--text-heading);
       font-family: var(--font-serif);
       font-size: .95rem;
       font-weight: 600;
     }
-    .cs-track-note { margin-top: 4px; color: var(--text-muted); font-size: .68rem; line-height: 1.5; }
+    /* Bare class (0,1,0) lost colour and size to .cs-prose p (0,1,1), so this
+       rendered as body copy. Prefixed form wins inside prose; bare form still
+       covers any use outside it. */
+    .cs-track-note,
+    .cs-prose .cs-track-note { margin-top: 4px; color: var(--text-muted); font-size: .68rem; line-height: 1.5; }
 
     /* Status-flow diagram (governance page) */
     .gov-flow { display: grid; gap: 7px; justify-items: center; }
@@ -1390,7 +1406,7 @@
     onScroll();
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    /* Back to top — #top is the sticky header, which is always visually at the
+    /* Back to top. #top is the sticky header, which is always visually at the
        viewport top, so plain anchor navigation is a no-op. Animate the scroll with
        rAF: Chrome can silently swallow programmatic behavior:'smooth' scrolls. */
     const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
@@ -1420,7 +1436,7 @@
       });
     });
 
-    /* Reading companion — the section rail follows the reader instead of sitting
+    /* Reading companion. The section rail follows the reader instead of sitting
        still. The active section is the last one whose top has passed a line about
        30% down the viewport, so the next section takes over exactly as the current
        one scrolls out, with no interaction needed. */

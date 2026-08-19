@@ -44,6 +44,12 @@
       --clip-tile: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 9px 100%, 0 calc(100% - 9px));
       --star: polygon(50% 0, 59% 41%, 100% 50%, 59% 59%, 50% 100%, 41% 59%, 0 50%, 41% 41%);
       --ease: cubic-bezier(.2, .75, .25, 1);
+      /* Nav row height. The dropdown hangs off this edge and the mobile sheet drops
+         from it, so all three read one number rather than three copies of 74. Named
+         --navbar-h, not --nav-h: the case-study pages already own --nav-h as a value
+         their JS measures and writes back onto <html>, and pointing .nav-row's
+         min-height at that made the bar grow itself on every scroll. */
+      --navbar-h: 74px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -189,7 +195,7 @@
       filter: drop-shadow(0 0 6px rgba(76, 103, 133, .95));
     }
     .nav-row {
-      min-height: 74px;
+      min-height: var(--navbar-h);
       display: grid;
       grid-template-columns: 1fr auto 1fr;
       align-items: center;
@@ -223,7 +229,10 @@
       text-transform: uppercase;
     }
     .nav-links { display: flex; align-items: center; gap: 34px; }
-    .nav-links a {
+    /* v4.9: The star indicator belongs to top-level items only, so these selectors are
+       the direct children plus .nav-parent. A bare `.nav-links a` would now also catch
+       the dropdown items and hang a star under each one. */
+    .nav-links > a, .nav-parent {
       position: relative;
       padding-bottom: 2px;
       color: rgba(244, 247, 251, .68);
@@ -232,7 +241,7 @@
       transition: color 180ms ease;
     }
     /* Star-burst indicator: 4-point star fades in centered, line expands from its side points */
-    .nav-links a::before {
+    .nav-links > a::before, .nav-parent::before {
       content: "";
       position: absolute;
       left: 50%;
@@ -244,7 +253,7 @@
       transform: translateX(-50%) scale(0);
       transition: transform 220ms var(--ease);
     }
-    .nav-links a::after {
+    .nav-links > a::after, .nav-parent::after {
       content: "";
       position: absolute;
       left: 0;
@@ -255,9 +264,96 @@
       transform: scaleX(0);
       transition: transform 260ms var(--ease) 40ms;
     }
-    .nav-links a:hover, .nav-links a.active { color: var(--bg-clean); }
-    .nav-links a:hover::before, .nav-links a.active::before { transform: translateX(-50%) scale(1); }
-    .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+    .nav-links > a:hover, .nav-links > a.active,
+    .nav-parent:hover, .nav-parent.active, .nav-group.open .nav-parent { color: var(--bg-clean); }
+    /* The open panel carries the indicator too, so a menu opened by keyboard or by tap
+       is marked the same way a hovered one is. */
+    .nav-links > a:hover::before, .nav-links > a.active::before,
+    .nav-parent:hover::before, .nav-parent.active::before,
+    .nav-group.open .nav-parent::before { transform: translateX(-50%) scale(1); }
+    .nav-links > a:hover::after, .nav-links > a.active::after,
+    .nav-parent:hover::after, .nav-parent.active::after,
+    .nav-group.open .nav-parent::after { transform: scaleX(1); }
+
+    /* v4.9: Expertise dropdown. Attached to the bar, not a modal: same black surface,
+       one hairline, square corners, restrained shadow. */
+    .nav-group { position: relative; display: inline-flex; align-items: center; }
+    /* Hover bridge. The panel hangs off the bar, not off the link box, so the pointer
+       has to cross the rest of the nav row to reach it. This spans exactly that band:
+       it starts at the link's bottom edge and ends where the panel begins, so there is
+       no dead zone and, sitting below every nav link, nothing to block either. */
+    .nav-group::after {
+      content: "";
+      position: absolute;
+      left: -90px;
+      right: -90px;
+      top: 100%;
+      bottom: calc(50% - var(--navbar-h) / 2);
+      display: none;
+    }
+    .nav-group.open::after { display: block; }
+    .nav-parent { display: inline-flex; align-items: center; gap: 7px; }
+    .nav-chev {
+      width: 9px;
+      height: 9px;
+      flex: 0 0 auto;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: transform 220ms var(--ease);
+    }
+    .nav-group.open .nav-chev { transform: rotate(180deg); }
+    .nav-drop {
+      position: absolute;
+      /* Off the bottom edge of the bar. 50% is the link's own midpoint, which the flex
+         row centres in the row, so half the row height from there lands on the edge
+         whatever the link's line box measures. */
+      top: calc(50% + var(--navbar-h) / 2);
+      left: 50%;
+      z-index: 60;
+      display: grid;
+      gap: 2px;
+      width: max-content;
+      min-width: 234px;
+      max-width: min(300px, calc(100vw - 36px));
+      padding: 7px;
+      background: var(--surface-black);
+      border: 1px solid rgba(244, 247, 251, .16);
+      border-radius: 0;
+      box-shadow: 0 16px 34px rgba(11, 17, 28, .42);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translate(-50%, -7px);
+      transition: opacity 170ms var(--ease), transform 170ms var(--ease), visibility 0s linear 170ms;
+    }
+    .nav-group.open .nav-drop {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translate(-50%, 0);
+      transition: opacity 170ms var(--ease), transform 170ms var(--ease), visibility 0s;
+    }
+    .nav-drop a {
+      display: block;
+      padding: 9px 13px;
+      color: rgba(244, 247, 251, .74);
+      font-size: .78rem;
+      font-weight: 500;
+      line-height: 1.4;
+      border-radius: 0;
+      transition: color 160ms ease, background 160ms ease, transform 160ms var(--ease);
+    }
+    .nav-drop a:hover, .nav-drop a:focus-visible {
+      color: var(--bg-clean);
+      background: rgba(244, 247, 251, .09);
+      transform: translateX(3px);
+    }
+    /* The page you are already on. Sub-pages set this statically; the homepage has no
+       dropdown target of its own, so nothing carries it here. */
+    .nav-drop a[aria-current="page"] { color: var(--bg-clean); background: rgba(244, 247, 251, .06); }
     .nav-cta { justify-self: end; min-height: 40px; padding: 0 16px; font-size: .76rem; border-radius: 999px; }
     /* v4: Envelope icon in the nav CTA (static, no hover nudge) */
     .nav-cta-mail {
@@ -619,6 +715,42 @@
       color: var(--text-secondary);
       font-size: .88rem;
     }
+
+    /* v4.10: Procedural & Instructional Writing. Promoted out of the band inside
+       .beyond into its own section above Featured Work, so it takes the shared
+       .sec-head treatment, star included, instead of a bespoke sub-heading. The
+       before/after pair and its copy came across unchanged; only the shell is new. */
+    .practice-ba {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 14px;
+    }
+    .practice-ba-cell {
+      padding: 16px 18px;
+      background: var(--bg-section);
+      border: 1px solid var(--border-light);
+    }
+    .practice-ba-cell.is-out { background: var(--bg-clean); border-color: var(--border-medium); }
+    .practice-ba-label {
+      display: block;
+      color: var(--text-disabled);
+      font-size: .58rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      line-height: 1.5;
+      text-transform: uppercase;
+    }
+    .practice-ba-cell code {
+      display: block;
+      margin-top: 7px;
+      font-family: Consolas, Menlo, monospace;
+      font-size: .78rem;
+      line-height: 1.65;
+      color: var(--text-primary);
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+    .practice-foot { margin-top: 28px; }
 
     /* Featured Work */
     .fw-section { background: var(--bg-section); }
@@ -1030,73 +1162,6 @@
     }
     .beyond-cell p { margin-top: 9px; color: var(--text-secondary); font-size: .84rem; }
 
-    /* Beyond: procedural writing band. A full-width row below .beyond-grid, not a
-       fourth .beyond-cell, which would force the 3-across grid into a 2x2 reflow
-       and disturb the three existing cells and their 920px collapse. */
-    .beyond-practice {
-      margin-top: 36px;
-      padding-top: 30px;
-      border-top: 1px solid var(--border-medium);
-    }
-    .beyond-practice-title {
-      color: var(--text-heading);
-      font-family: var(--font-serif);
-      font-size: clamp(1.2rem, 2vw, 1.45rem);
-      font-weight: 600;
-      line-height: 1.25;
-    }
-    .beyond-practice-body {
-      max-width: 720px;
-      margin-top: 10px;
-      color: var(--text-secondary);
-      font-size: .88rem;
-    }
-    .beyond-ba {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      gap: 12px;
-      margin-top: 20px;
-    }
-    .beyond-ba-cell {
-      padding: 11px 14px;
-      background: var(--bg-section);
-      border: 1px solid var(--border-light);
-    }
-    .beyond-ba-cell.is-out { background: var(--bg-clean); border-color: var(--border-medium); }
-    .beyond-ba-label {
-      display: block;
-      color: var(--text-disabled);
-      font-size: .58rem;
-      font-weight: 600;
-      letter-spacing: .12em;
-      line-height: 1.5;
-      text-transform: uppercase;
-    }
-    .beyond-ba-cell code {
-      display: block;
-      margin-top: 5px;
-      font-family: Consolas, Menlo, monospace;
-      font-size: .73rem;
-      line-height: 1.6;
-      color: var(--text-primary);
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-    }
-    .beyond-practice-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 20px;
-      padding-bottom: 2px;
-      color: var(--accent);
-      font-size: .84rem;
-      font-weight: 600;
-      border-bottom: 1px solid var(--border-medium);
-      transition: border-color 180ms ease;
-    }
-    .beyond-practice-link:hover { border-color: var(--accent); }
-    .beyond-practice-link:hover .arrow { transform: translateX(4px); }
-
     /* Connect: Merged About + Contact, black closing block */
     .connect {
       color: var(--text-on-dark);
@@ -1227,7 +1292,7 @@
       .nav-row { grid-template-columns: 1fr auto; }
       .nav-links {
         position: absolute;
-        top: 74px;
+        top: var(--navbar-h);
         left: 24px;
         right: 24px;
         display: none;
@@ -1238,9 +1303,50 @@
         box-shadow: 0 24px 54px rgba(11, 17, 28, .4);
       }
       .nav-links.open { display: grid; gap: 4px; }
-      .nav-links a { padding: 11px; }
-      .nav-links a::before, .nav-links a::after { display: none; }
+      .nav-links > a, .nav-parent { padding: 11px; }
+      .nav-links > a::before, .nav-links > a::after,
+      .nav-parent::before, .nav-parent::after { display: none; }
       .nav-cta { display: none; }
+      /* v4.9: No hover on this side of the breakpoint. Expertise becomes an accordion:
+         the row toggles its three children instead of following its own href. */
+      .nav-group { display: block; }
+      .nav-group::after { display: none; }
+      .nav-links > a, .nav-parent { min-height: 44px; display: flex; align-items: center; }
+      .nav-parent { justify-content: space-between; width: 100%; }
+      .nav-chev { width: 11px; height: 11px; }
+      .nav-drop {
+        position: static;
+        display: grid;
+        gap: 0;
+        width: auto;
+        min-width: 0;
+        max-width: none;
+        margin: 0 0 0 11px;
+        padding: 0 0 0 11px;
+        max-height: 0;
+        overflow: hidden;
+        background: none;
+        border: 0;
+        border-left: 1px solid rgba(244, 247, 251, .2);
+        border-radius: 0;
+        box-shadow: none;
+        opacity: 1;
+        /* A collapsed panel is max-height 0 with overflow hidden, which hides it from
+           the eye but leaves its three links in the tab order. visibility takes them
+           out, held back until the collapse has finished animating. */
+        visibility: hidden;
+        pointer-events: auto;
+        transform: none;
+        transition: max-height 260ms var(--ease), visibility 0s linear 260ms;
+      }
+      .nav-group.open .nav-drop {
+        max-height: 340px;
+        visibility: visible;
+        transform: none;
+        transition: max-height 260ms var(--ease), visibility 0s;
+      }
+      .nav-drop a { min-height: 44px; display: flex; align-items: center; padding: 10px 11px; }
+      .nav-drop a:hover, .nav-drop a:focus-visible { transform: none; }
       .menu-toggle { display: block; }
       .hero-grid { grid-template-columns: 1fr; gap: 54px; }
       .hero-copy { max-width: 760px; }
@@ -1253,7 +1359,7 @@
       .beyond-cell { padding: 0 0 0 20px; }
       .beyond-cell:first-child { padding-left: 20px; border-left: 1px solid var(--border-medium); }
       .beyond-cell, .beyond-cell:first-child { border-left: 2px solid var(--border-medium); }
-      .beyond-ba { grid-template-columns: minmax(0, 1fr); }
+      .practice-ba { grid-template-columns: minmax(0, 1fr); }
       .connect-grid { grid-template-columns: 1fr; align-items: start; }
       .footer-main { grid-template-columns: 1fr auto; }
       .footer-nav { grid-column: 1 / -1; grid-row: 2; justify-content: flex-start; }
@@ -1327,7 +1433,14 @@
       </a>
       <nav class="nav-links" id="site-menu" aria-label="Primary navigation">
         <a class="active" href="#top">Home</a>
-        <a href="#expertise">Expertise</a>
+        <div class="nav-group">
+          <a class="nav-parent" href="#expertise" aria-haspopup="true" aria-expanded="false" aria-controls="expertise-menu">Expertise<svg class="nav-chev" viewBox="0 0 10 6" aria-hidden="true"><polyline points="1 1.4 5 4.8 9 1.4"/></svg></a>
+          <div class="nav-drop" id="expertise-menu">
+            <a href="procedural-writing.html">Procedural &amp; Instructional Writing</a>
+            <a href="#case-studies">AI Workflows</a>
+            <a href="business-automation.html">Business Automations</a>
+          </div>
+        </div>
         <a href="#case-studies">Case Studies</a>
         <a href="#connect">Connect</a>
       </nav>
@@ -1453,6 +1566,32 @@
             <h3>Documentation systems</h3>
             <p>Information architecture and content operations for help centers, onboarding, and internal knowledge.</p>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="practice" id="procedural-writing" aria-labelledby="practice-title">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <div class="sec-head-row">
+            <span class="star" aria-hidden="true"></span>
+            <h2 id="practice-title">Procedural &amp; Instructional Writing</h2>
+          </div>
+          <p>Specialist knowledge, translated into instructions people can follow without help. Manuals, SOPs, and training guides, written to ASD-STE100 principles.</p>
+        </div>
+        <div class="practice-ba reveal">
+          <div class="practice-ba-cell">
+            <span class="practice-ba-label">Raw</span>
+            <code>you push the belt with your thumb and you'll feel when the tension's right...</code>
+          </div>
+          <div class="practice-ba-cell is-out">
+            <span class="practice-ba-label">Written</span>
+            <code>1. Apply 20 N to the centre of the drive belt span.
+2. Confirm 1.5 mm of deflection per 100 mm.</code>
+          </div>
+        </div>
+        <div class="practice-foot reveal">
+          <a class="btn btn-secondary" href="procedural-writing.html">See the practice <span class="arrow" aria-hidden="true">→</span></a>
         </div>
       </div>
     </section>
@@ -1659,23 +1798,6 @@
             <p>SLAs, KPI definitions, and escalation paths endorsed as the knowledge function’s source of truth.</p>
           </div>
         </div>
-
-        <div class="beyond-practice">
-          <p class="beyond-practice-title">Procedural &amp; Instructional Writing</p>
-          <p class="beyond-practice-body">Specialist knowledge, translated into instructions people can follow without help. Manuals, SOPs, and training guides, written to ASD-STE100 principles.</p>
-          <div class="beyond-ba">
-            <div class="beyond-ba-cell">
-              <span class="beyond-ba-label">Raw</span>
-              <code>you push the belt with your thumb and you'll feel when the tension's right...</code>
-            </div>
-            <div class="beyond-ba-cell is-out">
-              <span class="beyond-ba-label">Written</span>
-              <code>1. Apply 20 N to the centre of the drive belt span.
-2. Confirm 1.5 mm of deflection per 100 mm.</code>
-            </div>
-          </div>
-          <a class="beyond-practice-link" href="procedural-writing.html">See the practice <span class="arrow" aria-hidden="true">→</span></a>
-        </div>
       </div>
     </section>
 
@@ -1851,7 +1973,9 @@
   <script>
     const menuButton = document.querySelector('.menu-toggle');
     const menu = document.querySelector('.nav-links');
-    const navLinks = [...document.querySelectorAll('.nav-links a')];
+    /* Top-level items only. The active-indicator logic below reads href.slice(1), which
+       is written for the four in-page anchors, so dropdown children stay out of it. */
+    const navLinks = [...document.querySelectorAll('.nav-links > a, .nav-parent')];
     const progress = document.querySelector('.nav-progress');
     const revealItems = document.querySelectorAll('.reveal');
     const sections = [...document.querySelectorAll('main section[id]')];
@@ -1862,11 +1986,103 @@
       menuButton.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
     });
 
-    navLinks.forEach(link => link.addEventListener('click', () => {
-      menu.classList.remove('open');
-      menuButton.setAttribute('aria-expanded', 'false');
-      menuButton.setAttribute('aria-label', 'Open navigation');
-    }));
+    /* Every nav link closes the hamburger except .nav-parent, which owns the accordion. */
+    document.querySelectorAll('.nav-links a:not(.nav-parent)').forEach(link => {
+      link.addEventListener('click', () => {
+        menu.classList.remove('open');
+        menuButton.setAttribute('aria-expanded', 'false');
+        menuButton.setAttribute('aria-label', 'Open navigation');
+      });
+    });
+
+    /* v4.9: Expertise dropdown.
+       Desktop pointer: opens on hover, and a click still follows the href to #expertise.
+       Touch or pen: the first tap opens, the second follows the link.
+       Below 920px the same markup is an accordion inside the hamburger, so the row
+       toggles and never navigates.
+       Written for any number of .nav-group blocks, though there is one today. */
+    const mobileNav = matchMedia('(max-width: 920px)');
+    const canHover = matchMedia('(hover: hover) and (pointer: fine)');
+
+    document.querySelectorAll('.nav-group').forEach(group => {
+      const parent = group.querySelector('.nav-parent');
+      const drop = group.querySelector('.nav-drop');
+      const items = [...drop.querySelectorAll('a')];
+      let closeTimer = 0;
+
+      const setOpen = open => {
+        clearTimeout(closeTimer);
+        group.classList.toggle('open', open);
+        parent.setAttribute('aria-expanded', String(open));
+      };
+      const openMenu = () => setOpen(true);
+      const closeMenu = () => setOpen(false);
+      /* Hover tolerance: the pointer gets a beat to cross from the item to the panel,
+         and a menu holding keyboard focus is never yanked shut by a stray mouseleave. */
+      const closeSoon = () => {
+        clearTimeout(closeTimer);
+        closeTimer = setTimeout(() => {
+          if (!group.contains(document.activeElement)) closeMenu();
+        }, 190);
+      };
+      const hoverMode = () => !mobileNav.matches && canHover.matches;
+
+      group.addEventListener('mouseenter', () => { if (hoverMode()) openMenu(); });
+      group.addEventListener('mouseleave', () => { if (hoverMode()) closeSoon(); });
+
+      parent.addEventListener('click', e => {
+        if (mobileNav.matches) {
+          e.preventDefault();
+          setOpen(!group.classList.contains('open'));
+          return;
+        }
+        if (!canHover.matches && !group.classList.contains('open')) {
+          e.preventDefault();
+          openMenu();
+          return;
+        }
+        openMenu();
+      });
+
+      /* Opening on focus is for keyboards only. A mouse or touch press also fires focus,
+         and opening there would eat the first tap on a touch device.
+         returningFocus suppresses it while Escape hands focus back: that focus() is
+         keyboard-driven, so :focus-visible is true and the panel would spring open again
+         the instant Escape closed it. focus() dispatches synchronously, so the flag is
+         only ever raised for the duration of the call. */
+      let returningFocus = false;
+      parent.addEventListener('focus', () => {
+        if (returningFocus || mobileNav.matches) return;
+        if (parent.matches(':focus-visible')) openMenu();
+      });
+      const returnFocus = () => {
+        returningFocus = true;
+        parent.focus();
+        returningFocus = false;
+      };
+
+      parent.addEventListener('keydown', e => {
+        if (e.key === 'ArrowDown') { e.preventDefault(); openMenu(); items[0].focus(); }
+        else if (e.key === 'Escape') closeMenu();
+      });
+
+      drop.addEventListener('keydown', e => {
+        const i = items.indexOf(document.activeElement);
+        if (e.key === 'ArrowDown') { e.preventDefault(); items[Math.min(i + 1, items.length - 1)].focus(); }
+        else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          if (i <= 0) parent.focus(); else items[i - 1].focus();
+        } else if (e.key === 'Escape') { e.preventDefault(); closeMenu(); returnFocus(); }
+      });
+
+      items.forEach(item => item.addEventListener('click', closeMenu));
+      group.addEventListener('focusout', e => {
+        if (!group.contains(e.relatedTarget)) closeMenu();
+      });
+      document.addEventListener('click', e => { if (!group.contains(e.target)) closeMenu(); });
+      /* Crossing the breakpoint would otherwise leave the group in the other mode's state. */
+      mobileNav.addEventListener('change', closeMenu);
+    });
 
     const onScroll = () => {
       const distance = document.documentElement.scrollHeight - innerHeight;
